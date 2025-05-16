@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Japón - Descubre la cultura japonesa en México</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Hola <span class="japan">Japón</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="products/index.html">Productos</a></li>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a href="testimonials.html">Testimonios</a></li>
+                    <li><a href="about.html">Sobre Nosotros</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Descubre la <span>magia de Japón</span> sin salir de México</h2>
+                    <p>Figuras de anime, manga, juegos de cartas, peluches y mucho más. Envío directo desde Japón hasta tu puerta.</p>
+                    <a href="products/index.html" class="btn">Explorar Productos</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories">
+            <div class="container">
+                <h2>Categorías Populares</h2>
+                <div class="category-grid">
+                    <a href="products/index.html?category=figuras" class="category-card">
+                        <div class="category-icon anime-figures"></div>
+                        <h3>Figuras de Anime</h3>
+                    </a>
+                    <a href="products/index.html?category=manga" class="category-card">
+                        <div class="category-icon manga"></div>
+                        <h3>Manga</h3>
+                    </a>
+                    <a href="products/index.html?category=videojuegos" class="category-card">
+                        <div class="category-icon videogames"></div>
+                        <h3>Videojuegos</h3>
+                    </a>
+                    <a href="products/index.html?category=ropa" class="category-card">
+                        <div class="category-icon clothing"></div>
+                        <h3>Ropa y Accesorios</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <div class="container">
+                <h2>Productos Destacados</h2>
+                <div class="product-grid" id="featured-products-container">
+                    <!-- JavaScriptで商品を動的に追加 -->
+                </div>
+            </div>
+        </section>
+
+        <section class="latest-posts">
+            <div class="container">
+                <h2>Últimos Artículos</h2>
+                <div class="blog-grid" id="latest-posts-container">
+                    <!-- JavaScriptでブログ記事を動的に追加 -->
+                </div>
+                <a href="blog/index.html" class="btn">Ver Más Artículos</a>
+            </div>
+        </section>
+        
+        <section class="testimonial-preview">
+            <div class="container">
+                <h2>Lo Que Dicen Nuestros Clientes</h2>
+                <div class="testimonial-slider" id="testimonial-slider">
+                    <!-- JavaScriptでお客様の声を動的に追加 -->
+                </div>
+                <a href="testimonials.html" class="btn light">Ver Todos los Testimonios</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Hola Japón</h3>
+                    <p>Traemos lo mejor de la cultura japonesa directamente a México desde 2023.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="products/index.html">Productos</a></li>
+                        <li><a href="blog/index.html">Blog</a></li>
+                        <li><a href="testimonials.html">Testimonios</a></li>
+                        <li><a href="about.html">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com/holajapon" target="_blank"><img src="assets/images/ui/facebook.png" alt="Facebook"></a>
+                        <a href="https://instagram.com/holajapon" target="_blank"><img src="assets/images/ui/instagram.png" alt="Instagram"></a>
+                        <a href="https://twitter.com/holajapon" target="_blank"><img src="assets/images/ui/twitter.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

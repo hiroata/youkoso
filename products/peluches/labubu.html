@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POPMART Labubu - Edición Limitada - Hola Japón</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="../../css/product-detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../../index.html">Hola <span class="japan">Japón</span></a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../../index.html">Inicio</a></li>
+                    <li><a href="../index.html" class="active">Productos</a></li>
+                    <li><a href="../../blog/index.html">Blog</a></li>
+                    <li><a href="../../testimonials.html">Testimonios</a></li>
+                    <li><a href="../../about.html">Sobre Nosotros</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="../../index.html">Inicio</a> &gt; 
+                <a href="../index.html">Productos</a> &gt; 
+                <a href="index.html">Peluches</a> &gt; 
+                <span>POPMART Labubu - Edición Limitada</span>
+            </div>
+            
+            <section class="product-detail">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img src="../../assets/images/products/labubu.jpg" alt="POPMART Labubu" id="main-product-image">
+                    </div>
+                    <div class="thumbnail-images">
+                        <div class="thumbnail active" onclick="changeImage('../../assets/images/products/labubu.jpg')">
+                            <img src="../../assets/images/products/labubu.jpg" alt="Labubu vista frontal">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('../../assets/images/products/labubu-side.jpg')">
+                            <img src="../../assets/images/products/labubu-side.jpg" alt="Labubu vista lateral">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('../../assets/images/products/labubu-box.jpg')">
+                            <img src="../../assets/images/products/labubu-box.jpg" alt="Labubu caja">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1>POPMART Labubu - Edición Limitada</h1>
+                    <div class="product-meta">
+                        <span class="product-code">Código: POP-L001</span>
+                        <span class="product-stock in-stock">En Stock</span>
+                    </div>
+                    <div class="product-price">$899.00 MXN</div>
+                    <div class="product-description">
+                        <p>Labubu es uno de los personajes más populares de POPMART, una marca china líder en juguetes de diseñador y coleccionables. Esta edición limitada de Labubu es un diseño exclusivo que presenta al adorable monstruo marino en una versión de peluche ultra suave, con detalles fieles al diseño original.</p>
+                        
+                        <p>Con aproximadamente 25cm de altura, este peluche de Labubu es perfecto para coleccionistas y amantes de los personajes de diseño moderno. Además, viene en su caja original con certificado de autenticidad, lo que lo convierte en una pieza de colección muy valorada.</p>
+                    </div>
+                    
+                    <div class="product-features">
+                        <h3>Características:</h3>
+                        <ul>
+                            <li><strong>Altura:</strong> 25cm</li>
+                            <li><strong>Material:</strong> Peluche de alta calidad</li>
+                            <li><strong>Color:</strong> Azul marino / Luna Nocturna (serie limitada)</li>
+                            <li><strong>Fabricante:</strong> POPMART (China/Japón)</li>
+                            <li><strong>Edición:</strong> Limitada "Midnight Series"</li>
+                            <li><strong>Incluye:</strong> Caja original y certificado de autenticidad</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <label for="quantity">Cantidad:</label>
+                            <div class="quantity-controls">
+                                <button type="button" onclick="decrementQuantity()">-</button>
+                                <input type="number" id="quantity" value="1" min="1" max="5">
+                                <button type="button" onclick="incrementQuantity()">+</button>
+                            </div>
+                        </div>
+                        
+                        <button class="btn add-to-cart">Agregar al Carrito</button>
+                        <button class="btn-secondary add-to-wishlist">♥ Agregar a Favoritos</button>
+                    </div>
+                    
+                    <div class="shipping-info">
+                        <p><strong>Envío:</strong> 3-5 días hábiles a toda la República Mexicana</p>
+                        <p><strong>Política de devoluciones:</strong> 30 días para cambios y devoluciones</p>
+                        <p><strong>Nota:</strong> Producto de edición limitada, sólo 5 unidades disponibles</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="product-tabs">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab('description')">Descripción</button>
+                    <button class="tab-button" onclick="openTab('history')">Sobre POPMART</button>
+                    <button class="tab-button" onclick="openTab('reviews')">Opiniones (8)</button>
+                </div>
+                
+                <div id="description" class="tab-content active">
+                    <h2>Sobre Labubu</h2>
+                    <p>Labubu es un personaje creado por el artista Kasing Lung, que se ha convertido en uno de los diseños más icónicos de POPMART. Con su aspecto de pequeño monstruo marino de dientes afilados pero apariencia adorable, Labubu representa perfectamente la estética del Art Toy moderno que combina lo cute con elementos ligeramente perturbadores.</p>
+                    
+                    <p>Esta versión en peluche mantiene todas las características distintivas de Labubu: sus grandes ojos expresivos, su boca abierta con pequeños dientes puntiagudos, sus aletas y su cuerpo redondeado. El diseño "Midnight Series" presenta a Labubu en tonos azul profundo con detalles brillantes, como si estuviera iluminado bajo la luz de la luna.</p>
+                    
+                    <p>A diferencia de las figuras de vinilo coleccionables más comunes de POPMART, esta versión en peluche permite disfrutar de Labubu de una forma más cercana y suave, convirtiéndolo en una pieza perfecta tanto para exhibir como para abrazar.</p>
+                </div>
+                
+                <div id="history" class="tab-content">
+                    <h2>POPMART: Revolución del Art Toy</h2>
+                    <p>POPMART es una empresa china fundada en 2010 que se ha convertido en un fenómeno global en el mundo de los juguetes de diseñador y coleccionables. La compañía se especializa en lo que se conoce como "Art Toys" o "Designer Toys", colaborando con artistas de todo el mundo para crear personajes únicos producidos en series limitadas.</p>
+                    
+                    <p>El modelo más conocido de POPMART son las "Blind Boxes" (cajas sorpresa), pequeñas cajas que contienen una figura de una colección, sin que el comprador sepa cuál obtendrá hasta abrirla. Este formato ha generado una fiebre coleccionista en Asia que se ha extendido por todo el mundo.</p>
+                    
+                    <p>Entre sus personajes más populares están Labubu (creado por Kasing Lung), Dimoo (diseñado por Ayan), Molly (de Kenny Wong) y Pucky (de Pucky Pookie). Estas figuras han trascendido el mundo del coleccionismo para convertirse en fenómenos culturales, con tiendas dedicadas y exhibiciones en todo el mundo.</p>
+                    
+                    <p>Aunque POPMART comenzó en China, su popularidad en Japón y su estética cercana al kawaii japonés han hecho que muchos consideren sus personajes como parte de la cultura pop japonesa contemporánea, representando una intersección entre el diseño chino, japonés y occidental.</p>
+                </div>
+                
+                <div id="reviews" class="tab-content">
+                    <h2>Opiniones de Clientes</h2>
+                    
+                    <div class="review-summary">
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-average">4.9/5</span>
+                        </div>
+                        <p>Basado en 8 opiniones</p>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <span class="review-stars">★★★★★</span>
+                            <span class="review-author">Miguel Ángel Pérez</span>
+                            <span class="review-date">05/05/2025</span>
+                        </div>
+                        <div class="review-content">
+                            <p>Colecciono figuras de Labubu desde hace años, pero esta versión en peluche supera mis expectativas. La calidad del tejido es increíble y los detalles son perfectos. Además, llegó en su caja original sin ningún daño. ¡100% recomendado!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <span class="review-stars">★★★★★</span>
+                            <span class="review-author">Sofía Ramírez</span>
+                            <span class="review-date">28/04/2025</span>
+                        </div>
+                        <div class="review-content">
+                            <p>Lo compré como regalo para mi hermana que es fan de POPMART y quedó encantada. Es muy difícil encontrar estas ediciones limitadas en México, así que estoy muy agradecida con Hola Japón por traer estos productos. El peluche es muy suave y los colores son vibrantes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <span class="review-stars">★★★★☆</span>
+                            <span class="review-author">Daniel Torres</span>
+                            <span class="review-date">15/04/2025</span>
+                        </div>
+                        <div class="review-content">
+                            <p>Es un peluche muy bien hecho y se nota que es oficial. Lo único que me hubiera gustado es que fuera un poco más grande para el precio, pero entiendo que es una edición limitada. El envío fue rápido y el empaquetado muy seguro.</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-secondary load-more">Ver Más Opiniones</button>
+                </div>
+            </section>
+            
+            <section class="related-products">
+                <h2>Productos Relacionados</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('../../assets/images/products/monchhichi.jpg')"></div>
+                        <div class="product-info">
+                            <h3>Monchhichi Clásico</h3>
+                            <div class="product-price">$599.00 MXN</div>
+                            <a href="monchhichi.html" class="btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('../../assets/images/products/sumikko.jpg')"></div>
+                        <div class="product-info">
+                            <h3>Sumikko Gurashi - Set de 3</h3>
+                            <div class="product-price">$1,299.00 MXN</div>
+                            <a href="sumikko.html" class="btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('../../assets/images/products/rilakkuma.jpg')"></div>
+                        <div class="product-info">
+                            <h3>Rilakkuma - Oso Relajado</h3>
+                            <div class="product-price">$649.00 MXN</div>
+                            <a href="rilakkuma.html" class="btn">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Hola Japón</h3>
+                    <p>Traemos lo mejor de la cultura japonesa directamente a México desde 2023.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="../index.html">Productos</a></li>
+                        <li><a href="../../blog/index.html">Blog</a></li>
+                        <li><a href="../../testimonials.html">Testimonios</a></li>
+                        <li><a href="../../about.html">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com/holajapon" target="_blank"><img src="../../assets/images/ui/facebook.png" alt="Facebook"></a>
+                        <a href="https://instagram.com/holajapon" target="_blank"><img src="../../assets/images/ui/instagram.png" alt="Instagram"></a>
+                        <a href="https://twitter.com/holajapon" target="_blank"><img src="../../assets/images/ui/twitter.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 画像を変更する関数
+        function changeImage(imageSrc) {
+            document.getElementById('main-product-image').src = imageSrc;
+            
+            // サムネイルのアクティブ状態を更新
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+        }
+        
+        // 数量を増減する関数
+        function incrementQuantity() {
+            const input = document.getElementById('quantity');
+            if (input.value < parseInt(input.max)) {
+                input.value = parseInt(input.value) + 1;
+            }
+        }
+        
+        function decrementQuantity() {
+            const input = document.getElementById('quantity');
+            if (input.value > parseInt(input.min)) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+        
+        // タブを切り替える関数
+        function openTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // すべてのタブボタンから選択状態を解除
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // クリックされたボタンにアクティブクラスを追加
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

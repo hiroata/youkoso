@@ -1,0 +1,107 @@
+/* レスポンシブデザイン */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero h2 {
+        font-size: 36px;
+    }
+    
+    .hero p {
+        font-size: 18px;
+    }
+    
+    .product-grid, .blog-grid, .category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        padding: 15px 10px;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    nav ul {
+        justify-content: center;
+    }
+    
+    nav ul li {
+        margin: 0 10px;
+    }
+    
+    .hero {
+        padding: 80px 10px;
+    }
+    
+    .hero h2 {
+        font-size: 30px;
+    }
+    
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .featured-products, .latest-posts, .categories, .testimonial-preview {
+        padding: 40px 0;
+    }
+    
+    .featured-products h2, .latest-posts h2, .categories h2, .testimonial-preview h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    nav ul {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    nav ul li {
+        margin: 0 5px;
+    }
+    
+    .product-grid, .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    .page-header {
+        padding: 40px 10px;
+    }
+    
+    .page-header h2 {
+        font-size: 32px;
+    }
+}

@@ -1,0 +1,404 @@
+/* 商品詳細ページ用のスタイル */
+
+/* パンくずリスト */
+.breadcrumbs {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.breadcrumbs a {
+    color: #777;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    color: var(--primary-color);
+}
+
+/* 商品詳細レイアウト */
+.product-detail {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* 商品ギャラリー */
+.product-gallery {
+    width: 50%;
+}
+
+.main-image {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 10px;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+    opacity: 1;
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border-color: var(--primary-color);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 商品情報 */
+.product-info {
+    width: 50%;
+}
+
+.product-info h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #777;
+}
+
+.product-stock.in-stock {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.product-stock.out-of-stock {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.product-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.product-description {
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.product-description p {
+    margin-bottom: 15px;
+}
+
+/* 商品特徴 */
+.product-features {
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.product-features h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.product-features ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.product-features li {
+    margin-bottom: 8px;
+}
+
+/* 商品アクション */
+.product-actions {
+    margin-bottom: 30px;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity-selector label {
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.quantity-controls button {
+    width: 40px;
+    height: 40px;
+    background: #f0f0f0;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.quantity-controls button:hover {
+    background: #e0e0e0;
+}
+
+.quantity-controls input {
+    width: 60px;
+    height: 40px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+}
+
+.add-to-cart {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* 配送情報 */
+.shipping-info {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.shipping-info p {
+    margin-bottom: 5px;
+}
+
+/* 商品タブ */
+.product-tabs {
+    margin-bottom: 60px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.tab-button {
+    padding: 15px 30px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab-button:hover {
+    color: var(--primary-color);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+    line-height: 1.8;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.tab-content p {
+    margin-bottom: 15px;
+}
+
+/* レビュー */
+.review-summary {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+}
+
+.rating {
+    margin-bottom: 5px;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.rating-average {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.review {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.review-stars {
+    color: #ffc107;
+}
+
+.review-author {
+    font-weight: 600;
+}
+
+.review-date {
+    color: #777;
+    font-size: 14px;
+}
+
+.load-more {
+    margin: 20px auto 0;
+    max-width: 200px;
+}
+
+/* 関連商品 */
+.related-products {
+    margin-bottom: 60px;
+}
+
+.related-products h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* 商品情報セクション */
+.product-information {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+    margin-bottom: 60px;
+}
+
+.product-information h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 28px;
+}
+
+.info-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.info-column h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 992px) {
+    .product-detail {
+        flex-direction: column;
+    }
+    
+    .product-gallery, .product-info {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 10px 20px;
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

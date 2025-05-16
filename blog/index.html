@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Hola Japón</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Hola <span class="japan">Japón</span></a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../products/index.html">Productos</a></li>
+                    <li><a href="index.html" class="active">Blog</a></li>
+                    <li><a href="../testimonials.html">Testimonios</a></li>
+                    <li><a href="../about.html">Sobre Nosotros</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h2>Nuestro Blog</h2>
+                <p>Conoce más sobre la cultura japonesa, anime, manga y todas las novedades</p>
+            </div>
+        </section>
+
+        <section class="blog-filters">
+            <div class="container">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="category-filter">Tema:</label>
+                        <select id="category-filter">
+                            <option value="">Todos los temas</option>
+                            <option value="anime">Anime</option>
+                            <option value="manga">Manga</option>
+                            <option value="cultura">Cultura</option>
+                            <option value="comida">Gastronomía</option>
+                            <option value="viajes">Viajes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search-blog">Buscar:</label>
+                        <input type="text" id="search-blog" placeholder="Buscar artículos...">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-content">
+            <div class="container">
+                <div class="blog-grid" id="blog-posts-container">
+                    <!-- JavaScriptでブログ記事を動的に追加 -->
+                </div>
+            </div>
+        </section>
+
+        <section class="pagination">
+            <div class="container">
+                <div class="pagination-controls" id="pagination-controls">
+                    <!-- JavaScriptでページネーションを動的に追加 -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Hola Japón</h3>
+                    <p>Traemos lo mejor de la cultura japonesa directamente a México desde 2023.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="../products/index.html">Productos</a></li>
+                        <li><a href="index.html">Blog</a></li>
+                        <li><a href="../testimonials.html">Testimonios</a></li>
+                        <li><a href="../about.html">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com/holajapon" target="_blank"><img src="../assets/images/ui/facebook.png" alt="Facebook"></a>
+                        <a href="https://instagram.com/holajapon" target="_blank"><img src="../assets/images/ui/instagram.png" alt="Instagram"></a>
+                        <a href="https://twitter.com/holajapon" target="_blank"><img src="../assets/images/ui/twitter.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>
