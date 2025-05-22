@@ -1,7 +1,7 @@
-/* レスポンシブデザイン */
+/* Apple風のレスポンシブデザイン調整 */
 @media (max-width: 1200px) {
     .container {
-        max-width: 95%;
+        max-width: 90%;
     }
 }
 
@@ -11,10 +11,14 @@
     }
     
     .hero p {
-        font-size: 18px;
+        font-size: 16px;
     }
     
-    .product-grid, .blog-grid, .category-grid {
+    .product-grid, .blog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .category-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 }
@@ -22,7 +26,7 @@
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
-        padding: 15px 10px;
+        padding: 10px;
     }
     
     .logo {
@@ -38,15 +42,15 @@
     }
     
     .hero {
-        padding: 80px 10px;
+        padding: 60px 10px;
     }
     
     .hero h2 {
-        font-size: 30px;
+        font-size: 28px;
     }
     
     .hero p {
-        font-size: 16px;
+        font-size: 14px;
     }
     
     .featured-products, .latest-posts, .categories, .testimonial-preview {
@@ -93,7 +97,7 @@
     }
     
     .btn {
-        padding: 10px 20px;
+        padding: 8px 16px;
         font-size: 14px;
     }
     

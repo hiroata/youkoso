@@ -5,35 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos - Hola Japón</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ヘッダー -->
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1><a href="../index.html">Hola <span class="japan">Japón</span></a></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="index.html" class="active">Productos</a></li>
-                    <li><a href="../blog/index.html">Blog</a></li>
-                    <li><a href="../testimonials.html">Testimonios</a></li>
-                    <li><a href="../about.html">Sobre Nosotros</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- ヘッダーコンポーネント -->
+    <header data-component="header"></header>
 
     <!-- メインコンテンツ -->
     <main>
         <section class="page-header">
             <div class="container">
-                <h2>Nuestros Productos</h2>
+                <h2 id="category-header">Nuestros Productos</h2>
                 <p>Descubre auténticos productos japoneses seleccionados especialmente para ti</p>
             </div>
         </section>
@@ -43,14 +27,29 @@
                 <div class="filter-container">
                     <div class="filter-group">
                         <label for="category-filter">Categoría:</label>
-                        <select id="category-filter" onchange="window.location = this.value;">
+                        <select id="category-filter">
                             <option value="">Todas las categorías</option>
-                            <option value="figuras/">Figuras</option>
-                            <option value="manga/">Manga</option>
-                            <option value="videojuegos/">Videojuegos</option>
-                            <option value="ropa/">Ropa y Accesorios</option>
-                            <option value="peluches/" selected>Peluches</option>
+                            <option value="figuras">Figuras</option>
+                            <option value="manga">Manga</option>
+                            <option value="videojuegos">Videojuegos</option>
+                            <option value="ropa">Ropa y Accesorios</option>
+                            <option value="peluches">Peluches</option>
+                            <option value="cartas">Cartas Coleccionables</option>
+                            <option value="comida">Comida Japonesa</option>
                         </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-filter">Ordenar por:</label>
+                        <select id="sort-filter">
+                            <option value="featured">Destacados</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="name">Nombre</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search-products">Buscar:</label>
+                        <input type="text" id="search-products" placeholder="Buscar productos...">
                     </div>
                 </div>
             </div>
@@ -58,109 +57,64 @@
 
         <section class="products-list">
             <div class="container">
-                <h2 class="category-title">Categorías de Productos</h2>
-                <div class="category-grid">
-                    <a href="peluches/" class="category-card">
-                        <div class="category-icon peluches"></div>
-                        <h3>Peluches</h3>
-                        <p>Peluches kawaii y personajes de anime</p>
-                    </a>
-                    <a href="figuras/" class="category-card">
-                        <div class="category-icon anime-figures"></div>
-                        <h3>Figuras de Anime</h3>
-                        <p>Figuras coleccionables de alta calidad</p>
-                    </a>
-                    <a href="manga/" class="category-card">
-                        <div class="category-icon manga"></div>
-                        <h3>Manga</h3>
-                        <p>Las mejores series en español y japonés</p>
-                    </a>
-                    <a href="videojuegos/" class="category-card">
-                        <div class="category-icon videogames"></div>
-                        <h3>Videojuegos</h3>
-                        <p>Juegos y consolas importadas de Japón</p>
-                    </a>
-                    <a href="ropa/" class="category-card">
-                        <div class="category-icon clothing"></div>
-                        <h3>Ropa y Accesorios</h3>
-                        <p>Moda japonesa y artículos de anime</p>
-                    </a>
-                    <a href="comida/" class="category-card">
-                        <div class="category-icon food"></div>
-                        <h3>Comida Japonesa</h3>
-                        <p>Snacks, dulces y comidas tradicionales</p>
-                    </a>
+                <div id="categories-section">
+                    <h2 class="category-title">Categorías de Productos</h2>
+                    <div class="category-grid">
+                        <a href="index.html?category=peluches" class="category-card">
+                            <div class="category-icon peluches"></div>
+                            <h3>Peluches</h3>
+                            <p>Peluches kawaii y personajes de anime</p>
+                        </a>
+                        <a href="index.html?category=figuras" class="category-card">
+                            <div class="category-icon anime-figures"></div>
+                            <h3>Figuras de Anime</h3>
+                            <p>Figuras coleccionables de alta calidad</p>
+                        </a>
+                        <a href="index.html?category=manga" class="category-card">
+                            <div class="category-icon manga"></div>
+                            <h3>Manga</h3>
+                            <p>Las mejores series en español y japonés</p>
+                        </a>
+                        <a href="index.html?category=videojuegos" class="category-card">
+                            <div class="category-icon videogames"></div>
+                            <h3>Videojuegos</h3>
+                            <p>Juegos y consolas importadas de Japón</p>
+                        </a>
+                        <a href="index.html?category=ropa" class="category-card">
+                            <div class="category-icon clothing"></div>
+                            <h3>Ropa y Accesorios</h3>
+                            <p>Moda japonesa y artículos de anime</p>
+                        </a>
+                        <a href="index.html?category=comida" class="category-card">
+                            <div class="category-icon food"></div>
+                            <h3>Comida Japonesa</h3>
+                            <p>Snacks, dulces y comidas tradicionales</p>
+                        </a>
+                    </div>
                 </div>
                 
-                <h2 class="featured-title">Productos Destacados</h2>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-image" style="background-image: url('../assets/images/products/monchhichi.jpg')"></div>
-                        <div class="product-info">
-                            <h3>Monchhichi Clásico</h3>
-                            <div class="product-price">$599.00 MXN</div>
-                            <a href="peluches/monchhichi.html" class="btn">Ver Detalles</a>
-                        </div>
+                <div id="products-section">
+                    <h2 id="products-title" class="products-title">Productos</h2>
+                    <div class="product-grid" id="products-container">
+                        <!-- JavaScriptで商品を動的に追加 -->
+                        <div class="loading">Cargando productos...</div>
                     </div>
-                    <div class="product-card">
-                        <div class="product-image" style="background-image: url('../assets/images/products/labubu.jpg')"></div>
-                        <div class="product-info">
-                            <h3>POPMART Labubu - Edición Limitada</h3>
-                            <div class="product-price">$899.00 MXN</div>
-                            <a href="peluches/labubu.html" class="btn">Ver Detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image" style="background-image: url('../assets/images/products/totoro.jpg')"></div>
-                        <div class="product-info">
-                            <h3>Peluche Totoro Grande</h3>
-                            <div class="product-price">$799.00 MXN</div>
-                            <a href="peluches/totoro.html" class="btn">Ver Detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image" style="background-image: url('../assets/images/products/rilakkuma.jpg')"></div>
-                        <div class="product-info">
-                            <h3>Rilakkuma - Oso Relajado</h3>
-                            <div class="product-price">$649.00 MXN</div>
-                            <a href="peluches/rilakkuma.html" class="btn">Ver Detalles</a>
-                        </div>
+                </div>
+                
+                <div class="pagination">
+                    <div class="pagination-controls" id="pagination-controls">
+                        <!-- JavaScriptでページネーションを動的に追加 -->
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- フッター -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <h3>Hola Japón</h3>
-                    <p>Traemos lo mejor de la cultura japonesa directamente a México desde 2023.</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="index.html">Productos</a></li>
-                        <li><a href="../blog/index.html">Blog</a></li>
-                        <li><a href="../testimonials.html">Testimonios</a></li>
-                        <li><a href="../about.html">Sobre Nosotros</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h3>Síguenos</h3>
-                    <div class="social-links">
-                        <a href="https://facebook.com/holajapon" target="_blank"><img src="../assets/images/ui/facebook.png" alt="Facebook"></a>
-                        <a href="https://instagram.com/holajapon" target="_blank"><img src="../assets/images/ui/instagram.png" alt="Instagram"></a>
-                        <a href="https://twitter.com/holajapon" target="_blank"><img src="../assets/images/ui/twitter.png" alt="Twitter"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- フッターコンポーネント -->
+    <footer data-component="footer"></footer>
+
+    <script src="../js/components.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/products.js"></script>
 </body>
 </html>

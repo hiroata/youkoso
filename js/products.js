@@ -1,83 +1,15 @@
 // 商品表示用JavaScript
 
-// 商品データ（後でJSONファイルから読み込む）
-const productData = [
-    {
-        id: "p001",
-        name: "Figura Demon Slayer - Tanjiro Kamado",
-        category: "figuras",
-        price: 1299,
-        image: "../assets/images/products/tanjiro.jpg",
-        description: "Figura de colección de Tanjiro Kamado de Demon Slayer (Kimetsu no Yaiba). Alta calidad, 18cm de altura.",
-        featured: true
-    },
-    {
-        id: "p002",
-        name: "Manga My Hero Academia Vol. 1-5",
-        category: "manga",
-        price: 850,
-        image: "../assets/images/products/myhero.jpg",
-        description: "Colección de los primeros 5 volúmenes del manga My Hero Academia en español.",
-        featured: true
-    },
-    {
-        id: "p003",
-        name: "Peluche Totoro Grande",
-        category: "peluches",
-        price: 599,
-        image: "../assets/images/products/totoro.jpg",
-        description: "Peluche oficial de Mi Vecino Totoro, 40cm, super suave y de alta calidad.",
-        featured: true
-    },
-    {
-        id: "p004",
-        name: "Nintendo Switch Edición Pokémon",
-        category: "videojuegos",
-        price: 7999,
-        image: "../assets/images/products/switch.jpg",
-        description: "Nintendo Switch edición especial Pokémon. Incluye el juego Pokémon Legends Arceus.",
-        featured: false
-    },
-    {
-        id: "p005",
-        name: "Camiseta Dragon Ball Z",
-        category: "ropa",
-        price: 449,
-        image: "../assets/images/products/dbz-shirt.jpg",
-        description: "Camiseta oficial de Dragon Ball Z con diseño de Goku en Super Saiyan. 100% algodón.",
-        featured: true
-    },
-    {
-        id: "p006",
-        name: "Set de Cartas Pokémon Japonés",
-        category: "cartas",
-        price: 899,
-        image: "../assets/images/products/pokemon-cards.jpg",
-        description: "Set de 50 cartas Pokémon originales en japonés. Incluye cartas raras y holofoil.",
-        featured: false
-    },
-    {
-        id: "p007",
-        name: "Figura Sailor Moon",
-        category: "figuras",
-        price: 1199,
-        image: "../assets/images/products/sailormoon.jpg",
-        description: "Figura de colección de Sailor Moon. Edición limitada, 20cm de altura.",
-        featured: true
-    },
-    {
-        id: "p008",
-        name: "Manga Death Note Colección Completa",
-        category: "manga",
-        price: 1499,
-        image: "../assets/images/products/deathnote.jpg",
-        description: "Colección completa del manga Death Note en español. Edición Black Edition.",
-        featured: false
-    }
-];
+// 商品データ（共有データから取得）
+let productData = [];
 
 // DOMがロードされた後に実行
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOM loaded in products.js');
+    
+    // 商品データを読み込む
+    await loadProductData();
+    
     // トップページ用の特集商品表示
     const featuredProductsContainer = document.getElementById('featured-products-container');
     if (featuredProductsContainer) {
@@ -86,19 +18,143 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 商品一覧ページ用の表示
     const productsContainer = document.getElementById('products-container');
-    if (productsContainer && window.location.pathname.includes('products')) {
+    if (productsContainer && window.location.pathname.includes('/products/')) {
+        // URLパラメータに基づいてUIを更新
+        updateUIBasedOnParams();
+        
+        // 商品を読み込む
         loadAllProducts();
+        
+        // フィルターをセットアップ
         setupFilters();
     }
 });
+
+// 商品データを読み込む関数
+async function loadProductData() {
+    try {
+        // メイン処理でデータが読み込まれているか確認
+        if (window.siteData && window.siteData.products && window.siteData.products.length > 0) {
+            console.log('Using products from site data');
+            productData = window.siteData.products;
+            return productData;
+        }
+        
+        // メインデータが読み込まれていない場合は待機
+        await waitForSiteData();
+        
+        // データが読み込まれていれば使用
+        if (window.siteData && window.siteData.products) {
+            productData = window.siteData.products;
+            console.log('Products loaded from site data:', productData.length);
+            return productData;
+        }
+        
+        // それでもデータがない場合は個別に読み込む
+        console.log('Loading products from individual file');
+        const pathPrefix = window.location.pathname.includes('/products/') ? '../' : '';
+        const basePath = `${pathPrefix}data/products.json`;
+        
+        // 共通ユーティリティ関数を使用してデータを取得
+        const data = await window.utils.fetchData(basePath);
+        productData = data.products;
+        console.log('Products loaded from individual file:', productData.length);
+        return productData;
+    } catch (error) {
+        console.error('商品データの読み込みに失敗しました:', error);
+        return [];
+    }
+}
+
+// サイトデータが読み込まれるのを待つ関数
+function waitForSiteData(timeout = 5000) {
+    return new Promise((resolve) => {
+        // すでに読み込まれている場合はすぐに解決
+        if (window.siteData && window.siteData.products && window.siteData.products.length > 0) {
+            return resolve();
+        }
+        
+        let timeWaited = 0;
+        const interval = 100;
+        
+        // 定期的にチェック
+        const checkInterval = setInterval(() => {
+            timeWaited += interval;
+            
+            // データが読み込まれたか、タイムアウトに達したかをチェック
+            if ((window.siteData && window.siteData.products && window.siteData.products.length > 0) || timeWaited >= timeout) {
+                clearInterval(checkInterval);
+                resolve();
+            }
+        }, interval);
+    });
+}
+
+// URLパラメータに基づいてUIを更新する関数
+function updateUIBasedOnParams() {
+    // カテゴリパラメータを取得
+    const categoryParam = window.utils.getUrlParam('category');
+    
+    if (categoryParam) {
+        // カテゴリ名を取得
+        const categoryName = getCategoryName(categoryParam);
+        
+        // ヘッダーとタイトルを更新
+        const categoryHeader = document.getElementById('category-header');
+        if (categoryHeader) {
+            categoryHeader.textContent = categoryName;
+        }
+        
+        const productsTitle = document.getElementById('products-title');
+        if (productsTitle) {
+            productsTitle.textContent = `Productos - ${categoryName}`;
+        }
+        
+        // カテゴリセクションを非表示にする
+        const categoriesSection = document.getElementById('categories-section');
+        if (categoriesSection) {
+            categoriesSection.style.display = 'none';
+        }
+        
+        // ドロップダウンの選択を更新
+        const categoryFilter = document.getElementById('category-filter');
+        if (categoryFilter) {
+            categoryFilter.value = categoryParam;
+        }
+    }
+}
+
+// カテゴリ名を取得する関数（siteDataから取得するよう改善）
+function getCategoryName(categorySlug) {
+    // siteDataからカテゴリ情報を取得
+    if (window.siteData && window.siteData.categories) {
+        const category = window.siteData.categories.find(cat => cat.slug === categorySlug);
+        if (category) {
+            return category.name;
+        }
+    }
+    
+    // フォールバック
+    const categories = {
+        'figuras': 'Figuras de Anime',
+        'manga': 'Manga',
+        'peluches': 'Peluches',
+        'videojuegos': 'Videojuegos',
+        'ropa': 'Ropa y Accesorios',
+        'cartas': 'Cartas Coleccionables',
+        'comida': 'Comida Japonesa'
+    };
+    
+    return categories[categorySlug] || categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+}
 
 // 特集商品をロードする関数
 function loadFeaturedProducts() {
     const featuredProductsContainer = document.getElementById('featured-products-container');
     if (!featuredProductsContainer) return;
     
-    // 特集商品をフィルタリング
-    const featuredProducts = productData.filter(product => product.featured);
+    // 特集商品をフィルタリング（共通ユーティリティ関数を使用）
+    const featuredProducts = window.utils.filterItems(productData, { featured: true });
     
     // 空の場合は、最初の4つを表示
     const productsToShow = featuredProducts.length > 0 ? featuredProducts : productData.slice(0, 4);
@@ -106,9 +162,10 @@ function loadFeaturedProducts() {
     // コンテナをクリア
     featuredProductsContainer.innerHTML = '';
     
-    // 商品カードを追加
+    // 商品カードを追加（components.jsで定義した関数を使用）
+    const relativePath = window.location.pathname.includes('/products/') ? '../' : '';
     productsToShow.forEach(product => {
-        featuredProductsContainer.appendChild(createProductCard(product));
+        featuredProductsContainer.innerHTML += window.createProductCardComponent(product, relativePath);
     });
 }
 
@@ -120,63 +177,117 @@ function loadAllProducts() {
     // コンテナをクリア
     productsContainer.innerHTML = '';
     
-    // URLからカテゴリフィルタを取得
-    const categoryFilter = getUrlParameter('category');
+    // URLからフィルタとソートパラメータを取得
+    const categoryFilter = window.utils.getUrlParam('category');
+    const searchQuery = window.utils.getUrlParam('q');
     
-    // 商品をフィルタリング
-    let filteredProducts = productData;
-    if (categoryFilter) {
-        filteredProducts = productData.filter(product => product.category === categoryFilter);
+    // フィルタリング条件を作成
+    const filters = {};
+    if (categoryFilter) filters.category = categoryFilter;
+    if (searchQuery) filters.search = searchQuery;
+    
+    // 共通ユーティリティ関数を使用してフィルタリング
+    let filteredProducts = window.utils.filterItems(productData, filters);
+    
+    // 並び替えを適用（共通ユーティリティ関数を使用）
+    const sortFilter = document.getElementById('sort-filter');
+    if (sortFilter) {
+        const sortValue = sortFilter.value;
         
-        // カテゴリフィルタのセレクトボックスを更新
-        const categorySelect = document.getElementById('category-filter');
-        if (categorySelect) {
-            categorySelect.value = categoryFilter;
+        switch(sortValue) {
+            case 'price-low':
+                filteredProducts = window.utils.sortItems(filteredProducts, 'price', 'asc');
+                break;
+            case 'price-high':
+                filteredProducts = window.utils.sortItems(filteredProducts, 'price', 'desc');
+                break;
+            case 'name':
+                filteredProducts = window.utils.sortItems(filteredProducts, 'name', 'asc');
+                break;
+            case 'featured':
+            default:
+                // フィーチャード商品を先に表示
+                filteredProducts = filteredProducts.sort((a, b) => {
+                    if (a.featured && !b.featured) return -1;
+                    if (!a.featured && b.featured) return 1;
+                    return 0;
+                });
+                break;
         }
     }
     
     // 商品がない場合
     if (filteredProducts.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products">No se encontraron productos en esta categoría.</div>';
+        productsContainer.innerHTML = '<div class="no-products">No se encontraron productos con estos criterios de búsqueda.</div>';
         return;
     }
     
-    // 商品カードを追加
-    filteredProducts.forEach(product => {
-        productsContainer.appendChild(createProductCard(product));
+    // ページネーションの設定
+    const currentPage = parseInt(window.utils.getUrlParam('page')) || 1;
+    const pageSize = 12;
+    
+    // 表示する商品を取得
+    const paginatedProducts = window.utils.paginateItems(filteredProducts, pageSize, currentPage);
+    
+    // 商品カードを追加（components.jsで定義した関数を使用）
+    const relativePath = '../';
+    paginatedProducts.forEach(product => {
+        productsContainer.innerHTML += window.createProductCardComponent(product, relativePath);
     });
     
-    // シンプルなページネーションを設定（実際のプロジェクトではより複雑な実装が必要）
-    setupPagination(filteredProducts.length);
+    // ページネーションを設定
+    setupPagination(filteredProducts.length, pageSize);
 }
 
-// 商品カードを作成する関数
-function createProductCard(product) {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.setAttribute('data-id', product.id);
-    card.setAttribute('data-category', product.category);
+// ページネーションを設定する関数
+function setupPagination(totalItems, pageSize = 12) {
+    const paginationContainer = document.getElementById('pagination-container');
+    if (!paginationContainer) return;
     
-    // 商品の詳細ページへのリンクパス
-    const detailPath = window.location.pathname.includes('products') ? 
-                      `product-detail.html?id=${product.id}` : 
-                      `products/product-detail.html?id=${product.id}`;
+    const totalPages = Math.ceil(totalItems / pageSize);
     
-    // 商品画像のパス（相対パスの調整）
-    const imagePath = window.location.pathname.includes('products') ? 
-                     product.image.replace('../', '') : 
-                     product.image;
+    // 現在のページを取得（デフォルトは1）
+    const currentPage = parseInt(window.utils.getUrlParam('page')) || 1;
     
-    card.innerHTML = `
-        <div class="product-image" style="background-image: url('${imagePath}')"></div>
-        <div class="product-info">
-            <h3>${product.name}</h3>
-            <div class="product-price">$${product.price.toFixed(2)} MXN</div>
-            <a href="${detailPath}" class="btn">Ver Detalles</a>
-        </div>
-    `;
+    // ページネーションコントロールを生成
+    let paginationHTML = '<div class="pagination-controls">';
     
-    return card;
+    // 戻るボタン
+    if (currentPage > 1) {
+        paginationHTML += `<button data-page="${currentPage - 1}">Anterior</button>`;
+    }
+    
+    // ページ番号（表示を5ページまでに制限）
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, startPage + 4);
+    
+    for (let i = startPage; i <= endPage; i++) {
+        const activeClass = i === currentPage ? 'active' : '';
+        paginationHTML += `<button data-page="${i}" class="${activeClass}">${i}</button>`;
+    }
+    
+    // 次へボタン
+    if (currentPage < totalPages) {
+        paginationHTML += `<button data-page="${currentPage + 1}">Siguiente</button>`;
+    }
+    
+    paginationHTML += '</div>';
+    
+    // ページネーションを挿入
+    paginationContainer.innerHTML = paginationHTML;
+    
+    // ページネーションボタンのイベントリスナーを設定
+    const pageButtons = paginationContainer.querySelectorAll('button');
+    pageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const page = this.getAttribute('data-page');
+            
+            // URLパラメータを更新して再読み込み
+            const url = new URL(window.location);
+            url.searchParams.set('page', page);
+            window.location.href = url.toString();
+        });
+    });
 }
 
 // フィルターの設定
@@ -197,28 +308,36 @@ function setupFilters() {
             } else {
                 url.searchParams.delete('category');
             }
-            window.history.pushState({}, '', url);
-            
-            // 商品を再ロード
-            loadAllProducts();
+            window.location.href = url.toString();
         });
     }
     
     // ソートフィルター
     if (sortFilter) {
         sortFilter.addEventListener('change', function() {
-            // 実際のプロジェクトでは、ここにソート機能を実装
-            console.log('Sort by: ' + this.value);
-            // ソートしてから商品を再ロード
+            // 商品を再ロード
             loadAllProducts();
         });
     }
     
     // 検索フィルター
     if (searchInput) {
+        // Enter キーで検索を実行
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                // URLパラメータを更新
+                const url = new URL(window.location);
+                if (this.value.trim()) {
+                    url.searchParams.set('q', this.value.trim());
+                } else {
+                    url.searchParams.delete('q');
+                }
+                window.location.href = url.toString();
+            }
+        });
+        
+        // テキスト入力でリアルタイム検索
         searchInput.addEventListener('input', function() {
-            // 実際のプロジェクトでは、ここに検索機能を実装
-            console.log('Search for: ' + this.value);
             // 遅延してから商品を再ロード
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
@@ -226,73 +345,4 @@ function setupFilters() {
             }, 300);
         });
     }
-}
-
-// シンプルなページネーションの設定
-function setupPagination(totalItems, itemsPerPage = 8) {
-    const paginationControls = document.getElementById('pagination-controls');
-    if (!paginationControls) return;
-    
-    // コンテナをクリア
-    paginationControls.innerHTML = '';
-    
-    // ページ数を計算
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    
-    // ページネーションが必要ない場合
-    if (totalPages <= 1) return;
-    
-    // 前へボタン
-    const prevButton = document.createElement('button');
-    prevButton.textContent = '←';
-    prevButton.className = 'pagination-prev';
-    prevButton.disabled = true;
-    paginationControls.appendChild(prevButton);
-    
-    // ページ番号ボタン
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.className = i === 1 ? 'active' : '';
-        pageButton.addEventListener('click', function() {
-            // 実際のプロジェクトでは、ここにページ切り替え機能を実装
-            console.log('Go to page: ' + i);
-            
-            // すべてのボタンからactiveクラスを削除
-            document.querySelectorAll('#pagination-controls button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // クリックされたボタンにactiveクラスを追加
-            this.classList.add('active');
-            
-            // 前へ/次へボタンの状態を更新
-            prevButton.disabled = i === 1;
-            nextButton.disabled = i === totalPages;
-        });
-        paginationControls.appendChild(pageButton);
-    }
-    
-    // 次へボタン
-    const nextButton = document.createElement('button');
-    nextButton.textContent = '→';
-    nextButton.className = 'pagination-next';
-    nextButton.disabled = totalPages === 1;
-    paginationControls.appendChild(nextButton);
-    
-    // 前へボタンのイベントリスナー
-    prevButton.addEventListener('click', function() {
-        const activeButton = document.querySelector('#pagination-controls button.active');
-        if (activeButton && activeButton.previousElementSibling && activeButton.previousElementSibling.tagName === 'BUTTON') {
-            activeButton.previousElementSibling.click();
-        }
-    });
-    
-    // 次へボタンのイベントリスナー
-    nextButton.addEventListener('click', function() {
-        const activeButton = document.querySelector('#pagination-controls button.active');
-        if (activeButton && activeButton.nextElementSibling && activeButton.nextElementSibling.tagName === 'BUTTON') {
-            activeButton.nextElementSibling.click();
-        }
-    });
 }
