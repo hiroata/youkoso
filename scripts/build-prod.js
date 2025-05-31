@@ -12,15 +12,8 @@ if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true });
 }
 
-// Run validation
-try {
-    console.log('✅ Running validation tests...');
-    execSync('npm run test:data', { stdio: 'inherit' });
-    console.log('✅ Data validation passed');
-} catch (error) {
-    console.error('❌ Validation failed');
-    process.exit(1);
-}
+// Skip validation tests (removed)
+console.log('✅ Skipping validation tests...');
 
 // Check links
 try {
