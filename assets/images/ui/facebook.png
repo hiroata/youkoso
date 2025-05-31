@@ -1,1 +1,8 @@
-iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABK0lEQVQ4y6WTsUoDQRCG94VEUGzsBAsRsbOxs7OwslQQRCtBsbISEcRCbK0t9QGsbKws7K0UQRC7QAgkJBdDjHzrzOUumyslOvCxs/fN7MzsrmGUwQ3wADwBj8A9cAFsAJmsZwQcAC/AN3AJHAELmC/gBDgHHoBTYBfYUiZLwCbQBs6AM+DYgcdqMUZgT1f/ChwCm3LRN8KDy24mDgrADbAHrMV6RgToq9tOHFzruCvxEsBE028CG4mJ6blBX4fKFUzX7ADPQBVYZ2a67lTnXyocZHWjC/QUYAXoKWMVeAUaQE5Z60BdlpAUbaQVTAaAC34DZcUyh52P3UKTDI4V8A14U6CO9k0F+gCuJMNKMlwnKatyO1dcj0UJ2Z/XOBrpnlXgMi5nLaF3Kvkf+QGAk1Fzt7HGTAAAAABJRU5ErkJggg==
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>FB</title></head>
+<body style="margin:0;padding:0;">
+<img src="facebook.svg" 
+     alt="FB" style="width:100%;height:100%;object-fit:cover;">
+</body>
+</html>

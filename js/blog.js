@@ -27,32 +27,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 // ブログデータを読み込む関数
 async function loadBlogData() {
     try {
-        // メイン処理でデータが読み込まれているか確認
-        if (window.siteData && window.siteData.posts && window.siteData.posts.length > 0) {
-            console.log('Using posts from site data');
-            blogData = window.siteData.posts;
-            return blogData;
-        }
-        
-        // メインデータが読み込まれていない場合は待機
-        await waitForSiteData();
-        
-        // データが読み込まれていれば使用
-        if (window.siteData && window.siteData.posts) {
-            blogData = window.siteData.posts;
-            console.log('Blog posts loaded from site data:', blogData.length);
-            return blogData;
-        }
-        
-        // それでもデータがない場合は個別に読み込む
-        console.log('Loading blog posts from individual file');
-        const pathPrefix = window.location.pathname.includes('/blog/') ? '../' : '';
-        const basePath = `${pathPrefix}data/blog-posts.json`;
-        
-        // 共通ユーティリティ関数を使用してデータを取得
-        const data = await window.utils.fetchData(basePath);
-        blogData = data.posts;
-        console.log('Blog posts loaded from individual file:', blogData.length);
+        // 統一されたDataLoaderを使用
+        blogData = await window.utils.dataLoader.loadData('posts');
         return blogData;
     } catch (error) {
         console.error('ブログデータの読み込みに失敗しました:', error);
@@ -60,29 +36,6 @@ async function loadBlogData() {
     }
 }
 
-// サイトデータが読み込まれるのを待つ関数
-function waitForSiteData(timeout = 5000) {
-    return new Promise((resolve) => {
-        // すでに読み込まれている場合はすぐに解決
-        if (window.siteData && window.siteData.posts && window.siteData.posts.length > 0) {
-            return resolve();
-        }
-        
-        let timeWaited = 0;
-        const interval = 100;
-        
-        // 定期的にチェック
-        const checkInterval = setInterval(() => {
-            timeWaited += interval;
-            
-            // データが読み込まれたか、タイムアウトに達したかをチェック
-            if ((window.siteData && window.siteData.posts && window.siteData.posts.length > 0) || timeWaited >= timeout) {
-                clearInterval(checkInterval);
-                resolve();
-            }
-        }, interval);
-    });
-}
 
 // 最新のブログ投稿をロードする関数
 function loadLatestBlogPosts(count = 3) {
@@ -123,7 +76,7 @@ function loadAllBlogPosts() {
     if (searchQuery) filters.search = searchQuery;
     
     // 共通ユーティリティ関数を使用してフィルタリング
-    let filteredPosts = window.utils.filterItems(blogData, filters);
+    const filteredPosts = window.utils.filterItems(blogData, filters);
     
     // 投稿がない場合
     if (filteredPosts.length === 0) {

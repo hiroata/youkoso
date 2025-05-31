@@ -334,31 +334,8 @@ function translateTestimonial(text, direction) {
 // お客様の声データを読み込む関数
 async function loadTestimonialsData() {
     try {
-        // メイン処理でデータが読み込まれているか確認
-        if (window.siteData && window.siteData.testimonials && window.siteData.testimonials.length > 0) {
-            console.log('Using testimonials from site data');
-            testimonialsData = window.siteData.testimonials;
-            return testimonialsData;
-        }
-        
-        // メインデータが読み込まれていない場合は待機
-        await waitForSiteData();
-        
-        // データが読み込まれていれば使用
-        if (window.siteData && window.siteData.testimonials) {
-            testimonialsData = window.siteData.testimonials;
-            console.log('Testimonials loaded from site data:', testimonialsData.length);
-            return testimonialsData;
-        }
-        
-        // それでもデータがない場合は個別に読み込む
-        console.log('Loading testimonials from individual file');
-        const dataPath = 'data/testimonials.json';
-        
-        // 共通ユーティリティ関数を使用してデータを取得
-        const data = await window.utils.fetchData(dataPath);
-        testimonialsData = data.testimonials;
-        console.log('Testimonials loaded from individual file:', testimonialsData.length);
+        // 統一されたDataLoaderを使用
+        testimonialsData = await window.utils.dataLoader.loadData('testimonials');
         return testimonialsData;
     } catch (error) {
         console.error('お客様の声データの読み込みに失敗しました:', error);
@@ -366,32 +343,9 @@ async function loadTestimonialsData() {
     }
 }
 
-// サイトデータが読み込まれるのを待つ関数
-function waitForSiteData(timeout = 5000) {
-    return new Promise((resolve) => {
-        // すでに読み込まれている場合はすぐに解決
-        if (window.siteData && window.siteData.testimonials && window.siteData.testimonials.length > 0) {
-            return resolve();
-        }
-        
-        let timeWaited = 0;
-        const interval = 100;
-        
-        // 定期的にチェック
-        const checkInterval = setInterval(() => {
-            timeWaited += interval;
-            
-            // データが読み込まれたか、タイムアウトに達したかをチェック
-            if ((window.siteData && window.siteData.testimonials && window.siteData.testimonials.length > 0) || timeWaited >= timeout) {
-                clearInterval(checkInterval);
-                resolve();
-            }
-        }, interval);
-    });
-}
 
-// すべてのお客様の声をロードする関数
-function loadAllTestimonials() {
+// すべてのお客様の声をロードする関数（統計用）
+function loadAllTestimonialsForStats() {
     const testimonialsContainer = document.getElementById('testimonials-container');
     if (!testimonialsContainer) return;
     
@@ -399,11 +353,11 @@ function loadAllTestimonials() {
     testimonialsContainer.innerHTML = '';
     
     // 評価で並べ替え（高い順）- 共通ユーティリティ関数を使用
-    const sortedTestimonials = window.utils.sortItems(testimonialsData, 'rating', 'desc');
+    const sortedTestimonials = window.utils ? window.utils.sortItems(testimonialsData, 'rating', 'desc') : testimonialsData;
     
     // お客様の声カードを追加（components.jsで定義した関数を使用）
     sortedTestimonials.forEach(testimonial => {
-        testimonialsContainer.innerHTML += window.createTestimonialCardComponent(testimonial);
+        testimonialsContainer.innerHTML += window.createTestimonialCardComponent ? window.createTestimonialCardComponent(testimonial) : '';
     });
     
     // 統計情報を更新

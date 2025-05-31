@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://holajapon.mx/sitemap.xml
+
+# Disallow admin and temporary files
+Disallow: /admin/
+Disallow: /tmp/
+Disallow: /*.log$
+Disallow: /generate-placeholders.html
+
+# Allow all main content
+Allow: /index.html
+Allow: /products/
+Allow: /blog/
+Allow: /about.html
+Allow: /contact.html
+Allow: /testimonials.html
+Allow: /assets/
+
+# Crawl delay for politeness
+Crawl-delay: 1

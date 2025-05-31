@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+dist/
+build/
+.cache/
+.parcel-cache/
+.env
+.env.local
+coverage/
+*.tgz
+*.tar.gz

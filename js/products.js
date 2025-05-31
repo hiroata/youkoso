@@ -33,32 +33,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 // 商品データを読み込む関数
 async function loadProductData() {
     try {
-        // メイン処理でデータが読み込まれているか確認
-        if (window.siteData && window.siteData.products && window.siteData.products.length > 0) {
-            console.log('Using products from site data');
-            productData = window.siteData.products;
-            return productData;
-        }
-        
-        // メインデータが読み込まれていない場合は待機
-        await waitForSiteData();
-        
-        // データが読み込まれていれば使用
-        if (window.siteData && window.siteData.products) {
-            productData = window.siteData.products;
-            console.log('Products loaded from site data:', productData.length);
-            return productData;
-        }
-        
-        // それでもデータがない場合は個別に読み込む
-        console.log('Loading products from individual file');
-        const pathPrefix = window.location.pathname.includes('/products/') ? '../' : '';
-        const basePath = `${pathPrefix}data/products.json`;
-        
-        // 共通ユーティリティ関数を使用してデータを取得
-        const data = await window.utils.fetchData(basePath);
-        productData = data.products;
-        console.log('Products loaded from individual file:', productData.length);
+        // 統一されたDataLoaderを使用
+        productData = await window.utils.dataLoader.loadData('products');
         return productData;
     } catch (error) {
         console.error('商品データの読み込みに失敗しました:', error);
@@ -66,29 +42,6 @@ async function loadProductData() {
     }
 }
 
-// サイトデータが読み込まれるのを待つ関数
-function waitForSiteData(timeout = 5000) {
-    return new Promise((resolve) => {
-        // すでに読み込まれている場合はすぐに解決
-        if (window.siteData && window.siteData.products && window.siteData.products.length > 0) {
-            return resolve();
-        }
-        
-        let timeWaited = 0;
-        const interval = 100;
-        
-        // 定期的にチェック
-        const checkInterval = setInterval(() => {
-            timeWaited += interval;
-            
-            // データが読み込まれたか、タイムアウトに達したかをチェック
-            if ((window.siteData && window.siteData.products && window.siteData.products.length > 0) || timeWaited >= timeout) {
-                clearInterval(checkInterval);
-                resolve();
-            }
-        }, interval);
-    });
-}
 
 // URLパラメータに基づいてUIを更新する関数
 function updateUIBasedOnParams() {

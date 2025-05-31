@@ -1,13 +1,46 @@
 /* 基本スタイル */
 :root {
-    --primary-color: #007aff; /* Appleのアクセントカラー */
-    --secondary-color: #f5f5f7; /* 明るい背景色 */
-    --accent-color: #f1faee;
-    --text-color: #1c1c1e; /* ダークモードに近いテキスト色 */
-    --light-bg: #f8f9fa;
-    --dark-bg: #212529;
-    --border-radius: 12px; /* より洗練された角丸 */
-    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 繊細な影 */
+    /* Apple Design System Colors */
+    --primary-color: #007aff;
+    --primary-hover: #0056cc;
+    --secondary-color: #f5f5f7;
+    --background-white: #fff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --text-tertiary: #515154;
+    --accent-blue: #007aff;
+    --accent-gray: #f5f5f7;
+    --border-color: #d2d2d7;
+    --overlay-bg: rgb(0 0 0 / 40%);
+    
+    /* Apple Typography */
+    --font-system: -apple-system, blinkmacsystemfont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Apple Spacing & Layout */
+    --border-radius-small: 8px;
+    --border-radius-medium: 12px;
+    --border-radius-large: 18px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    
+    /* Apple Shadows */
+    --shadow-sm: 0 1px 3px rgb(0 0 0 / 4%);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 8%);
+    --shadow-lg: 0 8px 24px rgb(0 0 0 / 12%);
+    --shadow-xl: 0 16px 48px rgb(0 0 0 / 16%);
+    
+    /* Apple Transitions */
+    --transition-quick: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-gentle: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -17,10 +50,16 @@
 }
 
 body {
-    font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-color);
-    background-color: var(--secondary-color);
-    line-height: 1.8;
+    font-family: var(--font-system);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-primary);
+    background-color: var(--background-white);
+    line-height: 1.4706;
+    letter-spacing: -0.022em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
@@ -31,27 +70,41 @@ body {
 }
 
 /* 共通コンポーネントスタイル */
+
 /* ボタン */
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--primary-color);
-    color: white;
-    padding: 10px 20px;
+    color: var(--background-white);
+    padding: var(--spacing-md) var(--spacing-xl);
     text-decoration: none;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    transition: all 0.3s ease;
+    border-radius: var(--border-radius-large);
+    font-weight: var(--font-weight-semibold);
+    font-size: 17px;
+    line-height: 1.235;
+    letter-spacing: -0.022em;
+    transition: all var(--transition-smooth);
     border: none;
     cursor: pointer;
     text-align: center;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
+    min-height: 44px;
+    white-space: nowrap;
 }
 
 .btn:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn::after {
@@ -61,7 +114,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgb(255 255 255 / 20%);
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -79,19 +132,24 @@ body {
     background-color: #f8f9fa;
 }
 
-/* カードスタイル（商品、ブログ、カテゴリー共通） */
+/* Apple-style Cards */
 .product-card, .blog-card, .category-card {
-    background-color: white;
-    border-radius: 18px;
+    background-color: var(--background-white);
+    border-radius: var(--border-radius-large);
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    animation: fadeIn 0.6s ease forwards;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-gentle);
+    border: 1px solid rgb(0 0 0 / 4%);
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .product-card:hover, .blog-card:hover, .category-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: rgb(0 0 0 / 8%);
 }
 
 .product-grid .product-card:nth-child(2n),
@@ -104,17 +162,6 @@ body {
 .blog-grid .blog-card:nth-child(3n),
 .category-grid .category-card:nth-child(3n) {
     animation-delay: 0.4s;
-}
-
-/* 画像コンテナ */
-.product-image, .blog-image, .category-icon {
-    background-size: cover;
-    background-position: center;
-}
-
-.product-image, .blog-image {
-    width: 100%;
-    height: 200px;
 }
 
 /* 画像コンテナ - 最適化バージョン */
@@ -130,7 +177,9 @@ body {
     width: 100%;
 }
 
-.product-image, .blog-image {
+.product-image, .blog-image, .category-icon {
+    background-size: cover;
+    background-position: center;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -150,9 +199,6 @@ body {
 }
 
 .category-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     border-radius: 50%;
 }
 
@@ -180,63 +226,73 @@ body {
     font-weight: 700;
 }
 
-/* グリッドレイアウト共通 */
+/* Apple-style Grid Layouts */
 .product-grid, .blog-grid, .category-grid, .testimonials-grid {
     display: grid;
-    gap: 30px;
+    gap: var(--spacing-xl);
+    padding: 0;
 }
 
 .product-grid, .blog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .category-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .testimonials-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-/* セクション共通スタイル */
-.hero, .categories, .featured-products, .products-list, .latest-posts, .blog-content, .testimonial-preview, .testimonials {
-    padding: 60px 0;
+/* Apple-style Sections */
+.categories, .featured-products, .products-list, .latest-posts, .blog-content, .testimonial-preview, .testimonials {
+    padding: var(--spacing-xxl) 0 80px;
 }
 
 .categories h2, .featured-products h2, .products-list h2, .latest-posts h2, .blog-content h2, .testimonial-preview h2 {
     text-align: center;
-    margin-bottom: 40px;
-    font-size: 32px;
-    font-weight: 700;
+    margin-bottom: var(--spacing-xxl);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.125;
+    letter-spacing: -0.003em;
+    color: var(--text-primary);
 }
 
-/* ヘッダー */
+/* Apple-style Header */
 header {
-    background-color: white;
+    background-color: rgb(255 255 255 / 72%);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgb(0 0 0 / 4%);
+    transition: all var(--transition-smooth);
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 44px;
 }
 
 header.scrolled {
     backdrop-filter: saturate(180%) blur(20px);
-    background-color: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    background-color: rgb(255 255 255 / 72%);
+    box-shadow: 0 1px 0 rgb(0 0 0 / 5%);
     transition: background-color 0.3s, backdrop-filter 0.3s;
 }
 
 .logo h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--text-color);
+    font-size: 21px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    letter-spacing: -0.003em;
+    line-height: 1.190;
 }
 
 .logo a {
@@ -259,13 +315,30 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--text-color);
-    font-weight: 500;
-    transition: color 0.3s;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: 17px;
+    line-height: 1.235;
+    letter-spacing: -0.022em;
+    transition: color var(--transition-quick);
     position: relative;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-small);
 }
 
 nav ul li a:hover {
+    color: var(--accent-blue);
+    background-color: rgb(0 122 255 / 6%);
+}
+
+/* Breadcrumbs */
+.breadcrumbs a {
+    color: #515154;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumbs a:hover {
     color: var(--primary-color);
 }
 
@@ -284,15 +357,18 @@ nav ul li a.active::after {
     border-radius: 3px;
 }
 
-/* ヒーローセクション */
+/* Apple-style Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/images/ui/hero-bg.jpg');
+    background: linear-gradient(rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)), url('../assets/images/ui/hero-bg.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
+    background-attachment: fixed;
+    color: var(--background-white);
     text-align: center;
-    padding: 100px 20px;
-    margin-bottom: 60px;
+    padding: 120px var(--spacing-lg) 80px;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
@@ -300,48 +376,52 @@ nav ul li a.active::after {
     margin: 0 auto;
 }
 
+.author-info span {
+    font-size: 14px;
+    opacity: 0.8;
+    color: var(--text-secondary);
+}
+
 .hero h2 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    line-height: 1.2;
+    font-size: clamp(32px, 6vw, 56px);
+    margin-bottom: var(--spacing-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.071;
+    letter-spacing: -0.005em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero h2 span {
-    color: var(--primary-color);
+    color: var(--accent-blue);
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    opacity: 0.9;
+    font-size: 21px;
+    line-height: 1.381;
+    letter-spacing: 0.011em;
+    margin-bottom: var(--spacing-xxl);
+    opacity: 0.92;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: var(--font-weight-regular);
 }
 
-/* カテゴリーセクション */
+/* Apple-style Categories Section */
 .categories {
-    padding: 60px 0;
+    padding: var(--spacing-xxl) 0 80px;
+    background-color: var(--accent-gray);
 }
 
 .category-card {
-    background-color: white;
-    border-radius: 18px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 25px;
+    padding: var(--spacing-xl);
     text-align: center;
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.category-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.category-icon {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .category-card:hover .category-icon {
@@ -349,19 +429,19 @@ nav ul li a.active::after {
 }
 
 .category-icon.anime-figures {
-    background-image: url('../assets/images/ui/category-figures.jpg');
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
 }
 
 .category-icon.manga {
-    background-image: url('../assets/images/ui/category-manga.jpg');
+    background: linear-gradient(135deg, #a8e6cf, #dcedc1);
 }
 
 .category-icon.videogames {
-    background-image: url('../assets/images/ui/category-games.jpg');
+    background: linear-gradient(135deg, #ffd93d, #6bcf7f);
 }
 
 .category-icon.clothing {
-    background-image: url('../assets/images/ui/category-clothing.jpg');
+    background: linear-gradient(135deg, #ffeaa7, #fab1a0);
 }
 
 .category-card h3 {
@@ -371,13 +451,13 @@ nav ul li a.active::after {
 
 /* 商品セクション */
 .featured-products, .products-list {
-    background-color: var(--light-bg);
+    background-color: var(--accent-gray);
 }
 
 /* プレースホルダー画像スタイル */
 .product-image.placeholder {
     background-image: none !important;
-    background-color: #f5f5f5;
+    background-color: var(--accent-gray);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -387,7 +467,7 @@ nav ul li a.active::after {
 
 .product-image.placeholder::before {
     content: attr(data-name);
-    color: #666;
+    color: var(--text-secondary);
     text-align: center;
     font-size: 14px;
     padding: 15px;
@@ -395,40 +475,74 @@ nav ul li a.active::after {
     overflow-wrap: break-word;
 }
 
-/* ブログセクション */
+/* Apple-style Blog Section */
+.blog-card {
+    background-color: var(--background-white) !important;
+    color: var(--text-primary) !important;
+}
+
 .blog-info h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    line-height: 1.3;
+    font-size: 21px;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.381;
+    letter-spacing: 0.011em;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary) !important;
 }
 
 .blog-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 15px;
+    align-items: center;
+    font-size: 15px;
+    color: var(--text-secondary) !important;
+    margin-bottom: var(--spacing-md);
+    letter-spacing: -0.016em;
 }
 
 .blog-excerpt {
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-lg);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.4706;
+    letter-spacing: -0.022em;
+    color: var(--text-primary) !important;
+    font-size: 17px;
+}
+
+/* ブログセクションのスタイル */
+.latest-posts {
+    background-color: var(--background-white);
+    color: var(--text-primary);
+}
+
+.latest-posts h2 {
+    color: var(--text-primary);
 }
 
 .latest-posts .btn {
     display: block;
-    width: 200px;
-    margin: 0 auto;
+    width: 240px;
+    margin: var(--spacing-xxl) auto 0;
     text-align: center;
 }
 
-/* お客様の声セクション */
+/* Apple-style Testimonials Section */
 .testimonial-preview {
-    background-color: var(--secondary-color);
-    color: white;
+    background: linear-gradient(135deg, #f5f5f7 0%, #fff 100%);
+    color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgb(0 122 255 / 5%) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .testimonial-slider {
@@ -447,28 +561,30 @@ nav ul li a.active::after {
 }
 
 .testimonial-slider::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(255 255 255 / 10%);
     border-radius: 10px;
 }
 
 .testimonial-slider::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgb(255 255 255 / 30%);
     border-radius: 10px;
 }
 
 /* 統一されたお客様の声カードスタイル */
 .testimonial-card {
     min-width: 300px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius);
+    background-color: var(--background-white);
+    border-radius: var(--border-radius-large);
     padding: 30px;
     scroll-snap-align: start;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
 }
 
 .testimonial-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 30px rgb(0 0 0 / 15%);
 }
 
 .testimonial-content {
@@ -495,17 +611,17 @@ nav ul li a.active::after {
     background-size: cover;
     background-position: center;
     margin-right: 15px;
-    background-color: #eaeaea;
+    background-color: var(--accent-gray);
 }
 
 .testimonial-author-info h4, .author-info strong {
     font-weight: 600;
 }
 
-.testimonial-author-info p, .author-info span {
+.testimonial-author-info p {
     font-size: 14px;
     opacity: 0.8;
-    color: #777;
+    color: var(--text-secondary);
 }
 
 .testimonial-preview .btn {
@@ -517,7 +633,7 @@ nav ul li a.active::after {
 
 /* レビュー関連のスタイル */
 .testimonial-form {
-    background-color: #f8f8f8;
+    background-color: var(--accent-gray);
     padding: 3rem 0;
 }
 
@@ -536,10 +652,10 @@ nav ul li a.active::after {
 }
 
 .contact-form, .review-form {
-    background-color: #fff;
+    background-color: var(--background-white);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 }
 
 .form-group {
@@ -557,9 +673,9 @@ nav ul li a.active::after {
 .form-control {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-system);
 }
 
 .form-group textarea {
@@ -567,54 +683,91 @@ nav ul li a.active::after {
     min-height: 100px;
 }
 
-/* フィルター */
+/* Apple-style Filters */
 .product-filters, .blog-filters {
-    padding: 20px 0;
-    background-color: var(--light-bg);
-    margin-bottom: 40px;
+    padding: var(--spacing-xl) 0;
+    background-color: var(--accent-gray);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .filter-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--spacing-xl);
     align-items: center;
+    justify-content: center;
 }
 
 .filter-group {
     display: flex;
-    align-items: center;
-    flex: 1;
-    min-width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 160px;
+    gap: var(--spacing-sm);
 }
 
 .filter-group label {
-    margin-right: 10px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
+    font-size: 15px;
+    color: var(--text-secondary);
+    letter-spacing: -0.016em;
 }
 
 .filter-group select, .filter-group input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    font-family: inherit;
-    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-medium);
+    font-family: var(--font-system);
+    font-size: 15px;
+    background-color: var(--background-white);
+    transition: all var(--transition-quick);
+    min-width: 140px;
 }
 
-/* ページヘッダー */
+.quantity-controls input {
+    width: 60px;
+    height: 44px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    color: #1d1d1f;
+}
+
+.filter-group select:focus, .filter-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgb(0 122 255 / 10%);
+}
+
+/* Apple-style Page Header */
 .page-header {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/ui/page-header-bg.jpg');
+    background: linear-gradient(rgb(0 0 0 / 50%), rgb(0 0 0 / 50%)), url('../assets/images/ui/page-header-bg.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
+    background-attachment: fixed;
+    color: var(--background-white);
     text-align: center;
-    padding: 60px 20px;
-    margin-bottom: 20px;
+    padding: 80px var(--spacing-lg) 60px;
+    margin: 0;
+    position: relative;
 }
 
 .page-header h2 {
-    font-size: 40px;
-    margin-bottom: 10px;
+    font-size: clamp(28px, 5vw, 48px);
+    margin-bottom: var(--spacing-md);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.083;
+    letter-spacing: -0.003em;
+}
+
+.page-header p {
+    font-size: 19px;
+    line-height: 1.4211;
+    letter-spacing: 0.012em;
+    opacity: 0.92;
+    max-width: 500px;
+    margin: 0 auto;
+    font-weight: var(--font-weight-regular);
 }
 
 /* ページネーション */
@@ -630,9 +783,9 @@ nav ul li a.active::after {
 
 .pagination-controls button {
     padding: 8px 15px;
-    border: 1px solid #ddd;
-    background-color: white;
-    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--background-white);
+    border-radius: var(--border-radius-medium);
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -643,19 +796,22 @@ nav ul li a.active::after {
     border-color: var(--primary-color);
 }
 
-/* フッター - Apple風 */
+/* Apple-style Footer */
 footer {
-    background-color: #f5f5f7;
-    color: #1d1d1f;
-    padding: 40px 0;
-    font-size: 14px;
-    line-height: 1.4;
+    background-color: var(--accent-gray);
+    color: var(--text-primary);
+    padding: var(--spacing-xxl) 0;
+    font-size: 15px;
+    line-height: 1.4211;
+    letter-spacing: -0.016em;
+    border-top: 1px solid var(--border-color);
 }
 
 footer .container {
     max-width: 980px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--spacing-lg);
+    text-align: center;
 }
 
 footer .footer-content {
@@ -681,13 +837,22 @@ footer li {
 }
 
 footer a {
-    color: #515154;
+    color: var(--text-tertiary);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 footer a:hover {
-    color: #007aff;
+    color: var(--primary-color);
+}
+
+footer p {
+    margin: var(--spacing-lg) 0 0;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 13px;
+    letter-spacing: -0.08em;
 }
 
 .social-links {
@@ -695,75 +860,82 @@ footer a:hover {
     gap: 15px;
 }
 
-social-links a {
+.social-links a {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgb(255 255 255 / 10%);
     border-radius: 50%;
     transition: all 0.3s;
 }
 
-social-links a:hover {
+.social-links a:hover {
     background-color: var(--primary-color);
     transform: translateY(-3px);
 }
 
-social-links a img {
+.main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.social-links a img {
     width: 20px;
     height: 20px;
 }
 
-copyright {
-    margin-top: 30px;
-    padding-top: 15px;
-    border-top: 1px solid #d2d2d7;
-    color: #86868b;
-    text-align: center;
-    font-size: 12px;
-}
-
-/* アニメーション */
-@keyframes fadeIn {
+/* Apple-style Animations */
+@keyframes fade-in {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px) scale(0.98);
     }
+
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
-@keyframes scaleIn {
+@keyframes scale-in {
     from {
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
 
-@keyframes slideFromLeft {
+@keyframes slide-from-left {
     from {
         opacity: 0;
         transform: translateX(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
     }
 }
 
-@keyframes slideFromRight {
+@keyframes slide-from-right {
     from {
         opacity: 0;
         transform: translateX(30px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -772,22 +944,22 @@ copyright {
 
 .fade-in {
     opacity: 0;
-    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fade-in 0.6s var(--transition-gentle) forwards;
 }
 
 .scale-in {
     opacity: 0;
-    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: scale-in 0.6s var(--transition-gentle) forwards;
 }
 
 .slide-from-left {
     opacity: 0;
-    animation: slideFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slide-from-left 0.6s var(--transition-gentle) forwards;
 }
 
 .slide-from-right {
     opacity: 0;
-    animation: slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slide-from-right 0.6s var(--transition-gentle) forwards;
 }
 
 .delay-100 { animation-delay: 0.1s; }
@@ -798,8 +970,8 @@ copyright {
 
 .animate-on-scroll {
     opacity: 0;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity var(--transition-gentle),
+                transform var(--transition-gentle);
 }
 
 .animate-on-scroll.fade-up {
@@ -820,13 +992,13 @@ copyright {
 }
 
 .card-hover-effect {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform var(--transition-smooth),
+                box-shadow var(--transition-smooth);
 }
 
 .card-hover-effect:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
 }
 
 .scroll-snap-container {
@@ -841,33 +1013,136 @@ copyright {
     flex-shrink: 0;
 }
 
-/* 言語切り替え用スタイル - 統合版 */
+/* === PERFORMANCE OPTIMIZATIONS MERGED === */
+
+/* Critical CSS Performance */
+
+.product-grid,
+.blog-grid,
+.category-grid {
+    contain: layout style;
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
+}
+
+/* Font Loading Optimization */
+@font-face {
+    font-family: Inter;
+    font-display: swap;
+    src: local('Inter');
+}
+
+/* GPU Acceleration - merged with existing card styles */
+
+/* Lazy Loading Images - 修正版 */
+img[loading="lazy"] {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loading {
+    opacity: 0.7;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* Image Placeholder Loading Animation */
+.image-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    min-height: 200px;
+    border-radius: var(--border-radius-small);
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Touch Optimization */
+@media (width <= 768px) {
+    .btn,
+    .product-card,
+    .category-card {
+        touch-action: manipulation;
+    }
+    
+    /* Reduce animations on mobile for performance */
+    .product-card:hover,
+    .blog-card:hover,
+    .category-card:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .animate-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Print Optimization */
+@media print {
+    * {
+        background: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Apple-style Language Toggle */
 .language-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
-    padding: 5px 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-radius: var(--border-radius-medium);
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow-md);
     display: flex;
-    gap: 5px;
+    gap: var(--spacing-xs);
+    border: 1px solid rgb(0 0 0 / 4%);
 }
 
 .lang-btn {
-    background-color: #f0f0f0;
+    background-color: transparent;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-small);
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    font-weight: var(--font-weight-medium);
+    font-size: 15px;
+    color: var(--text-secondary);
+    transition: all var(--transition-quick);
+    letter-spacing: -0.016em;
 }
 
 .lang-btn.active {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--accent-blue);
+    color: var(--background-white);
+    box-shadow: var(--shadow-sm);
+}
+
+.lang-btn:hover:not(.active) {
+    background-color: rgb(0 122 255 / 6%);
+    color: var(--accent-blue);
 }
 
 /* 言語表示制御 */
@@ -896,110 +1171,697 @@ body.ja span.es-text {
     display: none;
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 1200px) {
+/* Apple-style Responsive Design */
+@media (width <= 1200px) {
     .container {
         max-width: 95%;
+        padding: 0 var(--spacing-lg);
     }
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
+    .hero {
+        padding: 80px var(--spacing-lg) 60px;
+    }
+    
     .hero h2 {
-        font-size: 36px;
+        font-size: clamp(28px, 5vw, 40px);
     }
     
     .hero p {
-        font-size: 18px;
+        font-size: 19px;
     }
     
-    .product-grid, .blog-grid, .category-grid {
+    .product-grid, .blog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+    }
+    
+    .category-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+    }
+    
+    .filter-container {
+        gap: var(--spacing-lg);
     }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     header .container {
         flex-direction: column;
-        padding: 15px 10px;
-    }
-    
-    .logo {
-        margin-bottom: 15px;
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
     }
     
     nav ul {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
     }
     
     nav ul li {
-        margin: 0 10px;
+        margin: 0;
     }
     
-    .hero {
-        padding: 80px 10px;
-    }
-    
-    .hero h2 {
-        font-size: 30px;
-    }
-    
-    .hero p {
+    nav ul li a {
+        padding: var(--spacing-sm) var(--spacing-md);
         font-size: 16px;
     }
     
-    .featured-products, .latest-posts, .categories, .testimonial-preview {
-        padding: 40px 0;
+    .hero {
+        padding: 60px var(--spacing-md) 50px;
     }
     
-    .featured-products h2, .latest-posts h2, .categories h2, .testimonial-preview h2 {
-        font-size: 28px;
-        margin-bottom: 30px;
+    .hero h2 {
+        font-size: clamp(24px, 6vw, 32px);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .hero p {
+        font-size: 17px;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .categories, .featured-products, .latest-posts, .testimonial-preview {
+        padding: var(--spacing-xl) 0 60px;
+    }
+    
+    .categories h2, .featured-products h2, .latest-posts h2, .testimonial-preview h2 {
+        font-size: clamp(24px, 4vw, 32px);
+        margin-bottom: var(--spacing-xl);
     }
     
     .filter-container {
         flex-direction: column;
-        gap: 15px;
+        gap: var(--spacing-lg);
+        align-items: stretch;
     }
     
     .filter-group {
         width: 100%;
+        align-items: stretch;
     }
     
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
+    .filter-group select, .filter-group input {
+        width: 100%;
+    }
+    
+    .page-header {
+        padding: 60px var(--spacing-md) 50px;
+    }
+    
+    .page-header h2 {
+        font-size: clamp(24px, 5vw, 36px);
     }
 }
 
-@media (max-width: 576px) {
-    nav ul {
-        flex-wrap: wrap;
-        gap: 10px;
+@media (width <= 576px) {
+    .container {
+        padding: 0 var(--spacing-md);
     }
     
-    nav ul li {
-        margin: 0 5px;
+    .hero {
+        padding: 50px var(--spacing-md) 40px;
     }
     
     .product-grid, .blog-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: var(--spacing-lg);
     }
     
     .category-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
     }
     
     .btn {
-        padding: 10px 20px;
-        font-size: 14px;
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 16px;
+        min-height: 48px;
     }
     
     .page-header {
-        padding: 40px 10px;
+        padding: 50px var(--spacing-md) 40px;
     }
     
     .page-header h2 {
-        font-size: 32px;
+        font-size: clamp(20px, 6vw, 28px);
     }
+    
+    .categories, .featured-products, .latest-posts, .testimonial-preview {
+        padding: var(--spacing-lg) 0 50px;
+    }
+    
+    .product-card, .blog-card, .category-card {
+        margin: 0 auto;
+        max-width: 320px;
+    }
+    
+    .testimonial-card {
+        min-width: 260px;
+    }
+}
+
+
+/* === Product Detail Page Styles === */
+
+/* パンくずリスト */
+.breadcrumbs {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #86868b;
+}
+
+/* 商品詳細レイアウト */
+.product-detail {
+    display: flex;
+    gap: 60px;
+    margin: 60px 0;
+}
+
+/* 商品ギャラリー */
+.product-gallery {
+    width: 50%;
+}
+
+.main-image {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgb(0 0 0 / 12%);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.main-image:hover {
+    transform: scale(1.02);
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 15px;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border-color: var(--primary-color);
+}
+
+/* 商品情報 */
+.product-info {
+    width: 50%;
+}
+
+.product-info h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #1d1d1f;
+    line-height: 1.2;
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #86868b;
+}
+
+.product-stock.in-stock {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.product-stock.out-of-stock {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+
+.product-description {
+    margin-bottom: 30px;
+    line-height: 1.8;
+    color: #1d1d1f;
+}
+
+.product-description p {
+    margin-bottom: 18px;
+}
+
+/* 商品特徴 */
+.product-features {
+    margin-bottom: 35px;
+    background-color: #f5f5f7;
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.product-features h3 {
+    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #1d1d1f;
+}
+
+.product-features ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.product-features li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 25px;
+}
+
+.product-features li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* 商品アクション */
+.product-actions {
+    margin-bottom: 35px;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.quantity-selector label {
+    margin-right: 15px;
+    font-weight: 500;
+    color: #1d1d1f;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+}
+
+.quantity-controls:focus-within {
+    border-color: var(--primary-color);
+}
+
+.quantity-controls button {
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #1d1d1f;
+}
+
+.quantity-controls button:hover {
+    background: #f5f5f7;
+    color: var(--primary-color);
+}
+
+.add-to-cart {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgb(0 0 0 / 15%);
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: #1d1d1f;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: #f5f5f7;
+    border-color: #1d1d1f;
+}
+
+/* 配送情報 */
+.shipping-info {
+    padding: 20px;
+    background-color: #f5f5f7;
+    border-radius: 12px;
+    margin-bottom: 35px;
+    font-size: 14px;
+    color: #515154;
+}
+
+.shipping-info p {
+    margin-bottom: 8px;
+}
+
+/* 商品タブ */
+.product-tabs {
+    margin: 70px 0;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #d2d2d7;
+    margin-bottom: 35px;
+}
+
+.tab-button {
+    padding: 16px 32px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #515154;
+}
+
+.tab-button:hover {
+    color: var(--primary-color);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+    line-height: 1.8;
+    color: #1d1d1f;
+    animation: fade-in 0.5s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.tab-content p {
+    margin-bottom: 18px;
+}
+
+/* レビュー */
+.review-summary {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background-color: #f5f5f7;
+    border-radius: 18px;
+}
+
+.rating {
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 28px;
+    margin-right: 12px;
+}
+
+.rating-average {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+.review {
+    border-bottom: 1px solid #d2d2d7;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    animation: fade-in 0.5s ease-in-out;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.review-stars {
+    color: #ffc107;
+}
+
+.review-author {
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.review-date {
+    color: #86868b;
+    font-size: 14px;
+}
+
+.load-more {
+    margin: 30px auto 0;
+    max-width: 200px;
+    display: block;
+    padding: 14px 24px;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+    text-decoration: none;
+}
+
+.load-more:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* 関連商品 */
+.related-products {
+    margin: 80px 0;
+}
+
+.related-products h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+/* 商品情報セクション */
+.product-information {
+    background-color: #f5f5f7;
+    padding: 80px 0;
+    margin-bottom: 80px;
+}
+
+.product-information h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.info-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.info-column h3 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 22px;
+    color: #1d1d1f;
+}
+
+.info-column p {
+    color: #515154;
+    line-height: 1.8;
+}
+
+/* Product Detail Responsive */
+@media (width <= 992px) {
+    .product-detail {
+        flex-direction: column;
+    }
+    
+    .product-gallery, .product-info {
+        width: 100%;
+    }
+}
+
+@media (width <= 768px) {
+    .tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 12px 20px;
+        flex-grow: 1;
+    }
+}
+
+@media (width <= 576px) {
+    .product-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+/* === Error Handling and Fallback Styles === */
+.error-fallback {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 1px solid #e9ecef;
+}
+
+.error-fallback p {
+    color: #6c757d;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.error-message {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border: 1px solid #ffeaa7;
+    font-size: 14px;
+}
+
+.error-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.error-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.offline-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #dc3545;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 10000;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.offline-indicator.show {
+    transform: translateY(0);
+}
+
+.retry-button {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+    background-color: var(--primary-color);
+    color: white;
 }

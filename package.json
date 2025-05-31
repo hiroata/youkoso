@@ -1,0 +1,48 @@
+{
+  "name": "hola-japon",
+  "version": "1.0.0",
+  "description": "Tienda de productos japoneses en México",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "npm run test:html && npm run test:css && npm run test:js && npm run test:data",
+    "test:html": "npx html-validate *.html products/*.html blog/*.html",
+    "test:css": "npx stylelint 'css/**/*.css'",
+    "test:js": "npx eslint 'js/**/*.js'",
+    "test:data": "node scripts/validate-data.js",
+    "build": "npm run test && npm run minify",
+    "minify": "npm run minify:css && npm run minify:js",
+    "minify:css": "npx clean-css-cli css/style.css -o dist/style.min.css",
+    "minify:js": "npx uglify-js js/*.js -o dist/main.min.js",
+    "serve": "npx serve -s . -l 3000",
+    "dev": "npx live-server --port=3000 --no-browser",
+    "validate": "npm run test:html && npm run test:css && npm run test:js",
+    "check-links": "node scripts/check-links.js",
+    "check-images": "node scripts/check-images.js",
+    "auto-fix": "node scripts/auto-fix.js",
+    "build-prod": "node scripts/build-prod.js"
+  },
+  "devDependencies": {
+    "html-validate": "^8.7.4",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "eslint": "^8.55.0",
+    "clean-css-cli": "^5.6.2",
+    "uglify-js": "^3.17.4",
+    "serve": "^14.2.1",
+    "live-server": "^1.2.2"
+  },
+  "keywords": [
+    "japanese-products",
+    "anime",
+    "manga",
+    "e-commerce",
+    "mexico"
+  ],
+  "author": "Hola Japón",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/hola-japon.git"
+  }
+}

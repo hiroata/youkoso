@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículo del Blog - Hola Japón</title>
+    <meta name="description" content="Lee nuestros artículos sobre cultura japonesa, anime, manga y las últimas novedades del mundo otaku.">
+    <meta name="keywords" content="blog japonés, artículos anime, cultura japonesa, manga noticias">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/performance.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hola Japón">
+    <meta property="og:locale" content="es_MX">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@holajapon">
+    
+    <script src="../js/utilities.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/cart.js" defer></script>
+    <script src="../js/breadcrumb.js" defer></script>
+    <script src="../js/accessibility.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/blog.js" defer></script>
+    <script src="../js/translate.js" defer></script>
+</head>
+<body>
+    <!-- 言語切り替えボタン -->
+    <div class="language-toggle">
+        <button type="button" class="lang-btn active" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+    </div>
+
+    <!-- ヘッダーコンポーネント -->
+    <header data-component="header"></header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <!-- パンくずナビゲーション -->
+        <section class="breadcrumb">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb-list">
+                        <li><a href="../index.html">
+                            <span class="es-text">Inicio</span>
+                            <span class="ja-text">ホーム</span>
+                        </a></li>
+                        <li><a href="index.html">
+                            <span class="es-text">Blog</span>
+                            <span class="ja-text">ブログ</span>
+                        </a></li>
+                        <li class="active" id="current-article-title">
+                            <span class="es-text">Artículo</span>
+                            <span class="ja-text">記事</span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </section>
+
+        <!-- ブログ記事コンテンツ -->
+        <article class="blog-article" id="blog-article-container">
+            <div class="container">
+                <div class="loading-message">
+                    <span class="es-text">Cargando artículo...</span>
+                    <span class="ja-text">記事を読み込み中...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- 関連記事セクション -->
+        <section class="related-articles">
+            <div class="container">
+                <h2>
+                    <span class="es-text">Artículos Relacionados</span>
+                    <span class="ja-text">関連記事</span>
+                </h2>
+                <div class="blog-grid" id="related-articles-container">
+                    <!-- 関連記事がJSで動的に挿入されます -->
+                </div>
+            </div>
+        </section>
+
+        <!-- コメントセクション -->
+        <section class="comments-section">
+            <div class="container">
+                <h2>
+                    <span class="es-text">Comentarios</span>
+                    <span class="ja-text">コメント</span>
+                </h2>
+                
+                <!-- コメントフォーム -->
+                <div class="comment-form">
+                    <h3>
+                        <span class="es-text">Deja un Comentario</span>
+                        <span class="ja-text">コメントを残す</span>
+                    </h3>
+                    <form id="comment-form">
+                        <div class="form-group">
+                            <label for="comment-name">
+                                <span class="es-text">Nombre</span>
+                                <span class="ja-text">お名前</span>
+                            </label>
+                            <input type="text" id="comment-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-email">
+                                <span class="es-text">Email</span>
+                                <span class="ja-text">メールアドレス</span>
+                            </label>
+                            <input type="email" id="comment-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text">
+                                <span class="es-text">Comentario</span>
+                                <span class="ja-text">コメント</span>
+                            </label>
+                            <textarea id="comment-text" name="comment" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">
+                            <span class="es-text">Enviar Comentario</span>
+                            <span class="ja-text">コメントを送信</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 既存のコメント -->
+                <div class="comments-list" id="comments-list">
+                    <!-- コメントがJSで動的に挿入されます -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ニュースレター登録セクション -->
+        <section class="newsletter-signup">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>
+                        <span class="es-text">¡No Te Pierdas Nuestros Artículos!</span>
+                        <span class="ja-text">記事を見逃さないでください！</span>
+                    </h2>
+                    <p>
+                        <span class="es-text">Suscríbete a nuestro newsletter y recibe las últimas noticias sobre cultura japonesa, anime y manga.</span>
+                        <span class="ja-text">ニュースレターに登録して、日本文化、アニメ、漫画の最新ニュースを受け取りましょう。</span>
+                    </p>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="Tu email" required>
+                        <button type="submit" class="btn">
+                            <span class="es-text">Suscribirse</span>
+                            <span class="ja-text">登録する</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッターコンポーネント -->
+    <footer data-component="footer"></footer>
+</body>
+</html>

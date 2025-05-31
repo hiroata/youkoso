@@ -3,22 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Japón - Descubre la cultura japonesa en México</title>
+    <title>Hola Japón - Tienda de Productos Japoneses Auténticos en México</title>
+    <meta name="description" content="Descubre la mejor tienda de productos japoneses en México. Figuras de anime, manga, peluches, videojuegos y más. Envío directo desde Japón con garantía de autenticidad.">
+    <meta name="keywords" content="tienda japonesa México, productos japoneses auténticos, figuras anime, manga español, peluches kawaii, videojuegos japoneses, cultura japonesa">
+    <meta name="author" content="Hola Japón">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://holajapon.mx/">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Hola Japón - Tienda de Productos Japoneses Auténticos en México">
+    <meta property="og:description" content="Descubre la mejor tienda de productos japoneses en México. Figuras de anime, manga, peluches y más con envío directo desde Japón.">
+    <meta property="og:url" content="https://holajapon.mx/">
+    <meta property="og:site_name" content="Hola Japón">
+    <meta property="og:image" content="https://holajapon.mx/assets/images/ui/hero-bg.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:locale:alternate" content="ja_JP">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@holajapon">
+    <meta name="twitter:title" content="Hola Japón - Tienda de Productos Japoneses Auténticos">
+    <meta name="twitter:description" content="Figuras anime, manga, peluches y más productos japoneses auténticos con envío directo desde Japón.">
+    <meta name="twitter:image" content="https://holajapon.mx/assets/images/ui/hero-bg.jpg">
+    
+    <!-- Structured Data for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Hola Japón",
+      "alternateName": "オラ・ハポン",
+      "url": "https://holajapon.mx",
+      "logo": "https://holajapon.mx/assets/images/ui/logo.png",
+      "description": "Tienda especializada en productos japoneses auténticos en México",
+      "foundingDate": "2023",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "MX",
+        "addressLocality": "México"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+52-xxx-xxx-xxxx",
+        "contactType": "customer service",
+        "availableLanguage": ["Spanish", "Japanese"]
+      },
+      "sameAs": [
+        "https://facebook.com/holajapon",
+        "https://instagram.com/holajapon",
+        "https://twitter.com/holajapon"
+      ]
+    }
+    </script>
+    
+    <!-- Structured Data for Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Hola Japón",
+      "url": "https://holajapon.mx",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://holajapon.mx/products/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="js/components.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/app.js" defer></script>
     <script src="js/products.js" defer></script>
     <script src="js/blog.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/search.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/breadcrumb.js" defer></script>
+    <script src="js/accessibility.js" defer></script>
     <script src="js/translate.js" defer></script>
+    <script>
+        // Service Worker登録
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </head>
 <body>
     <!-- 言語切り替えボタン -->
     <div class="language-toggle">
-        <button class="lang-btn active" data-lang="es">ES</button>
-        <button class="lang-btn" data-lang="ja">日本語</button>
+        <button type="button" class="lang-btn active" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
     </div>
 
     <!-- Apple風のデザイン調整 -->

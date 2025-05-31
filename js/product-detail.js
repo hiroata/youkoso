@@ -128,15 +128,15 @@ function displayProductDetail(product) {
     // ページタイトルを更新
     document.title = `${product.name} - Hola Japón`;
     
-    // 商品画像のパス（相対パスの調整）
-    const imagePath = product.image.replace('../', '');
+    // カテゴリーに応じた適切な画像を取得（app.jsの関数を使用）
+    const imagePath = window.getCategoryImageUrl ? window.getCategoryImageUrl(product, '500x500') : `https://picsum.photos/500/500?random=${product.id}`;
     
     // 商品詳細のHTMLを構築
     container.innerHTML = `
         <div class="container">
             <div class="product-detail-inner">
                 <div class="product-detail-image">
-                    <img src="../${imagePath}" alt="${product.name}" loading="lazy">
+                    <img src="${imagePath}" alt="${product.name}" loading="lazy">
                 </div>
                 <div class="product-detail-info">
                     <h1>${product.name}</h1>
@@ -208,7 +208,7 @@ function showMiniCart(product) {
         <div class="mini-cart-items">
             <div class="cart-item">
                 <div class="cart-item-image">
-                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    <img src="${window.getCategoryImageUrl ? window.getCategoryImageUrl(product, '80x80') : `https://picsum.photos/80/80?random=${product.id}`}" alt="${product.name}" loading="lazy">
                 </div>
                 <div class="cart-item-info">
                     <h4>${product.name}</h4>
@@ -678,7 +678,7 @@ function enhanceProductInteractions() {
         
         // 入力値の検証
         quantityInput.addEventListener('change', () => {
-            let value = parseInt(quantityInput.value);
+            const value = parseInt(quantityInput.value);
             if (isNaN(value) || value < 1) {
                 quantityInput.value = 1;
             }

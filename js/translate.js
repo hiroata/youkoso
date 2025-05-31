@@ -342,7 +342,7 @@ function translateTextNodes(element, fromLang, toLang) {
     let node;
     
     // 最初にすべてのテキストノードを収集
-    while (node = walker.nextNode()) {
+    while ((node = walker.nextNode())) {
         const text = node.nodeValue.trim();
         if (text && translations[toLang][text]) {
             nodesToTranslate.push(node);

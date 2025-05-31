@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Hola Japón</title>
+    <meta name="description" content="Ponte en contacto con Hola Japón. Estamos aquí para ayudarte con cualquier pregunta sobre nuestros productos japoneses.">
+    <meta name="keywords" content="contacto, servicio al cliente, ayuda, soporte">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/performance.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="js/utilities.js" defer></script>
+    <script src="js/components.js" defer></script>
+    <script src="js/search.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/contact-enhanced.js" defer></script>
+    <script src="js/breadcrumb.js" defer></script>
+    <script src="js/accessibility.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/translate.js" defer></script>
+</head>
+<body>
+    <!-- 言語切り替えボタン -->
+    <div class="language-toggle">
+        <button type="button" class="lang-btn active" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+    </div>
+
+    <!-- ヘッダーコンポーネント -->
+    <header data-component="header"></header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <!-- ページヘッダー -->
+        <section class="page-header">
+            <div class="container">
+                <h1>
+                    <span class="es-text">Contáctanos</span>
+                    <span class="ja-text">お問い合わせ</span>
+                </h1>
+                <p>
+                    <span class="es-text">Estamos aquí para ayudarte. No dudes en contactarnos para cualquier consulta</span>
+                    <span class="ja-text">お手伝いさせていただきます。ご質問がございましたらお気軽にお問い合わせください</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- フォームセクション -->
+        <section class="contact-form-section">
+            <div class="container">
+                <div class="contact-content">
+                    <!-- お問い合わせフォーム -->
+                    <div class="contact-form-container">
+                        <h2>
+                            <span class="es-text">Envíanos un Mensaje</span>
+                            <span class="ja-text">メッセージを送信</span>
+                        </h2>
+                        <form class="contact-form" id="contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">
+                                        <span class="es-text">Nombre</span>
+                                        <span class="ja-text">名前</span>
+                                    </label>
+                                    <input type="text" id="first-name" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">
+                                        <span class="es-text">Apellido</span>
+                                        <span class="ja-text">苗字</span>
+                                    </label>
+                                    <input type="text" id="last-name" name="lastName" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">
+                                    <span class="es-text">Correo Electrónico</span>
+                                    <span class="ja-text">メールアドレス</span>
+                                </label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">
+                                    <span class="es-text">Teléfono (Opcional)</span>
+                                    <span class="ja-text">電話番号（任意）</span>
+                                </label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">
+                                    <span class="es-text">Asunto</span>
+                                    <span class="ja-text">件名</span>
+                                </label>
+                                <select id="subject" name="subject" required>
+                                    <option value="" data-es="Selecciona un tema" data-ja="テーマを選択">Selecciona un tema</option>
+                                    <option value="producto" data-es="Consulta sobre Producto" data-ja="商品に関するお問い合わせ">Consulta sobre Producto</option>
+                                    <option value="pedido" data-es="Estado de Pedido" data-ja="注文状況">Estado de Pedido</option>
+                                    <option value="devolucion" data-es="Devolución/Cambio" data-ja="返品・交換">Devolución/Cambio</option>
+                                    <option value="sugerencia" data-es="Sugerencia" data-ja="ご提案">Sugerencia</option>
+                                    <option value="otro" data-es="Otro" data-ja="その他">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">
+                                    <span class="es-text">Mensaje</span>
+                                    <span class="ja-text">メッセージ</span>
+                                </label>
+                                <textarea id="message" name="message" rows="6" required></textarea>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="newsletter" name="newsletter">
+                                    <span class="checkmark"></span>
+                                    <span class="es-text">Quiero recibir noticias y ofertas especiales</span>
+                                    <span class="ja-text">ニュースと特別オファーを受け取りたい</span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn submit-btn">
+                                <span class="es-text">Enviar Mensaje</span>
+                                <span class="ja-text">メッセージを送信</span>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- 連絡先情報 -->
+                    <div class="contact-info-container">
+                        <h2>
+                            <span class="es-text">Información de Contacto</span>
+                            <span class="ja-text">連絡先情報</span>
+                        </h2>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-details">
+                                <h3>
+                                    <span class="es-text">Email</span>
+                                    <span class="ja-text">メール</span>
+                                </h3>
+                                <p>info@holajapon.mx</p>
+                                <p>
+                                    <span class="es-text">Respuesta en 24 horas</span>
+                                    <span class="ja-text">24時間以内に返信</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">🕒</div>
+                            <div class="contact-details">
+                                <h3>
+                                    <span class="es-text">Horario de Atención</span>
+                                    <span class="ja-text">営業時間</span>
+                                </h3>
+                                <p>
+                                    <span class="es-text">Lunes a Viernes: 9:00 AM - 6:00 PM</span>
+                                    <span class="ja-text">月曜日〜金曜日: 午前9時〜午後6時</span>
+                                </p>
+                                <p>
+                                    <span class="es-text">Sábados: 10:00 AM - 2:00 PM</span>
+                                    <span class="ja-text">土曜日: 午前10時〜午後2時</span>
+                                </p>
+                                <p class="timezone">GMT-6 (Hora de México)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">💬</div>
+                            <div class="contact-details">
+                                <h3>
+                                    <span class="es-text">Redes Sociales</span>
+                                    <span class="ja-text">ソーシャルメディア</span>
+                                </h3>
+                                <div class="social-links">
+                                    <a href="https://facebook.com/holajapon" target="_blank" rel="noopener">Facebook</a>
+                                    <a href="https://instagram.com/holajapon" target="_blank" rel="noopener">Instagram</a>
+                                    <a href="https://twitter.com/holajapon" target="_blank" rel="noopener">Twitter</a>
+                                </div>
+                                <p>
+                                    <span class="es-text">Síguenos para novedades</span>
+                                    <span class="ja-text">最新情報をフォロー</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">❓</div>
+                            <div class="contact-details">
+                                <h3>
+                                    <span class="es-text">Preguntas Frecuentes</span>
+                                    <span class="ja-text">よくある質問</span>
+                                </h3>
+                                <p>
+                                    <span class="es-text">Antes de contactarnos, revisa nuestras</span>
+                                    <span class="ja-text">お問い合わせ前に</span>
+                                </p>
+                                <a href="#faq" class="faq-link">
+                                    <span class="es-text">Preguntas Frecuentes</span>
+                                    <span class="ja-text">よくある質問をご確認ください</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQセクション -->
+        <section class="quick-faq">
+            <div class="container">
+                <h2>
+                    <span class="es-text">Preguntas Más Comunes</span>
+                    <span class="ja-text">よくある質問</span>
+                </h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>
+                            <span class="es-text">¿Los productos son auténticos?</span>
+                            <span class="ja-text">商品は本物ですか？</span>
+                        </h3>
+                        <p class="es-text">
+                            Sí, todos nuestros productos son importados directamente desde Japón y 
+                            garantizamos su autenticidad al 100%.
+                        </p>
+                        <p class="ja-text">
+                            はい、すべての商品は日本から直接輸入しており、
+                            100%本物であることを保証いたします。
+                        </p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>
+                            <span class="es-text">¿Cuánto tiempo tarda el envío?</span>
+                            <span class="ja-text">配送はどのくらいかかりますか？</span>
+                        </h3>
+                        <p class="es-text">
+                            El tiempo de envío es de 3-7 días hábiles dentro de México. 
+                            Te enviamos un número de seguimiento una vez que se procese tu pedido.
+                        </p>
+                        <p class="ja-text">
+                            メキシコ国内への配送は営業日3〜7日です。
+                            ご注文処理後、追跡番号をお送りいたします。
+                        </p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>
+                            <span class="es-text">¿Puedo devolver un producto?</span>
+                            <span class="ja-text">商品の返品は可能ですか？</span>
+                        </h3>
+                        <p class="es-text">
+                            Aceptamos devoluciones dentro de 30 días desde la recepción, 
+                            siempre que el producto esté en su condición original.
+                        </p>
+                        <p class="ja-text">
+                            商品がオリジナルの状態である限り、
+                            受領から30日以内の返品を承っております。
+                        </p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>
+                            <span class="es-text">¿Qué métodos de pago aceptan?</span>
+                            <span class="ja-text">どの決済方法が利用できますか？</span>
+                        </h3>
+                        <p class="es-text">
+                            Aceptamos tarjetas de crédito/débito, PayPal, OXXO, 
+                            y transferencias bancarias. Todos los pagos son seguros.
+                        </p>
+                        <p class="ja-text">
+                            クレジット/デビットカード、PayPal、OXXO、
+                            銀行振込をご利用いただけます。すべての支払いは安全です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッターコンポーネント -->
+    <footer data-component="footer"></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // フォーム送信の処理
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // フォームデータを取得
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+                    
+                    // バリデーション
+                    if (!validateForm(data)) {
+                        return;
+                    }
+                    
+                    // 送信処理（デモ用）
+                    submitContactForm(data);
+                });
+            }
+            
+            // フォームバリデーション
+            function validateForm(data) {
+                const required = ['firstName', 'lastName', 'email', 'subject', 'message'];
+                const missing = required.filter(field => !data[field] || data[field].trim() === '');
+                
+                if (missing.length > 0) {
+                    const isJapanese = document.body.classList.contains('ja');
+                    const message = isJapanese ? 
+                        '必須項目を入力してください。' : 
+                        'Por favor completa todos los campos requeridos.';
+                    alert(message);
+                    return false;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    const isJapanese = document.body.classList.contains('ja');
+                    const message = isJapanese ? 
+                        '有効なメールアドレスを入力してください。' : 
+                        'Por favor ingresa un email válido.';
+                    alert(message);
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // フォーム送信処理
+            function submitContactForm(data) {
+                const submitBtn = document.querySelector('.submit-btn');
+                const originalText = submitBtn.innerHTML;
+                
+                // 送信中の表示
+                const isJapanese = document.body.classList.contains('ja');
+                submitBtn.innerHTML = isJapanese ? '送信中...' : 'Enviando...';
+                submitBtn.disabled = true;
+                
+                // デモ用の遅延
+                setTimeout(() => {
+                    // 成功メッセージ
+                    const successMessage = isJapanese ? 
+                        `${data.firstName}さん、お問い合わせありがとうございます！24時間以内にご返信いたします。` : 
+                        `¡Gracias ${data.firstName}! Hemos recibido tu mensaje. Te responderemos dentro de 24 horas.`;
+                    
+                    alert(successMessage);
+                    
+                    // フォームをリセット
+                    document.getElementById('contact-form').reset();
+                    
+                    // ボタンを元に戻す
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Google Analyticsイベント（実際のサイトで使用）
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'contact_form_submit', {
+                            'event_category': 'engagement',
+                            'event_label': data.subject
+                        });
+                    }
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Hola Japón</title>
+    <title>Productos Japoneses Auténticos - Figuras, Manga, Peluches | Hola Japón</title>
+    <meta name="description" content="Explora nuestra amplia colección de productos japoneses auténticos: figuras de anime, manga en español, peluches kawaii, videojuegos y más. Envío directo desde Japón.">
+    <meta name="keywords" content="productos japoneses, figuras anime México, manga español, peluches kawaii, videojuegos japoneses, cartas coleccionables, ropa japonesa">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://holajapon.mx/products/">
+    <link rel="manifest" href="../manifest.json">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Productos Japoneses Auténticos - Hola Japón">
+    <meta property="og:description" content="Descubre nuestra colección de productos japoneses: figuras anime, manga, peluches y más con envío directo desde Japón.">
+    <meta property="og:url" content="https://holajapon.mx/products/">
+    <meta property="og:site_name" content="Hola Japón">
+    <meta property="og:image" content="https://holajapon.mx/assets/images/ui/products-header.jpg">
+    
+    <!-- Structured Data for Product Catalog -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Productos Japoneses",
+      "description": "Colección completa de productos japoneses auténticos",
+      "url": "https://holajapon.mx/products/",
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Productos Japoneses",
+        "numberOfItems": "8"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- ヘッダーコンポーネント -->
@@ -113,8 +143,13 @@
     <!-- フッターコンポーネント -->
     <footer data-component="footer"></footer>
 
-    <script src="../js/components.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/products.js"></script>
+    <script src="../js/utilities.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/cart.js" defer></script>
+    <script src="../js/breadcrumb.js" defer></script>
+    <script src="../js/accessibility.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/products.js" defer></script>
 </body>
 </html>

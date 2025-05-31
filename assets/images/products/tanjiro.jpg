@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Tanjiro Figure</title></head>
+<body style="margin:0;padding:0;">
+<img src="tanjiro.svg" 
+     alt="Tanjiro Figure" style="width:100%;height:100%;object-fit:cover;">
+</body>
+</html>
