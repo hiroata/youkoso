@@ -43,19 +43,31 @@ function checkFileExists(filePath, relativeTo) {
     const basePath = path.dirname(relativeTo);
     let fullPath;
     
-    // Remove hash and query parameters
-    const cleanPath = filePath.split('#')[0].split('?')[0];
+    // Split hash and query parameters
+    const [cleanPath, hash] = filePath.split('#');
+    const pathWithoutQuery = cleanPath.split('?')[0];
     
-    if (cleanPath === '' || cleanPath === '/') {
+    // If it's just a hash link (#something), check in the current file
+    if (pathWithoutQuery === '') {
+        if (hash) {
+            const content = fs.readFileSync(relativeTo, 'utf8');
+            // Check if the id exists in the file
+            const idRegex = new RegExp(`id=["']${hash}["']`, 'i');
+            return idRegex.test(content);
+        }
+        return true; // Empty path refers to current file
+    }
+    
+    if (pathWithoutQuery === '/' || pathWithoutQuery === '') {
         fullPath = path.join(basePath, '../index.html');
-    } else if (cleanPath.startsWith('./')) {
-        fullPath = path.join(basePath, cleanPath.substring(2));
-    } else if (cleanPath.startsWith('../')) {
-        fullPath = path.join(basePath, cleanPath);
-    } else if (cleanPath.startsWith('/')) {
-        fullPath = path.join(__dirname, '..', cleanPath.substring(1));
+    } else if (pathWithoutQuery.startsWith('./')) {
+        fullPath = path.join(basePath, pathWithoutQuery.substring(2));
+    } else if (pathWithoutQuery.startsWith('../')) {
+        fullPath = path.join(basePath, pathWithoutQuery);
+    } else if (pathWithoutQuery.startsWith('/')) {
+        fullPath = path.join(__dirname, '..', pathWithoutQuery.substring(1));
     } else {
-        fullPath = path.join(basePath, cleanPath);
+        fullPath = path.join(basePath, pathWithoutQuery);
     }
     
     // If it's a directory, check for index.html
@@ -63,7 +75,19 @@ function checkFileExists(filePath, relativeTo) {
         fullPath = path.join(fullPath, 'index.html');
     }
     
-    return fs.existsSync(fullPath);
+    // Check if file exists
+    if (!fs.existsSync(fullPath)) {
+        return false;
+    }
+    
+    // If there's a hash, check if the id exists in the target file
+    if (hash) {
+        const content = fs.readFileSync(fullPath, 'utf8');
+        const idRegex = new RegExp(`id=["']${hash}["']`, 'i');
+        return idRegex.test(content);
+    }
+    
+    return true;
 }
 
 // Main check
