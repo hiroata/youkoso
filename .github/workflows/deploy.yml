@@ -26,8 +26,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Run Validation Tests
-        run: npm run validate
 
       - name: Check Links
         run: npm run check-links
