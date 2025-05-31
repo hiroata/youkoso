@@ -550,18 +550,6 @@ class AccessibilityManager {
         });
     }
     
-    // スクリーンリーダーにアナウンス
-    announceToScreenReader(message) {
-        const liveRegion = document.getElementById('aria-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-            
-            // メッセージをクリア
-            setTimeout(() => {
-                liveRegion.textContent = '';
-            }, 1000);
-        }
-    }
     
     // モーション削減サポートを設定
     setupReducedMotionSupport() {

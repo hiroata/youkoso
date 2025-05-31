@@ -163,7 +163,7 @@ class BreadcrumbManager {
     generateBreadcrumbItems(segments) {
         const isJapanese = document.body.classList.contains('ja');
         
-        return segments.map((segment, index) => {
+        return segments.map((segment) => {
             const title = typeof segment.title === 'object' ? 
                          segment.title[isJapanese ? 'ja' : 'es'] : 
                          segment.title;

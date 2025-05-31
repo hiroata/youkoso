@@ -352,7 +352,7 @@ function loadFooter(placeholder) {
 /**
  * 商品カテゴリーに応じた画像URLを取得する関数
  */
-function getCategoryImageUrl(product, size = '300x300') {
+function getCategoryImageUrl(product) {
     const categoryImages = {
         'figuras': [
             'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop', // Anime figures

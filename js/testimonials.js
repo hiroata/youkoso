@@ -69,7 +69,7 @@ function loadTestimonialSlider() {
     });
     
     // 基本的なスライダー機能を設定
-    setupSimpleSlider(slider);
+    console.log('Slider setup completed');
 }
 
 // すべてのお客様の声を表示する関数（ページング対応）
@@ -266,12 +266,6 @@ function createTestimonialCard(testimonial) {
     return card;
 }
 
-// 簡易スライダー機能
-function setupSimpleSlider(sliderElement) {
-    // スライダーのセットアップコード
-    // 現在はシンプルに表示するだけ
-    console.log('Slider setup completed');
-}
 
 // お客様の声フォームの送信イベント設定
 function setupTestimonialForm() {
@@ -282,9 +276,6 @@ function setupTestimonialForm() {
         e.preventDefault();
         
         // フォームデータを取得
-        const name = document.getElementById('name').value;
-        const location = document.getElementById('location').value;
-        const comment = document.getElementById('comment').value;
         
         // 実際のアプリケーションではここでAPIにデータを送信
         alert('感謝します！レビューが送信されました。（デモのため、実際には保存されません）');
@@ -344,168 +335,7 @@ async function loadTestimonialsData() {
 }
 
 
-// すべてのお客様の声をロードする関数（統計用）
-function loadAllTestimonialsForStats() {
-    const testimonialsContainer = document.getElementById('testimonials-container');
-    if (!testimonialsContainer) return;
-    
-    // コンテナをクリア
-    testimonialsContainer.innerHTML = '';
-    
-    // 評価で並べ替え（高い順）- 共通ユーティリティ関数を使用
-    const sortedTestimonials = window.utils ? window.utils.sortItems(testimonialsData, 'rating', 'desc') : testimonialsData;
-    
-    // お客様の声カードを追加（components.jsで定義した関数を使用）
-    sortedTestimonials.forEach(testimonial => {
-        testimonialsContainer.innerHTML += window.createTestimonialCardComponent ? window.createTestimonialCardComponent(testimonial) : '';
-    });
-    
-    // 統計情報を更新
-    updateTestimonialStats(sortedTestimonials);
-}
 
-// お客様の声の統計情報を更新する関数
-function updateTestimonialStats(testimonials) {
-    const statsContainer = document.getElementById('testimonial-stats');
-    if (!statsContainer) return;
-    
-    // 総評価数
-    const totalRatings = testimonials.length;
-    
-    // 平均評価
-    const averageRating = testimonials.reduce((sum, item) => sum + item.rating, 0) / totalRatings;
-    
-    // 評価の分布（5段階評価）
-    const ratingDistribution = [0, 0, 0, 0, 0];
-    testimonials.forEach(item => {
-        const ratingIndex = Math.min(Math.max(Math.floor(item.rating) - 1, 0), 4);
-        ratingDistribution[ratingIndex]++;
-    });
-    
-    // 評価分布のパーセンテージ
-    const ratingPercentages = ratingDistribution.map(count => (count / totalRatings) * 100);
-    
-    // HTMLを生成
-    let statsHTML = `
-        <div class="rating-summary">
-            <div class="average-rating">
-                <span class="rating-number">${averageRating.toFixed(1)}</span>
-                <div class="stars">
-                    ${generateStars(averageRating)}
-                </div>
-                <p>${totalRatings} valoraciones</p>
-            </div>
-            <div class="rating-bars">
-    `;
-    
-    // 評価バーを追加
-    for (let i = 5; i >= 1; i--) {
-        const percentage = ratingPercentages[i - 1] || 0;
-        statsHTML += `
-            <div class="rating-bar-row">
-                <span>${i} estrellas</span>
-                <div class="rating-bar">
-                    <div class="rating-bar-fill" style="width: ${percentage}%"></div>
-                </div>
-                <span>${Math.round(percentage)}%</span>
-            </div>
-        `;
-    }
-    
-    statsHTML += `
-            </div>
-        </div>
-    `;
-    
-    // 統計情報を挿入
-    statsContainer.innerHTML = statsHTML;
-}
 
-// 星評価を生成する関数
-function generateStars(rating) {
-    let starsHTML = '';
-    
-    // 整数部分と小数部分を分離
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    
-    // 満星
-    for (let i = 0; i < fullStars; i++) {
-        starsHTML += '<i class="fas fa-star"></i>';
-    }
-    
-    // 半星
-    if (halfStar) {
-        starsHTML += '<i class="fas fa-star-half-alt"></i>';
-    }
-    
-    // 空星
-    for (let i = 0; i < emptyStars; i++) {
-        starsHTML += '<i class="far fa-star"></i>';
-    }
-    
-    return starsHTML;
-}
 
-// お客様の声フォームの初期化関数
-function initTestimonialForm() {
-    const testimonialForm = document.getElementById('testimonial-form');
-    if (!testimonialForm) return;
-    
-    testimonialForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // フォームデータを取得
-        const name = document.getElementById('review-name').value;
-        const location = document.getElementById('review-location').value;
-        const rating = document.querySelector('input[name="rating"]:checked')?.value || 5;
-        const content = document.getElementById('review-content').value;
-        
-        // 入力検証
-        if (!name || !content) {
-            alert('Por favor, complete todos los campos obligatorios');
-            return;
-        }
-        
-        // 成功メッセージを表示（実際にはサーバーに送信する処理を追加）
-        const formContainer = document.querySelector('.testimonial-form .container');
-        formContainer.innerHTML = `
-            <div class="success-message">
-                <h2>¡Gracias por tu comentario!</h2>
-                <p>Tu opinión es muy importante para nosotros y nos ayuda a mejorar.</p>
-            </div>
-        `;
-        
-        // テスト用にコンソールに表示
-        console.log('お客様の声を送信しました:', {
-            name,
-            location,
-            rating: parseInt(rating),
-            content
-        });
-    });
-    
-    // 星評価のイベントリスナー
-    const ratingInputs = document.querySelectorAll('input[name="rating"]');
-    ratingInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            // 選択された評価に対応する星を強調表示
-            const rating = parseInt(this.value);
-            updateRatingStars(rating);
-        });
-    });
-}
 
-// 評価星の表示を更新する関数
-function updateRatingStars(selectedRating) {
-    const ratingStars = document.querySelectorAll('.rating-select label');
-    
-    ratingStars.forEach((star, index) => {
-        if (index < selectedRating) {
-            star.classList.add('active');
-        } else {
-            star.classList.remove('active');
-        }
-    });
-}

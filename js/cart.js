@@ -571,9 +571,7 @@ class ShoppingCart {
         const discountForm = document.querySelector('.discount-form');
         
         if (this.appliedDiscount) {
-            const discount = this.discountCodes[this.appliedDiscount];
             const discountAmount = this.getDiscountAmount();
-            const isJapanese = document.body.classList.contains('ja');
             
             appliedDiscountDiv.style.display = 'flex';
             appliedDiscountDiv.querySelector('.discount-text').textContent = 

@@ -331,7 +331,7 @@ class SearchEngine {
             this.showSearchSuggestions(e.target, suggestionsContainer);
         });
         
-        input.addEventListener('blur', (e) => {
+        input.addEventListener('blur', () => {
             // 遅延してサジェストを非表示（クリックイベントを処理するため）
             setTimeout(() => {
                 this.hideSearchSuggestions(suggestionsContainer);
