@@ -1040,74 +1040,9 @@ class ShoppingCart {
         
         document.head.appendChild(style);
     }
-}
 
-// ページロード時にカートを初期化
-document.addEventListener('DOMContentLoaded', function() {
-    window.shoppingCart = new ShoppingCart();
-    
-    // 商品の「カートに追加」ボタンにイベントリスナーを追加
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.add-to-cart')) {
-            e.preventDefault();
-            
-            // 商品情報を取得（商品詳細ページの場合）
-            const productCard = e.target.closest('.product-card, .product-detail');
-            if (productCard) {
-                const productData = extractProductData(productCard);
-                if (productData) {
-                    window.shoppingCart.addItem(productData);
-                }
-            }
-        }
-    });
-});
-
-// 商品データを抽出する関数
-function extractProductData(element) {
-    try {
-        // 商品IDを取得
-        const productId = element.getAttribute('data-id') || 
-                         window.utils?.getUrlParam('id') || 
-                         'unknown';
-        
-        // 商品名を取得
-        const nameElement = element.querySelector('h1, h3, .product-name');
-        const name = nameElement ? nameElement.textContent.trim() : 'Producto';
-        
-        // 価格を取得
-        const priceElement = element.querySelector('.product-price, .price');
-        let price = 0;
-        if (priceElement) {
-            const priceText = priceElement.textContent.replace(/[^\d.]/g, '');
-            price = parseFloat(priceText) || 0;
-        }
-        
-        // 画像を取得
-        const imageElement = element.querySelector('img');
-        const image = imageElement ? imageElement.src : '';
-        
-        // カテゴリを取得
-        const categoryElement = element.querySelector('.category, .product-category');
-        const category = categoryElement ? categoryElement.textContent.trim() : 'general';
-        
-        return {
-            id: productId,
-            name: name,
-            price: price,
-            image: image,
-            category: category,
-            quantity: 1,
-            addedAt: new Date().toISOString()
-        };
-    } catch (error) {
-        console.error('Error extracting product data:', error);
-        return null;
-    }
-}
-
-// ウィッシュリスト機能の追加
-function addToWishlist(productId) {
+    // ウィッシュリスト機能の追加
+    addToWishlist(productId) {
         const product = this.getProductFromElement(productId);
         if (!product) return false;
 
@@ -1193,128 +1128,21 @@ function addToWishlist(productId) {
         }
     }
 
-    // 高度な通知システム
-    showNotification(message, type = 'info', duration = 3000) {
-        const notification = {
-            id: Date.now(),
-            message,
-            type,
-            duration
-        };
-
-        this.notifications.push(notification);
-        this.displayNotification(notification);
-
-        // 自動削除
-        setTimeout(() => {
-            this.removeNotification(notification.id);
-        }, duration);
+    // 製品要素からデータを取得
+    getProductFromElement(productId) {
+        const element = document.querySelector(`[data-id="${productId}"]`);
+        if (!element) return null;
+        
+        return extractProductData(element);
     }
 
-    displayNotification(notification) {
-        let container = document.querySelector('.notification-container');
-        if (!container) {
-            container = document.createElement('div');
-            container.className = 'notification-container';
-            document.body.appendChild(container);
-        }
-
-        const notificationEl = document.createElement('div');
-        notificationEl.className = `notification notification-${notification.type}`;
-        notificationEl.id = `notification-${notification.id}`;
-        notificationEl.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-message">${notification.message}</span>
-                <button class="notification-close" onclick="window.cart.removeNotification(${notification.id})">×</button>
-            </div>
-        `;
-
-        container.appendChild(notificationEl);
-
-        // アニメーション
-        setTimeout(() => {
-            notificationEl.classList.add('notification-show');
-        }, 10);
-    }
-
-    removeNotification(id) {
-        const notification = document.getElementById(`notification-${id}`);
-        if (notification) {
-            notification.classList.add('notification-hide');
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }
-
-        this.notifications = this.notifications.filter(n => n.id !== id);
-    }
-
-    // カート分析とレコメンデーション
-    getCartAnalytics() {
-        const analytics = {
-            totalItems: this.getItemCount(),
-            totalValue: this.getTotal(),
-            averageItemPrice: this.items.length > 0 ? this.getSubtotal() / this.items.length : 0,
-            categories: {},
-            recommendedProducts: []
-        };
-
-        // カテゴリ分析
-        this.items.forEach(item => {
-            analytics.categories[item.category] = (analytics.categories[item.category] || 0) + item.quantity;
-        });
-
-        return analytics;
-    }
-
-    // カートの復元機能（セッションストレージから）
-    saveCartToSession() {
-        try {
-            sessionStorage.setItem('cart_backup', JSON.stringify({
-                items: this.items,
-                appliedDiscount: this.appliedDiscount,
-                timestamp: new Date().toISOString()
-            }));
-        } catch (e) {
-            console.warn('Could not save cart to session:', e);
-        }
-    }
-
-    restoreCartFromSession() {
-        try {
-            const backup = sessionStorage.getItem('cart_backup');
-            if (backup) {
-                const data = JSON.parse(backup);
-                const backupAge = new Date() - new Date(data.timestamp);
-                
-                // 24時間以内のバックアップのみ復元
-                if (backupAge < 24 * 60 * 60 * 1000) {
-                    this.items = data.items || [];
-                    this.appliedDiscount = data.appliedDiscount;
-                    this.saveCart();
-                    this.updateCartUI();
-                    
-                    const isJapanese = document.body.classList.contains('ja');
-                    const message = isJapanese ? 
-                        'カートが復元されました' : 
-                        'Carrito restaurado';
-                    this.showNotification(message, 'success');
-                    
-                    return true;
-                }
-            }
-        } catch (e) {
-            console.warn('Could not restore cart from session:', e);
-        }
-        return false;
-    }
-
-    // 一括操作
-    clearCart() {
+    // カート復元
+    clearCartConfirm() {
         this.items = [];
         this.appliedDiscount = null;
         this.saveCart();
         this.updateCartUI();
+        this.updateCartBadge();
         
         const isJapanese = document.body.classList.contains('ja');
         const message = isJapanese ? 
@@ -1323,7 +1151,7 @@ function addToWishlist(productId) {
         this.showNotification(message, 'info');
     }
 
-    // カート共有機能
+    // 共有カート機能
     generateShareableCart() {
         const cartData = {
             items: this.items.map(item => ({
@@ -1346,9 +1174,15 @@ function addToWishlist(productId) {
             // 既存のカートをクリア
             this.items = [];
             
-            // 共有されたアイテムを追加
+            // 共有されたアイテムを追加（簡略化）
             cartData.items.forEach(item => {
-                this.addItem(item.id, item.quantity);
+                // 実際の実装では、商品データベースから情報を取得
+                this.items.push({
+                    id: item.id,
+                    quantity: item.quantity,
+                    name: 'Producto compartido',
+                    price: 100
+                });
             });
             
             // 割引コードを適用
@@ -1358,6 +1192,7 @@ function addToWishlist(productId) {
             
             this.saveCart();
             this.updateCartUI();
+            this.updateCartBadge();
             
             const isJapanese = document.body.classList.contains('ja');
             const message = isJapanese ? 
@@ -1371,37 +1206,68 @@ function addToWishlist(productId) {
             return false;
         }
     }
-
-    // 初期化時の処理を更新
-    init() {
-        this.loadCart();
-        this.loadWishlist();
-        this.loadRecentlyViewed();
-        this.createCartUI();
-        this.setupEventListeners();
-        this.updateCartBadge();
-        
-        // URL からの共有カート読み込み
-        const urlParams = new URLSearchParams(window.location.search);
-        const sharedCart = urlParams.get('cart');
-        if (sharedCart) {
-            this.loadSharedCart(sharedCart);
-        }
-        
-        // 定期的なバックアップ
-        setInterval(() => {
-            this.saveCartToSession();
-        }, 60000); // 1分ごと
-    }
 }
 
-// グローバルカートインスタンス
-window.cart = new ShoppingCart();
-
-// DOM読み込み完了時に初期化
-document.addEventListener('DOMContentLoaded', () => {
-    window.cart.init();
+// ページロード時にカートを初期化
+document.addEventListener('DOMContentLoaded', function() {
+    window.shoppingCart = new ShoppingCart();
+    
+    // 商品の「カートに追加」ボタンにイベントリスナーを追加
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.add-to-cart')) {
+            e.preventDefault();
+            
+            // 商品情報を取得（商品詳細ページの場合）
+            const productCard = e.target.closest('.product-card, .product-detail');
+            if (productCard) {
+                const productData = extractProductData(productCard);
+                if (productData) {
+                    window.shoppingCart.addItem(productData);
+                }
+            }
+        }
+    });
 });
 
-// エクスポート
-window.ShoppingCart = ShoppingCart;
+// 商品データを抽出する関数
+function extractProductData(element) {
+    try {
+        // 商品IDを取得
+        const productId = element.getAttribute('data-id') || 
+                         window.utils?.getUrlParam('id') || 
+                         'unknown';
+        
+        // 商品名を取得
+        const nameElement = element.querySelector('h1, h3, .product-name');
+        const name = nameElement ? nameElement.textContent.trim() : 'Producto';
+        
+        // 価格を取得
+        const priceElement = element.querySelector('.product-price, .price');
+        let price = 0;
+        if (priceElement) {
+            const priceText = priceElement.textContent.replace(/[^\d.]/g, '');
+            price = parseFloat(priceText) || 0;
+        }
+        
+        // 画像を取得
+        const imageElement = element.querySelector('img');
+        const image = imageElement ? imageElement.src : '';
+        
+        // カテゴリを取得
+        const categoryElement = element.querySelector('.category, .product-category');
+        const category = categoryElement ? categoryElement.textContent.trim() : 'general';
+        
+        return {
+            id: productId,
+            name: name,
+            price: price,
+            image: image,
+            category: category,
+            quantity: 1,
+            addedAt: new Date().toISOString()
+        };
+    } catch (error) {
+        console.error('Error extracting product data:', error);
+        return null;
+    }
+}

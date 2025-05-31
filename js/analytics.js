@@ -536,11 +536,9 @@ class Analytics {
         });
 
         // 非アクティブ時間の監視
-        let lastActivity = new Date();
         let idleTimer;
 
         const resetIdleTimer = () => {
-            lastActivity = new Date();
             clearTimeout(idleTimer);
             idleTimer = setTimeout(() => {
                 this.trackEvent('user_idle', {

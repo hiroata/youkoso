@@ -545,7 +545,7 @@ class AccessibilityManager {
         });
         
         // フォーム送信通知
-        document.addEventListener('formSubmitted', (e) => {
+        document.addEventListener('formSubmitted', () => {
             this.announceToScreenReader('フォームが正常に送信されました。');
         });
     }
