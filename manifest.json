@@ -4,13 +4,20 @@
   "description": "Descubre la mejor tienda de productos japoneses en México. Figuras de anime, manga, peluches y más con envío directo desde Japón.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5f5f7",
+  "background_color": "#ffffff",
   "theme_color": "#007aff",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "scope": "/",
   "lang": "es-MX",
   "dir": "ltr",
   "categories": ["shopping", "lifestyle", "entertainment"],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "id": "mx.holajapon.app",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "screenshots": [
     {
       "src": "/assets/images/ui/screenshot-mobile.png",

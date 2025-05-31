@@ -1,24 +1,38 @@
-// 完全なカート機能
+// 完全なカート機能 - 強化版
 
 class ShoppingCart {
     constructor() {
         this.items = [];
+        this.savedItems = []; // 後で購入用のアイテム
         this.isOpen = false;
         this.currency = 'MXN';
         this.taxRate = 0.16; // IVA en México
         this.shippingCost = 0;
         this.freeShippingThreshold = 1000;
         this.maxQuantity = 10;
+        this.isLoading = false;
+        this.notifications = [];
         
-        // 割引コード
+        // 割引コード - 強化版
         this.discountCodes = {
-            'WELCOME10': { type: 'percentage', value: 10, minAmount: 500 },
-            'FIRST20': { type: 'percentage', value: 20, minAmount: 800 },
-            'ANIME15': { type: 'percentage', value: 15, minAmount: 600 },
-            'MANGA25': { type: 'fixed', value: 250, minAmount: 1000 }
+            'WELCOME10': { type: 'percentage', value: 10, minAmount: 500, description: 'Bienvenida 10%' },
+            'FIRST20': { type: 'percentage', value: 20, minAmount: 800, description: 'Primera compra 20%' },
+            'ANIME15': { type: 'percentage', value: 15, minAmount: 600, description: 'Anime 15%' },
+            'MANGA25': { type: 'fixed', value: 250, minAmount: 1000, description: 'Manga $250 off' },
+            'NEWUSER': { type: 'percentage', value: 15, minAmount: 300, description: 'Nuevo usuario 15%' },
+            'VIP30': { type: 'percentage', value: 30, minAmount: 1500, description: 'VIP 30%' }
         };
         
         this.appliedDiscount = null;
+        
+        // ウィッシュリスト機能
+        this.wishlist = [];
+        
+        // 最近見た商品
+        this.recentlyViewed = [];
+        
+        // 購入履歴
+        this.purchaseHistory = [];
         
         this.init();
     }
@@ -1082,13 +1096,312 @@ function extractProductData(element) {
             name: name,
             price: price,
             image: image,
-            category: category
+            category: category,
+            quantity: 1,
+            addedAt: new Date().toISOString()
         };
     } catch (error) {
         console.error('Error extracting product data:', error);
         return null;
     }
 }
+
+// ウィッシュリスト機能の追加
+function addToWishlist(productId) {
+        const product = this.getProductFromElement(productId);
+        if (!product) return false;
+
+        // 既に存在するかチェック
+        if (this.wishlist.find(item => item.id === productId)) {
+            const isJapanese = document.body.classList.contains('ja');
+            const message = isJapanese ? 
+                'この商品は既にウィッシュリストに追加されています' : 
+                'Este producto ya está en tu lista de deseos';
+            this.showNotification(message, 'info');
+            return false;
+        }
+
+        this.wishlist.push(product);
+        this.saveWishlist();
+        
+        const isJapanese = document.body.classList.contains('ja');
+        const message = isJapanese ? 
+            'ウィッシュリストに追加されました' : 
+            'Añadido a la lista de deseos';
+        this.showNotification(message, 'success');
+        
+        return true;
+    }
+
+    removeFromWishlist(productId) {
+        this.wishlist = this.wishlist.filter(item => item.id !== productId);
+        this.saveWishlist();
+        
+        const isJapanese = document.body.classList.contains('ja');
+        const message = isJapanese ? 
+            'ウィッシュリストから削除されました' : 
+            'Eliminado de la lista de deseos';
+        this.showNotification(message, 'info');
+    }
+
+    saveWishlist() {
+        try {
+            localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+        } catch (e) {
+            console.warn('Could not save wishlist:', e);
+        }
+    }
+
+    loadWishlist() {
+        try {
+            this.wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+        } catch (e) {
+            this.wishlist = [];
+        }
+    }
+
+    // 最近見た商品の管理
+    addToRecentlyViewed(productId) {
+        const product = this.getProductFromElement(productId);
+        if (!product) return;
+
+        // 既存のアイテムを削除
+        this.recentlyViewed = this.recentlyViewed.filter(item => item.id !== productId);
+        
+        // 先頭に追加
+        this.recentlyViewed.unshift(product);
+        
+        // 最大10件に制限
+        this.recentlyViewed = this.recentlyViewed.slice(0, 10);
+        
+        this.saveRecentlyViewed();
+    }
+
+    saveRecentlyViewed() {
+        try {
+            localStorage.setItem('recently_viewed', JSON.stringify(this.recentlyViewed));
+        } catch (e) {
+            console.warn('Could not save recently viewed:', e);
+        }
+    }
+
+    loadRecentlyViewed() {
+        try {
+            this.recentlyViewed = JSON.parse(localStorage.getItem('recently_viewed') || '[]');
+        } catch (e) {
+            this.recentlyViewed = [];
+        }
+    }
+
+    // 高度な通知システム
+    showNotification(message, type = 'info', duration = 3000) {
+        const notification = {
+            id: Date.now(),
+            message,
+            type,
+            duration
+        };
+
+        this.notifications.push(notification);
+        this.displayNotification(notification);
+
+        // 自動削除
+        setTimeout(() => {
+            this.removeNotification(notification.id);
+        }, duration);
+    }
+
+    displayNotification(notification) {
+        let container = document.querySelector('.notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+
+        const notificationEl = document.createElement('div');
+        notificationEl.className = `notification notification-${notification.type}`;
+        notificationEl.id = `notification-${notification.id}`;
+        notificationEl.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${notification.message}</span>
+                <button class="notification-close" onclick="window.cart.removeNotification(${notification.id})">×</button>
+            </div>
+        `;
+
+        container.appendChild(notificationEl);
+
+        // アニメーション
+        setTimeout(() => {
+            notificationEl.classList.add('notification-show');
+        }, 10);
+    }
+
+    removeNotification(id) {
+        const notification = document.getElementById(`notification-${id}`);
+        if (notification) {
+            notification.classList.add('notification-hide');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+
+        this.notifications = this.notifications.filter(n => n.id !== id);
+    }
+
+    // カート分析とレコメンデーション
+    getCartAnalytics() {
+        const analytics = {
+            totalItems: this.getItemCount(),
+            totalValue: this.getTotal(),
+            averageItemPrice: this.items.length > 0 ? this.getSubtotal() / this.items.length : 0,
+            categories: {},
+            recommendedProducts: []
+        };
+
+        // カテゴリ分析
+        this.items.forEach(item => {
+            analytics.categories[item.category] = (analytics.categories[item.category] || 0) + item.quantity;
+        });
+
+        return analytics;
+    }
+
+    // カートの復元機能（セッションストレージから）
+    saveCartToSession() {
+        try {
+            sessionStorage.setItem('cart_backup', JSON.stringify({
+                items: this.items,
+                appliedDiscount: this.appliedDiscount,
+                timestamp: new Date().toISOString()
+            }));
+        } catch (e) {
+            console.warn('Could not save cart to session:', e);
+        }
+    }
+
+    restoreCartFromSession() {
+        try {
+            const backup = sessionStorage.getItem('cart_backup');
+            if (backup) {
+                const data = JSON.parse(backup);
+                const backupAge = new Date() - new Date(data.timestamp);
+                
+                // 24時間以内のバックアップのみ復元
+                if (backupAge < 24 * 60 * 60 * 1000) {
+                    this.items = data.items || [];
+                    this.appliedDiscount = data.appliedDiscount;
+                    this.saveCart();
+                    this.updateCartUI();
+                    
+                    const isJapanese = document.body.classList.contains('ja');
+                    const message = isJapanese ? 
+                        'カートが復元されました' : 
+                        'Carrito restaurado';
+                    this.showNotification(message, 'success');
+                    
+                    return true;
+                }
+            }
+        } catch (e) {
+            console.warn('Could not restore cart from session:', e);
+        }
+        return false;
+    }
+
+    // 一括操作
+    clearCart() {
+        this.items = [];
+        this.appliedDiscount = null;
+        this.saveCart();
+        this.updateCartUI();
+        
+        const isJapanese = document.body.classList.contains('ja');
+        const message = isJapanese ? 
+            'カートがクリアされました' : 
+            'Carrito vaciado';
+        this.showNotification(message, 'info');
+    }
+
+    // カート共有機能
+    generateShareableCart() {
+        const cartData = {
+            items: this.items.map(item => ({
+                id: item.id,
+                quantity: item.quantity
+            })),
+            discount: this.appliedDiscount
+        };
+
+        const encoded = btoa(JSON.stringify(cartData));
+        const shareUrl = `${window.location.origin}?cart=${encoded}`;
+        
+        return shareUrl;
+    }
+
+    loadSharedCart(encodedCart) {
+        try {
+            const cartData = JSON.parse(atob(encodedCart));
+            
+            // 既存のカートをクリア
+            this.items = [];
+            
+            // 共有されたアイテムを追加
+            cartData.items.forEach(item => {
+                this.addItem(item.id, item.quantity);
+            });
+            
+            // 割引コードを適用
+            if (cartData.discount) {
+                this.appliedDiscount = cartData.discount;
+            }
+            
+            this.saveCart();
+            this.updateCartUI();
+            
+            const isJapanese = document.body.classList.contains('ja');
+            const message = isJapanese ? 
+                '共有カートが読み込まれました' : 
+                'Carrito compartido cargado';
+            this.showNotification(message, 'success');
+            
+            return true;
+        } catch (e) {
+            console.error('Could not load shared cart:', e);
+            return false;
+        }
+    }
+
+    // 初期化時の処理を更新
+    init() {
+        this.loadCart();
+        this.loadWishlist();
+        this.loadRecentlyViewed();
+        this.createCartUI();
+        this.setupEventListeners();
+        this.updateCartBadge();
+        
+        // URL からの共有カート読み込み
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedCart = urlParams.get('cart');
+        if (sharedCart) {
+            this.loadSharedCart(sharedCart);
+        }
+        
+        // 定期的なバックアップ
+        setInterval(() => {
+            this.saveCartToSession();
+        }, 60000); // 1分ごと
+    }
+}
+
+// グローバルカートインスタンス
+window.cart = new ShoppingCart();
+
+// DOM読み込み完了時に初期化
+document.addEventListener('DOMContentLoaded', () => {
+    window.cart.init();
+});
 
 // エクスポート
 window.ShoppingCart = ShoppingCart;

@@ -75,11 +75,46 @@
                             <option value="price-low">Precio: Menor a Mayor</option>
                             <option value="price-high">Precio: Mayor a Menor</option>
                             <option value="name">Nombre</option>
+                            <option value="newest">Más Nuevos</option>
+                            <option value="rating">Mejor Valorados</option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label for="search-products">Buscar:</label>
-                        <input type="text" id="search-products" placeholder="Buscar productos...">
+                        <div class="search-input-container">
+                            <input type="text" id="search-products" placeholder="Buscar productos..." data-search="input">
+                            <button type="button" class="voice-search-btn" data-voice-search aria-label="Búsqueda por voz">
+                                🎤
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtros Avanzados -->
+                    <div class="advanced-filters" id="advanced-filters">
+                        <div class="filter-group" data-filter="price-range">
+                            <!-- Price range filter will be dynamically added here -->
+                        </div>
+                        
+                        <div class="filter-group" data-filter="tags">
+                            <!-- Tag filters will be dynamically added here -->
+                        </div>
+                        
+                        <div class="filter-group" data-filter="stock">
+                            <!-- Stock filter will be dynamically added here -->
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button type="button" class="btn btn-secondary" data-action="clear-filters">
+                                <span class="es-text">Limpiar Filtros</span>
+                                <span class="ja-text">フィルターをクリア</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-info">
+                        <span data-results-count>0</span>
+                        <span class="es-text">productos encontrados</span>
+                        <span class="ja-text">件の商品が見つかりました</span>
                     </div>
                 </div>
             </div>
@@ -146,6 +181,7 @@
     <script src="../js/utilities.js" defer></script>
     <script src="../js/components.js" defer></script>
     <script src="../js/search.js" defer></script>
+    <script src="../js/advanced-search.js" defer></script>
     <script src="../js/cart.js" defer></script>
     <script src="../js/breadcrumb.js" defer></script>
     <script src="../js/accessibility.js" defer></script>

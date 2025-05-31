@@ -1,14 +1,32 @@
-// アクセシビリティ強化機能
+// アクセシビリティ強化機能 - WCAG 2.1 AA準拠
 
 class AccessibilityManager {
     constructor() {
         this.settings = {
-            fontSize: 'normal',
-            contrast: 'normal',
+            fontSize: 'normal', // small, normal, large, xlarge
+            contrast: 'normal', // normal, high, dark_high
             reducedMotion: false,
             screenReader: false,
-            keyboardNavigation: true
+            keyboardNavigation: true,
+            colorBlindness: 'none', // none, protanopia, deuteranopia, tritanopia
+            language: 'auto',
+            announcements: true,
+            focusVisible: true
         };
+        
+        this.focusableElements = [
+            'a[href]',
+            'button:not([disabled])',
+            'input:not([disabled])',
+            'select:not([disabled])',
+            'textarea:not([disabled])',
+            '[tabindex]:not([tabindex="-1"])',
+            '[role="button"]:not([disabled])',
+            '[role="link"]:not([disabled])'
+        ].join(', ');
+        
+        this.isMenuOpen = false;
+        this.lastFocused = null;
         
         this.init();
     }
@@ -861,6 +879,487 @@ class AccessibilityManager {
         `;
         
         document.head.appendChild(style);
+    }
+
+    // 色覚異常対応フィルター
+    applyColorBlindnessFilter() {
+        const existingFilter = document.getElementById('colorblind-filter');
+        if (existingFilter) {
+            existingFilter.remove();
+        }
+
+        if (this.settings.colorBlindness === 'none') return;
+
+        const filters = {
+            protanopia: `
+                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0
+                                                     0.558, 0.442, 0, 0, 0
+                                                     0, 0.242, 0.758, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            `,
+            deuteranopia: `
+                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0
+                                                     0.7, 0.3, 0, 0, 0
+                                                     0, 0.3, 0.7, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            `,
+            tritanopia: `
+                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0
+                                                     0, 0.433, 0.567, 0, 0
+                                                     0, 0.475, 0.525, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            `
+        };
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.id = 'colorblind-filter';
+        svg.style.position = 'absolute';
+        svg.style.width = '0';
+        svg.style.height = '0';
+        svg.innerHTML = `
+            <defs>
+                <filter id="${this.settings.colorBlindness}">
+                    ${filters[this.settings.colorBlindness]}
+                </filter>
+            </defs>
+        `;
+
+        document.body.appendChild(svg);
+        document.documentElement.style.filter = `url(#${this.settings.colorBlindness})`;
+    }
+
+    // 読み上げ機能（Web Speech API使用）
+    speak(text, options = {}) {
+        if (!this.settings.announcements || !('speechSynthesis' in window)) return;
+
+        // 既存の読み上げを停止
+        speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = this.settings.language === 'auto' ? 
+            document.documentElement.lang || 'es-ES' : this.settings.language;
+        utterance.rate = options.rate || 0.9;
+        utterance.pitch = options.pitch || 1;
+        utterance.volume = options.volume || 0.8;
+
+        speechSynthesis.speak(utterance);
+    }
+
+    // ライブリージョン通知
+    announceToScreenReader(message, priority = 'polite') {
+        let liveRegion = document.getElementById('accessibility-live-region');
+        if (!liveRegion) {
+            liveRegion = document.createElement('div');
+            liveRegion.id = 'accessibility-live-region';
+            liveRegion.className = 'sr-only';
+            liveRegion.setAttribute('aria-live', priority);
+            liveRegion.setAttribute('aria-atomic', 'true');
+            document.body.appendChild(liveRegion);
+        }
+
+        // 一時的にメッセージを表示
+        liveRegion.textContent = message;
+        
+        // 読み上げもする
+        this.speak(message);
+
+        // 3秒後にクリア
+        setTimeout(() => {
+            liveRegion.textContent = '';
+        }, 3000);
+    }
+
+    // 高コントラストモード強化
+    enhanceContrast() {
+        const contrastLevels = {
+            normal: '',
+            high: `
+                * { 
+                    text-shadow: none !important;
+                    box-shadow: none !important;
+                }
+                a, button { 
+                    text-decoration: underline !important;
+                    font-weight: bold !important;
+                }
+                .btn {
+                    border: 2px solid !important;
+                    font-weight: bold !important;
+                }
+            `,
+            dark_high: `
+                html { 
+                    filter: invert(1) hue-rotate(180deg) !important;
+                }
+                img, video, iframe, svg, [style*="background-image"] {
+                    filter: invert(1) hue-rotate(180deg) !important;
+                }
+            `
+        };
+
+        let contrastStyle = document.getElementById('contrast-enhancement');
+        if (!contrastStyle) {
+            contrastStyle = document.createElement('style');
+            contrastStyle.id = 'contrast-enhancement';
+            document.head.appendChild(contrastStyle);
+        }
+
+        contrastStyle.textContent = contrastLevels[this.settings.contrast];
+    }
+
+    // キーボードナビゲーション強化
+    enhanceKeyboardNavigation() {
+        // スキップリンクの追加
+        this.addSkipLinks();
+
+        // フォーカストラップの実装
+        this.setupFocusTraps();
+
+        // ランドマークナビゲーション
+        this.setupLandmarkNavigation();
+
+        // カスタムキーボードショートカット
+        this.setupKeyboardShortcuts();
+    }
+
+    addSkipLinks() {
+        if (document.querySelector('.skip-links')) return;
+
+        const skipLinks = document.createElement('div');
+        skipLinks.className = 'skip-links';
+        skipLinks.innerHTML = `
+            <a href="#main-content" class="skip-link">
+                <span class="es-text">Saltar al contenido principal</span>
+                <span class="ja-text">メインコンテンツへスキップ</span>
+            </a>
+            <a href="#navigation" class="skip-link">
+                <span class="es-text">Saltar a la navegación</span>
+                <span class="ja-text">ナビゲーションへスキップ</span>
+            </a>
+            <a href="#footer" class="skip-link">
+                <span class="es-text">Saltar al pie de página</span>
+                <span class="ja-text">フッターへスキップ</span>
+            </a>
+        `;
+
+        document.body.insertBefore(skipLinks, document.body.firstChild);
+
+        // メインコンテンツにIDを追加
+        const main = document.querySelector('main');
+        if (main && !main.id) {
+            main.id = 'main-content';
+        }
+    }
+
+    setupFocusTraps() {
+        // モーダルやドロップダウン内でのフォーカストラップ
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                const modal = document.querySelector('.modal.active, .dropdown.open');
+                if (modal) {
+                    this.trapFocus(e, modal);
+                }
+            }
+        });
+    }
+
+    trapFocus(event, container) {
+        const focusableElements = container.querySelectorAll(this.focusableElements);
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey) {
+            if (document.activeElement === firstElement) {
+                event.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            if (document.activeElement === lastElement) {
+                event.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }
+
+    setupLandmarkNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Alt + Number でランドマークに移動
+            if (e.altKey && !e.ctrlKey && !e.shiftKey) {
+                const landmarks = {
+                    '1': 'header',
+                    '2': 'nav, [role="navigation"]',
+                    '3': 'main, [role="main"]',
+                    '4': 'aside, [role="complementary"]',
+                    '5': 'footer, [role="contentinfo"]'
+                };
+
+                const landmark = landmarks[e.key];
+                if (landmark) {
+                    e.preventDefault();
+                    const element = document.querySelector(landmark);
+                    if (element) {
+                        element.focus();
+                        this.announceToScreenReader(
+                            `Navegando a ${element.tagName.toLowerCase()}`, 
+                            'assertive'
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+    setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // Ctrl + / でアクセシビリティヘルプ
+            if (e.ctrlKey && e.key === '/') {
+                e.preventDefault();
+                this.showAccessibilityHelp();
+            }
+
+            // Alt + A でアクセシビリティメニュー
+            if (e.altKey && e.key === 'a') {
+                e.preventDefault();
+                this.toggleAccessibilityMenu();
+            }
+
+            // Ctrl + + / Ctrl + - でフォントサイズ調整
+            if (e.ctrlKey && (e.key === '+' || e.key === '=')) {
+                e.preventDefault();
+                this.increaseFontSize();
+            }
+            if (e.ctrlKey && e.key === '-') {
+                e.preventDefault();
+                this.decreaseFontSize();
+            }
+        });
+    }
+
+    showAccessibilityHelp() {
+        const helpModal = document.createElement('div');
+        helpModal.className = 'accessibility-help-modal modal active';
+        helpModal.setAttribute('role', 'dialog');
+        helpModal.setAttribute('aria-labelledby', 'help-title');
+        helpModal.innerHTML = `
+            <div class="modal-content">
+                <h2 id="help-title">
+                    <span class="es-text">Ayuda de Accesibilidad</span>
+                    <span class="ja-text">アクセシビリティヘルプ</span>
+                </h2>
+                <div class="help-content">
+                    <section>
+                        <h3>
+                            <span class="es-text">Navegación por Teclado</span>
+                            <span class="ja-text">キーボードナビゲーション</span>
+                        </h3>
+                        <ul>
+                            <li><kbd>Tab</kbd> - Siguiente elemento</li>
+                            <li><kbd>Shift + Tab</kbd> - Elemento anterior</li>
+                            <li><kbd>Enter/Space</kbd> - Activar elemento</li>
+                            <li><kbd>Esc</kbd> - Cerrar modal/menú</li>
+                            <li><kbd>Alt + 1-5</kbd> - Navegar por landmarks</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>
+                            <span class="es-text">Atajos de Accesibilidad</span>
+                            <span class="ja-text">アクセシビリティショートカット</span>
+                        </h3>
+                        <ul>
+                            <li><kbd>Ctrl + /</kbd> - Esta ayuda</li>
+                            <li><kbd>Alt + A</kbd> - Menú de accesibilidad</li>
+                            <li><kbd>Ctrl + +/-</kbd> - Ajustar tamaño de fuente</li>
+                        </ul>
+                    </section>
+                </div>
+                <button class="close-help">
+                    <span class="es-text">Cerrar</span>
+                    <span class="ja-text">閉じる</span>
+                </button>
+            </div>
+        `;
+
+        document.body.appendChild(helpModal);
+        helpModal.querySelector('.close-help').focus();
+
+        helpModal.querySelector('.close-help').addEventListener('click', () => {
+            helpModal.remove();
+        });
+
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                helpModal.remove();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+    }
+
+    // ARIA属性の動的管理
+    updateAriaAttributes() {
+        // フォーム要素のaria-required
+        document.querySelectorAll('input[required], select[required], textarea[required]').forEach(el => {
+            el.setAttribute('aria-required', 'true');
+        });
+
+        // ボタンのaria-pressed状態
+        document.querySelectorAll('button[data-toggle]').forEach(button => {
+            button.addEventListener('click', () => {
+                const isPressed = button.getAttribute('aria-pressed') === 'true';
+                button.setAttribute('aria-pressed', !isPressed);
+            });
+        });
+
+        // 展開可能な要素のaria-expanded
+        document.querySelectorAll('[data-expandable]').forEach(element => {
+            const trigger = element.querySelector('[data-trigger]');
+            const content = element.querySelector('[data-content]');
+            
+            if (trigger && content) {
+                trigger.setAttribute('aria-expanded', 'false');
+                trigger.setAttribute('aria-controls', content.id || 'expandable-content');
+                content.setAttribute('aria-hidden', 'true');
+
+                trigger.addEventListener('click', () => {
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                    trigger.setAttribute('aria-expanded', !isExpanded);
+                    content.setAttribute('aria-hidden', isExpanded);
+                });
+            }
+        });
+    }
+
+    // フォーカス管理の強化
+    enhanceFocusManagement() {
+        // フォーカス可視性の改善
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // フォーカスの自動管理
+        document.addEventListener('DOMContentLoaded', () => {
+            // ページロード時にh1またはメインコンテンツにフォーカス
+            const h1 = document.querySelector('h1');
+            const main = document.querySelector('main');
+            if (h1) {
+                h1.setAttribute('tabindex', '-1');
+                h1.focus();
+            } else if (main) {
+                main.setAttribute('tabindex', '-1');
+                main.focus();
+            }
+        });
+    }
+
+    // パフォーマンス最適化
+    optimizeForScreenReaders() {
+        // 装飾的な要素をスクリーンリーダーから隠す
+        document.querySelectorAll('.decorative, .icon-only, [data-decorative]').forEach(el => {
+            if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) {
+                el.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // 重複するリンクテキストの改善
+        document.querySelectorAll('a').forEach(link => {
+            const text = link.textContent.trim();
+            if (text === 'Read more' || text === 'Click here' || text === 'Ver más') {
+                const context = this.getContextForLink(link);
+                if (context) {
+                    link.setAttribute('aria-label', `${text} - ${context}`);
+                }
+            }
+        });
+    }
+
+    getContextForLink(link) {
+        // 親要素から文脈を取得
+        const parent = link.closest('article, section, .card, .product-card');
+        if (parent) {
+            const heading = parent.querySelector('h1, h2, h3, h4, h5, h6');
+            if (heading) {
+                return heading.textContent.trim();
+            }
+        }
+        return null;
+    }
+
+    // アクセシビリティレポート生成
+    generateAccessibilityReport() {
+        const report = {
+            timestamp: new Date().toISOString(),
+            url: window.location.href,
+            issues: [],
+            suggestions: []
+        };
+
+        // 基本的なチェック
+        this.checkHeadingStructure(report);
+        this.checkImages(report);
+        this.checkForms(report);
+        this.checkLinks(report);
+        this.checkColorContrast(report);
+
+        return report;
+    }
+
+    checkHeadingStructure(report) {
+        const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+        const levels = headings.map(h => parseInt(h.tagName.charAt(1)));
+        
+        if (levels.length === 0) {
+            report.issues.push('No headings found on page');
+        } else if (levels[0] !== 1) {
+            report.issues.push('Page should start with h1');
+        }
+
+        // 見出しレベルのスキップをチェック
+        for (let i = 1; i < levels.length; i++) {
+            if (levels[i] > levels[i-1] + 1) {
+                report.issues.push(`Heading level skip detected: h${levels[i-1]} to h${levels[i]}`);
+            }
+        }
+    }
+
+    checkImages(report) {
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.alt && !img.getAttribute('aria-hidden')) {
+                report.issues.push(`Image missing alt text: ${img.src}`);
+            }
+        });
+    }
+
+    checkForms(report) {
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            if (!field.labels || field.labels.length === 0) {
+                if (!field.getAttribute('aria-label') && !field.getAttribute('aria-labelledby')) {
+                    report.issues.push(`Form field missing label: ${field.name || field.id || field.type}`);
+                }
+            }
+        });
+    }
+
+    checkLinks(report) {
+        document.querySelectorAll('a[href]').forEach(link => {
+            const text = link.textContent.trim();
+            if (!text) {
+                report.issues.push(`Empty link text: ${link.href}`);
+            } else if (text.length < 3) {
+                report.suggestions.push(`Consider more descriptive link text: "${text}"`);
+            }
+        });
+    }
+
+    checkColorContrast(report) {
+        // 簡単なコントラストチェック（より詳細な実装が必要）
+        if (this.settings.contrast === 'normal') {
+            report.suggestions.push('Consider enabling high contrast mode for better readability');
+        }
     }
 }
 

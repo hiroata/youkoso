@@ -23,6 +23,13 @@
     <meta property="og:locale" content="es_MX">
     <meta property="og:locale:alternate" content="ja_JP">
     
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#007aff">
+    <meta name="msapplication-TileColor" content="#007aff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@holajapon">
@@ -60,18 +67,26 @@
     }
     </script>
     
-    <!-- Structured Data for Website -->
+    <!-- Enhanced Structured Data for Website -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Hola Japón",
+      "alternateName": "オラ・ハポン",
       "url": "https://holajapon.mx",
+      "description": "Tienda especializada en productos japoneses auténticos en México",
+      "inLanguage": ["es-MX", "ja-JP"],
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://holajapon.mx/products/?search={search_term_string}",
         "query-input": "required name=search_term_string"
-      }
+      },
+      "sameAs": [
+        "https://facebook.com/holajapon",
+        "https://instagram.com/holajapon",
+        "https://twitter.com/holajapon"
+      ]
     }
     </script>
     
@@ -234,5 +249,9 @@
             <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <!-- ダークモード切り替えボタン -->
+    <button type="button" class="theme-toggle" aria-label="テーマ切り替え" title="ダークモード切り替え">
+        <span class="theme-icon">🌙</span>
+    </button>
 </body>
 </html>
