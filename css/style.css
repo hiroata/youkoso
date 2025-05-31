@@ -116,9 +116,68 @@ a {
     transition: color var(--transition-quick);
 }
 
+footer a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: 17px;
+    line-height: 1.235;
+    letter-spacing: -0.022em;
+    transition: color var(--transition-quick);
+    position: relative;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-small);
+}
+
+.logo a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.breadcrumbs a {
+    color: #515154;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255 255 255 / 10%);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
 /* === Base Element Hovers === */
 a:hover {
     color: var(--primary-color);
+}
+
+footer a:hover {
+    color: var(--primary-color);
+}
+
+nav ul li a:hover {
+    color: var(--accent-blue);
+    background-color: rgb(0 122 255 / 6%);
+}
+
+.breadcrumbs a:hover {
+    color: var(--primary-color);
+}
+
+.social-links a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
 }
 
 button:hover {
@@ -294,11 +353,6 @@ footer li {
     margin-bottom: 10px;
 }
 
-footer a {
-    color: var(--text-tertiary);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
 
 /* === Navigation Lists === */
 nav ul {
@@ -308,6 +362,23 @@ nav ul {
 
 nav ul li {
     margin-left: 25px;
+}
+
+
+
+nav ul li a.active {
+    color: var(--primary-color);
+}
+
+nav ul li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
 }
 
 /* === Specific Selectors (Higher Specificity) === */
@@ -326,74 +397,8 @@ footer .container {
     text-align: center;
 }
 
-.logo a {
-    text-decoration: none;
-    color: var(--text-color);
-}
 
-.breadcrumbs a {
-    color: #515154;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
 
-.social-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: rgb(255 255 255 / 10%);
-    border-radius: 50%;
-    transition: all 0.3s;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-weight: var(--font-weight-regular);
-    font-size: 17px;
-    line-height: 1.235;
-    letter-spacing: -0.022em;
-    transition: color var(--transition-quick);
-    position: relative;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-small);
-}
-
-/* === Hover States for Complex Selectors === */
-footer a:hover {
-    color: var(--primary-color);
-}
-
-.breadcrumbs a:hover {
-    color: var(--primary-color);
-}
-
-.social-links a:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-3px);
-}
-
-nav ul li a:hover {
-    color: var(--accent-blue);
-    background-color: rgb(0 122 255 / 6%);
-}
-
-nav ul li a.active {
-    color: var(--primary-color);
-}
-
-nav ul li a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--primary-color);
-    border-radius: 3px;
-}
 
 /* === Form Controls === */
 .filter-group {
@@ -422,14 +427,6 @@ nav ul li a.active::after {
     min-width: 140px;
 }
 
-.quantity-controls {
-    display: flex;
-    align-items: center;
-    border: 1px solid #d2d2d7;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: border-color 0.3s;
-}
 
 .quantity-controls input {
     width: 60px;
@@ -439,6 +436,34 @@ nav ul li a.active::after {
     font-size: 16px;
     color: #1d1d1f;
 }
+
+.form-group input,
+.form-group textarea,
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: var(--font-system);
+}
+
+.filter-group select:focus, .filter-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgb(0 122 255 / 10%);
+}
+
+
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+}
+
 
 .quantity-controls button {
     width: 44px;
@@ -467,12 +492,6 @@ nav ul li a.active::after {
 }
 
 /* === Form Control Hover/Focus States === */
-.filter-group select:focus, .filter-group input:focus {
-    outline: none;
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 4px rgb(0 122 255 / 10%);
-}
-
 .quantity-controls:focus-within {
     border-color: var(--primary-color);
 }
@@ -805,16 +824,6 @@ nav ul li a.active::after {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea,
-.form-control {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-family: var(--font-system);
 }
 
 .form-group textarea {
