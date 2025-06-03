@@ -1,301 +1,408 @@
-// 商品表示用JavaScript
+// ===== PRODUCTS PAGE JAVASCRIPT =====
 
-// 商品データ（共有データから取得）
-let productData = [];
+// Global variables for products page
+let allProducts = [];
+let filteredProducts = [];
+let currentPage = 1;
+const productsPerPage = 12;
 
-// DOMがロードされた後に実行
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('DOM loaded in products.js');
+// DOM Elements
+const productsElements = {
+    categoryFilter: null,
+    sortFilter: null,
+    searchInput: null,
+    productsGrid: null,
+    resultsCount: null,
+    pagination: null
+};
+
+// Initialize products page
+document.addEventListener('DOMContentLoaded', function() {
+    if (!window.location.pathname.includes('products.html')) return;
     
-    // 商品データを読み込む
-    await loadProductData();
+    console.log('Products page initialized');
     
-    // トップページ用の特集商品表示
-    const featuredProductsContainer = document.getElementById('featured-products-container');
-    if (featuredProductsContainer) {
-        loadFeaturedProducts();
-    }
+    // Initialize DOM elements
+    initializeProductsElements();
     
-    // 商品一覧ページ用の表示
-    const productsContainer = document.getElementById('products-container');
-    if (productsContainer && window.location.pathname.includes('/products/')) {
-        // URLパラメータに基づいてUIを更新
-        updateUIBasedOnParams();
-        
-        // 商品を読み込む
-        loadAllProducts();
-        
-        // フィルターをセットアップ
-        setupFilters();
-    }
+    // Load products data
+    loadProductsData();
+    
+    // Initialize filters and search
+    initializeFilters();
+    
+    // Check URL parameters
+    checkUrlParameters();
 });
 
-// 商品データを読み込む関数
-async function loadProductData() {
+// Initialize DOM elements
+function initializeProductsElements() {
+    productsElements.categoryFilter = document.getElementById('category-filter');
+    productsElements.sortFilter = document.getElementById('sort-filter');
+    productsElements.searchInput = document.getElementById('search-input');
+    productsElements.productsGrid = document.getElementById('products-grid');
+    productsElements.resultsCount = document.getElementById('results-count');
+    productsElements.pagination = document.getElementById('pagination');
+}
+
+// Load products data
+async function loadProductsData() {
     try {
-        // 統一されたDataLoaderを使用
-        productData = await window.utils.dataLoader.loadData('products');
-        return productData;
+        const response = await fetch('data/data.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        allProducts = data.products || [];
+        filteredProducts = [...allProducts];
+        
+        // Display products
+        displayProducts();
+        updateResultsCount();
+        
     } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
+        console.error('Error loading products:', error);
+        showProductsError();
     }
 }
 
-
-// URLパラメータに基づいてUIを更新する関数
-function updateUIBasedOnParams() {
-    // カテゴリパラメータを取得
-    const categoryParam = window.utils.getUrlParam('category');
+// Initialize filters and search
+function initializeFilters() {
+    if (productsElements.categoryFilter) {
+        productsElements.categoryFilter.addEventListener('change', handleFilters);
+    }
     
-    if (categoryParam) {
-        // カテゴリ名を取得
-        const categoryName = getCategoryName(categoryParam);
-        
-        // ヘッダーとタイトルを更新
-        const categoryHeader = document.getElementById('category-header');
-        if (categoryHeader) {
-            categoryHeader.textContent = categoryName;
-        }
-        
-        const productsTitle = document.getElementById('products-title');
-        if (productsTitle) {
-            productsTitle.textContent = `Productos - ${categoryName}`;
-        }
-        
-        // カテゴリセクションを非表示にする
-        const categoriesSection = document.getElementById('categories-section');
-        if (categoriesSection) {
-            categoriesSection.style.display = 'none';
-        }
-        
-        // ドロップダウンの選択を更新
-        const categoryFilter = document.getElementById('category-filter');
-        if (categoryFilter) {
-            categoryFilter.value = categoryParam;
-        }
+    if (productsElements.sortFilter) {
+        productsElements.sortFilter.addEventListener('change', handleFilters);
+    }
+    
+    if (productsElements.searchInput) {
+        let searchTimeout;
+        productsElements.searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(handleFilters, 300);
+        });
     }
 }
 
-// カテゴリ名を取得する関数（siteDataから取得するよう改善）
-function getCategoryName(categorySlug) {
-    // siteDataからカテゴリ情報を取得
-    if (window.siteData && window.siteData.categories) {
-        const category = window.siteData.categories.find(cat => cat.slug === categorySlug);
-        if (category) {
-            return category.name;
-        }
-    }
+// Handle filters change
+function handleFilters() {
+    const category = productsElements.categoryFilter?.value || 'all';
+    const sort = productsElements.sortFilter?.value || 'featured';
+    const search = productsElements.searchInput?.value.toLowerCase().trim() || '';
     
-    // フォールバック
-    const categories = {
-        'figuras': 'Figuras de Anime',
-        'manga': 'Manga',
-        'peluches': 'Peluches',
-        'videojuegos': 'Videojuegos',
-        'ropa': 'Ropa y Accesorios',
-        'cartas': 'Cartas Coleccionables',
-        'comida': 'Comida Japonesa'
-    };
-    
-    return categories[categorySlug] || categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
-}
-
-// 特集商品をロードする関数
-function loadFeaturedProducts() {
-    const featuredProductsContainer = document.getElementById('featured-products-container');
-    if (!featuredProductsContainer) return;
-    
-    // 特集商品をフィルタリング（共通ユーティリティ関数を使用）
-    const featuredProducts = window.utils.filterItems(productData, { featured: true });
-    
-    // 空の場合は、最初の4つを表示
-    const productsToShow = featuredProducts.length > 0 ? featuredProducts : productData.slice(0, 4);
-    
-    // コンテナをクリア
-    featuredProductsContainer.innerHTML = '';
-    
-    // 商品カードを追加（components.jsで定義した関数を使用）
-    const relativePath = window.location.pathname.includes('/products/') ? '../' : '';
-    productsToShow.forEach(product => {
-        featuredProductsContainer.innerHTML += window.createProductCardComponent(product, relativePath);
+    // Filter products
+    filteredProducts = allProducts.filter(product => {
+        // Category filter
+        const matchesCategory = category === 'all' || product.category === category;
+        
+        // Search filter
+        const matchesSearch = search === '' || 
+            product.name.toLowerCase().includes(search) ||
+            product.description.toLowerCase().includes(search) ||
+            (product.tags && product.tags.some(tag => tag.toLowerCase().includes(search)));
+        
+        return matchesCategory && matchesSearch;
     });
+    
+    // Sort products
+    sortProducts(sort);
+    
+    // Reset to first page
+    currentPage = 1;
+    
+    // Update display
+    displayProducts();
+    updateResultsCount();
+    
+    // Update URL without reload
+    updateUrl(category, sort, search);
 }
 
-// すべての商品をロードする関数
-function loadAllProducts() {
-    const productsContainer = document.getElementById('products-container');
-    if (!productsContainer) return;
-    
-    // コンテナをクリア
-    productsContainer.innerHTML = '';
-    
-    // URLからフィルタとソートパラメータを取得
-    const categoryFilter = window.utils.getUrlParam('category');
-    const searchQuery = window.utils.getUrlParam('q');
-    
-    // フィルタリング条件を作成
-    const filters = {};
-    if (categoryFilter) filters.category = categoryFilter;
-    if (searchQuery) filters.search = searchQuery;
-    
-    // 共通ユーティリティ関数を使用してフィルタリング
-    let filteredProducts = window.utils.filterItems(productData, filters);
-    
-    // 並び替えを適用（共通ユーティリティ関数を使用）
-    const sortFilter = document.getElementById('sort-filter');
-    if (sortFilter) {
-        const sortValue = sortFilter.value;
-        
-        switch(sortValue) {
-            case 'price-low':
-                filteredProducts = window.utils.sortItems(filteredProducts, 'price', 'asc');
-                break;
-            case 'price-high':
-                filteredProducts = window.utils.sortItems(filteredProducts, 'price', 'desc');
-                break;
-            case 'name':
-                filteredProducts = window.utils.sortItems(filteredProducts, 'name', 'asc');
-                break;
-            case 'featured':
-            default:
-                // フィーチャード商品を先に表示
-                filteredProducts = filteredProducts.sort((a, b) => {
-                    if (a.featured && !b.featured) return -1;
-                    if (!a.featured && b.featured) return 1;
-                    return 0;
-                });
-                break;
-        }
+// Sort products
+function sortProducts(sortBy) {
+    switch (sortBy) {
+        case 'price-low':
+            filteredProducts.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-high':
+            filteredProducts.sort((a, b) => b.price - a.price);
+            break;
+        case 'name':
+            filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'featured':
+        default:
+            filteredProducts.sort((a, b) => {
+                if (a.featured && !b.featured) return -1;
+                if (!a.featured && b.featured) return 1;
+                return 0;
+            });
+            break;
     }
+}
+
+// Display products
+function displayProducts() {
+    if (!productsElements.productsGrid) return;
     
-    // 商品がない場合
     if (filteredProducts.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products">No se encontraron productos con estos criterios de búsqueda.</div>';
+        showNoProductsMessage();
         return;
     }
     
-    // ページネーションの設定
-    const currentPage = parseInt(window.utils.getUrlParam('page')) || 1;
-    const pageSize = 12;
+    // Calculate pagination
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
     
-    // 表示する商品を取得
-    const paginatedProducts = window.utils.paginateItems(filteredProducts, pageSize, currentPage);
+    // Generate HTML
+    const productsHTML = paginatedProducts.map(product => createProductCard(product)).join('');
+    productsElements.productsGrid.innerHTML = productsHTML;
     
-    // 商品カードを追加（components.jsで定義した関数を使用）
-    const relativePath = '../';
-    paginatedProducts.forEach(product => {
-        productsContainer.innerHTML += window.createProductCardComponent(product, relativePath);
+    // Add event listeners for add to cart buttons
+    const addToCartButtons = productsElements.productsGrid.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            if (window.HolaJapon && window.HolaJapon.addToCart) {
+                window.HolaJapon.addToCart(productId);
+            }
+        });
     });
     
-    // ページネーションを設定
-    setupPagination(filteredProducts.length, pageSize);
+    // Update pagination
+    updatePagination();
+    
+    // Add animation
+    const productCards = productsElements.productsGrid.querySelectorAll('.product-card');
+    productCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.classList.add('animate-in');
+    });
 }
 
-// ページネーションを設定する関数
-function setupPagination(totalItems, pageSize = 12) {
-    const paginationContainer = document.getElementById('pagination-container');
-    if (!paginationContainer) return;
+// Create product card HTML (reuse from main.js with slight modifications)
+function createProductCard(product) {
+    const imageElement = product.image ? 
+        `<img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+         <div class="product-placeholder" style="display: none;">🎌</div>` :
+        `<div class="product-placeholder">🎌</div>`;
     
-    const totalPages = Math.ceil(totalItems / pageSize);
+    const featuredBadge = product.featured ? 
+        `<div class="featured-badge">
+            <span class="es-text">Destacado</span>
+            <span class="ja-text">注目</span>
+         </div>` : '';
     
-    // 現在のページを取得（デフォルトは1）
-    const currentPage = parseInt(window.utils.getUrlParam('page')) || 1;
+    const tagsHTML = product.tags ? 
+        product.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
     
-    // ページネーションコントロールを生成
-    let paginationHTML = '<div class="pagination-controls">';
+    const price = typeof product.price === 'number' ? 
+        `$${product.price.toLocaleString()}` : product.price;
     
-    // 戻るボタン
-    if (currentPage > 1) {
-        paginationHTML += `<button data-page="${currentPage - 1}">Anterior</button>`;
+    return `
+        <div class="product-card">
+            <div class="product-image-container">
+                ${imageElement}
+                ${featuredBadge}
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-description">${product.description}</p>
+                <div class="product-tags">${tagsHTML}</div>
+                <div class="product-footer">
+                    <span class="price">${price}</span>
+                    <button class="add-to-cart" data-product-id="${product.id}">
+                        <span class="es-text">Agregar</span>
+                        <span class="ja-text">追加</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Show no products message
+function showNoProductsMessage() {
+    if (!productsElements.productsGrid) return;
+    
+    productsElements.productsGrid.innerHTML = `
+        <div class="no-products-message">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <h3>
+                <span class="es-text">No se encontraron productos</span>
+                <span class="ja-text">商品が見つかりませんでした</span>
+            </h3>
+            <p>
+                <span class="es-text">Intenta cambiar los filtros o términos de búsqueda</span>
+                <span class="ja-text">フィルターまたは検索条件を変更してください</span>
+            </p>
+        </div>
+    `;
+    
+    // Clear pagination
+    if (productsElements.pagination) {
+        productsElements.pagination.innerHTML = '';
+    }
+}
+
+// Show products error
+function showProductsError() {
+    if (!productsElements.productsGrid) return;
+    
+    productsElements.productsGrid.innerHTML = `
+        <div class="loading-placeholder">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">😅</div>
+            <p>
+                <span class="es-text">Error al cargar productos. Por favor, recarga la página.</span>
+                <span class="ja-text">商品の読み込みエラー。ページを再読み込みしてください。</span>
+            </p>
+        </div>
+    `;
+}
+
+// Update results count
+function updateResultsCount() {
+    if (!productsElements.resultsCount) return;
+    
+    const total = filteredProducts.length;
+    const currentLang = window.HolaJapon ? window.HolaJapon.currentLanguage() : 'es';
+    
+    if (total === 0) {
+        productsElements.resultsCount.innerHTML = `
+            <span class="es-text">0 productos encontrados</span>
+            <span class="ja-text">0件の商品が見つかりました</span>
+        `;
+    } else {
+        const startIndex = (currentPage - 1) * productsPerPage + 1;
+        const endIndex = Math.min(currentPage * productsPerPage, total);
+        
+        productsElements.resultsCount.innerHTML = `
+            <span class="es-text">Mostrando ${startIndex}-${endIndex} de ${total} productos</span>
+            <span class="ja-text">${total}件中 ${startIndex}-${endIndex}件を表示</span>
+        `;
+    }
+}
+
+// Update pagination
+function updatePagination() {
+    if (!productsElements.pagination) return;
+    
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    
+    if (totalPages <= 1) {
+        productsElements.pagination.innerHTML = '';
+        return;
     }
     
-    // ページ番号（表示を5ページまでに制限）
-    const startPage = Math.max(1, currentPage - 2);
-    const endPage = Math.min(totalPages, startPage + 4);
+    let paginationHTML = '';
+    
+    // Previous button
+    if (currentPage > 1) {
+        paginationHTML += `
+            <button class="pagination-btn pagination-prev" data-page="${currentPage - 1}">
+                <i class="fas fa-chevron-left"></i>
+                <span class="es-text">Anterior</span>
+                <span class="ja-text">前へ</span>
+            </button>
+        `;
+    }
+    
+    // Page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
     
     for (let i = startPage; i <= endPage; i++) {
-        const activeClass = i === currentPage ? 'active' : '';
-        paginationHTML += `<button data-page="${i}" class="${activeClass}">${i}</button>`;
+        paginationHTML += `
+            <button class="pagination-btn pagination-number ${i === currentPage ? 'active' : ''}" 
+                    data-page="${i}">
+                ${i}
+            </button>
+        `;
     }
     
-    // 次へボタン
+    // Next button
     if (currentPage < totalPages) {
-        paginationHTML += `<button data-page="${currentPage + 1}">Siguiente</button>`;
+        paginationHTML += `
+            <button class="pagination-btn pagination-next" data-page="${currentPage + 1}">
+                <span class="es-text">Siguiente</span>
+                <span class="ja-text">次へ</span>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
     }
     
-    paginationHTML += '</div>';
+    productsElements.pagination.innerHTML = paginationHTML;
     
-    // ページネーションを挿入
-    paginationContainer.innerHTML = paginationHTML;
-    
-    // ページネーションボタンのイベントリスナーを設定
-    const pageButtons = paginationContainer.querySelectorAll('button');
-    pageButtons.forEach(button => {
+    // Add event listeners
+    const paginationButtons = productsElements.pagination.querySelectorAll('.pagination-btn');
+    paginationButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const page = this.getAttribute('data-page');
-            
-            // URLパラメータを更新して再読み込み
-            const url = new URL(window.location);
-            url.searchParams.set('page', page);
-            window.location.href = url.toString();
+            const page = parseInt(this.dataset.page);
+            if (page && page !== currentPage && page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayProducts();
+                updateResultsCount();
+                
+                // Scroll to top of products section
+                const productsSection = document.querySelector('.products-section');
+                if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         });
     });
 }
 
-// フィルターの設定
-function setupFilters() {
-    const categoryFilter = document.getElementById('category-filter');
-    const sortFilter = document.getElementById('sort-filter');
-    const searchInput = document.getElementById('search-products');
+// Check URL parameters
+function checkUrlParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const search = urlParams.get('search');
     
-    // カテゴリーフィルター
-    if (categoryFilter) {
-        categoryFilter.addEventListener('change', function() {
-            const selectedCategory = this.value;
-            
-            // URLパラメータを更新
-            const url = new URL(window.location);
-            if (selectedCategory) {
-                url.searchParams.set('category', selectedCategory);
-            } else {
-                url.searchParams.delete('category');
-            }
-            window.location.href = url.toString();
-        });
+    if (category && productsElements.categoryFilter) {
+        productsElements.categoryFilter.value = category;
     }
     
-    // ソートフィルター
-    if (sortFilter) {
-        sortFilter.addEventListener('change', function() {
-            // 商品を再ロード
-            loadAllProducts();
-        });
+    if (search && productsElements.searchInput) {
+        productsElements.searchInput.value = search;
     }
     
-    // 検索フィルター
-    if (searchInput) {
-        // Enter キーで検索を実行
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                // URLパラメータを更新
-                const url = new URL(window.location);
-                if (this.value.trim()) {
-                    url.searchParams.set('q', this.value.trim());
-                } else {
-                    url.searchParams.delete('q');
-                }
-                window.location.href = url.toString();
-            }
-        });
-        
-        // テキスト入力でリアルタイム検索
-        searchInput.addEventListener('input', function() {
-            // 遅延してから商品を再ロード
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                loadAllProducts();
-            }, 300);
-        });
+    if (category || search) {
+        handleFilters();
     }
 }
+
+// Update URL without reload
+function updateUrl(category, sort, search) {
+    const url = new URL(window.location);
+    
+    if (category && category !== 'all') {
+        url.searchParams.set('category', category);
+    } else {
+        url.searchParams.delete('category');
+    }
+    
+    if (search) {
+        url.searchParams.set('search', search);
+    } else {
+        url.searchParams.delete('search');
+    }
+    
+    if (sort && sort !== 'featured') {
+        url.searchParams.set('sort', sort);
+    } else {
+        url.searchParams.delete('sort');
+    }
+    
+    window.history.replaceState({}, '', url);
+}
+
+console.log('Products page script loaded successfully');

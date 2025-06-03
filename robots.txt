@@ -1,23 +1,58 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://holajapon.mx/sitemap.xml
+# サイトマップの場所
+Sitemap: https://holajapon.com/sitemap.xml
 
-# Disallow admin and temporary files
-Disallow: /admin/
-Disallow: /tmp/
-Disallow: /*.log$
-Disallow: /generate-placeholders.html
-
-# Allow all main content
-Allow: /index.html
-Allow: /products/
-Allow: /blog/
-Allow: /about.html
-Allow: /contact.html
-Allow: /testimonials.html
-Allow: /assets/
-
-# Crawl delay for politeness
+# クロール頻度の制御
 Crawl-delay: 1
+
+# 重要でないファイルをブロック
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/images/
+Disallow: /*.json$
+
+# 管理者ページ（存在しない場合も念のため）
+Disallow: /admin/
+Disallow: /wp-admin/
+
+# プライベートファイル
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# 検索結果ページ
+Disallow: /search?*
+Disallow: /*?search=*
+
+# セッション・トラッキングパラメータ
+Disallow: /*?sessionid=*
+Disallow: /*?sid=*
+Disallow: /*?utm_*
+
+# 一時的なファイル
+Disallow: /temp/
+Disallow: /tmp/
+Disallow: /*.tmp
+
+# 特定の検索エンジンボット向け設定
+User-agent: Googlebot
+Allow: /css/
+Allow: /js/
+Allow: /assets/images/
+
+User-agent: Bingbot
+Allow: /css/
+Allow: /js/
+Allow: /assets/images/
+
+# SNSクローラー用（Open Graphデータアクセス許可）
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /

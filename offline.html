@@ -3,164 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sin Conexión - Hola Japón</title>
-    <meta name="description" content="Página sin conexión de Hola Japón">
+    <title>Offline - ¡Hola Japón!</title>
     <style>
-        :root {
-            --primary-color: #007aff;
-            --background-white: #fff;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-gray: #f5f5f7;
-            --border-radius-large: 18px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, var(--accent-gray) 0%, var(--background-white) 100%);
-            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: var(--spacing-lg);
-        }
-
-        .offline-container {
-            max-width: 500px;
-            padding: var(--spacing-xl);
-            background: var(--background-white);
-            border-radius: var(--border-radius-large);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .offline-icon {
-            font-size: 4rem;
-            margin-bottom: var(--spacing-lg);
-            color: var(--text-secondary);
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .ja-text {
-            display: none;
-        }
-
-        body.ja .es-text {
-            display: none;
-        }
-
-        body.ja .ja-text {
-            display: block;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .retry-btn {
-            background: var(--primary-color);
             color: white;
-            border: none;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+        
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .offline-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .offline-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .retry-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 1rem;
-            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            margin: 0 10px;
         }
-
-        .retry-btn:hover {
-            background: #0056cc;
-            transform: translateY(-1px);
+        
+        .retry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
-
-        .offline-tips {
-            margin-top: var(--spacing-xl);
-            padding: var(--spacing-lg);
-            background: var(--accent-gray);
-            border-radius: 12px;
+        
+        .features-list {
             text-align: left;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
         }
-
-        .offline-tips h3 {
-            font-size: 1.2rem;
+        
+        .features-list h3 {
             margin-bottom: 1rem;
-            color: var(--text-primary);
+            text-align: center;
         }
-
-        .offline-tips ul {
+        
+        .features-list ul {
             list-style: none;
-            padding: 0;
         }
-
-        .offline-tips li {
+        
+        .features-list li {
             padding: 0.5rem 0;
-            color: var(--text-secondary);
-            position: relative;
             padding-left: 1.5rem;
+            position: relative;
         }
-
-        .offline-tips li::before {
-            content: "•";
-            color: var(--primary-color);
+        
+        .features-list li::before {
+            content: '✓';
             position: absolute;
             left: 0;
+            color: #4ade80;
+            font-weight: bold;
         }
-
-        .language-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .lang-btn {
-            background: var(--background-white);
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
+        
         @media (max-width: 768px) {
             .offline-container {
-                padding: var(--spacing-lg);
-                margin: 1rem;
+                padding: 1rem;
             }
-
-            h1 {
+            
+            .offline-title {
                 font-size: 1.5rem;
             }
-
+            
             .offline-icon {
                 font-size: 3rem;
             }
@@ -168,108 +109,82 @@
     </style>
 </head>
 <body>
-    <!-- 言語切り替えボタン -->
-    <div class="language-toggle">
-        <button type="button" class="lang-btn active" data-lang="es">ES</button>
-        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-
     <div class="offline-container">
-        <div class="offline-icon">📡</div>
-        
-        <h1>
+        <div class="offline-icon">📱</div>
+        <h1 class="offline-title">
             <span class="es-text">Sin Conexión a Internet</span>
-            <span class="ja-text">インターネット接続なし</span>
+            <span class="ja-text" style="display: none;">インターネット接続なし</span>
         </h1>
-        
-        <p>
+        <p class="offline-message">
             <span class="es-text">
-                Parece que no tienes conexión a internet en este momento. 
-                Revisa tu conexión e intenta de nuevo.
+                Parece que no tienes conexión a internet. No te preocupes, 
+                algunas funciones de ¡Hola Japón! están disponibles sin conexión.
             </span>
-            <span class="ja-text">
-                現在インターネット接続がないようです。
-                接続を確認してもう一度お試しください。
+            <span class="ja-text" style="display: none;">
+                インターネット接続がないようです。心配しないでください、
+                ¡Hola Japón!の一部の機能はオフラインでも利用できます。
             </span>
         </p>
         
-        <button type="button" class="retry-btn" onclick="window.location.reload()">
-            <span class="es-text">Intentar de Nuevo</span>
-            <span class="ja-text">再試行</span>
-        </button>
-        
-        <div class="offline-tips">
+        <div class="features-list">
             <h3>
-                <span class="es-text">Mientras tanto, puedes:</span>
-                <span class="ja-text">その間に以下をお試しください：</span>
+                <span class="es-text">Disponible Sin Conexión:</span>
+                <span class="ja-text" style="display: none;">オフラインで利用可能:</span>
             </h3>
             <ul>
-                <li>
-                    <span class="es-text">Verificar tu conexión Wi-Fi o datos móviles</span>
-                    <span class="ja-text">Wi-Fiまたはモバイルデータ接続を確認</span>
-                </li>
-                <li>
-                    <span class="es-text">Revisar si hay problemas con tu proveedor de internet</span>
-                    <span class="ja-text">インターネットプロバイダーの問題を確認</span>
-                </li>
-                <li>
-                    <span class="es-text">Intentar más tarde si el problema persiste</span>
-                    <span class="ja-text">問題が続く場合は後でもう一度お試しください</span>
-                </li>
+                <li class="es-text">Ver productos guardados</li>
+                <li class="es-text">Leer artículos del blog descargados</li>
+                <li class="es-text">Navegar por el catálogo</li>
+                <li class="es-text">Usar la configuración de accesibilidad</li>
+                <li class="ja-text" style="display: none;">保存された商品を見る</li>
+                <li class="ja-text" style="display: none;">ダウンロードされたブログ記事を読む</li>
+                <li class="ja-text" style="display: none;">カタログを閲覧する</li>
+                <li class="ja-text" style="display: none;">アクセシビリティ設定を使用する</li>
             </ul>
         </div>
+        
+        <div>
+            <button class="retry-button" onclick="location.reload()">
+                <span class="es-text">Reintentar Conexión</span>
+                <span class="ja-text" style="display: none;">接続を再試行</span>
+            </button>
+            <button class="retry-button" onclick="goHome()">
+                <span class="es-text">Ir al Inicio</span>
+                <span class="ja-text" style="display: none;">ホームに戻る</span>
+            </button>
+        </div>
     </div>
-
+    
     <script>
-        // 言語切り替え機能
-        document.addEventListener('DOMContentLoaded', function() {
-            const languageToggle = document.querySelector('.language-toggle');
-            const buttons = languageToggle.querySelectorAll('.lang-btn');
-            
-            // 保存された言語設定を復元
-            const savedLanguage = localStorage.getItem('preferred-language') || 'es';
-            switchLanguage(savedLanguage);
-            
-            buttons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const selectedLang = e.target.dataset.lang;
-                    switchLanguage(selectedLang);
-                    localStorage.setItem('preferred-language', selectedLang);
+        // 言語設定を復元
+        const savedLang = localStorage.getItem('preferredLanguage') || 'es';
+        
+        if (savedLang === 'ja') {
+            document.querySelectorAll('.es-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.ja-text').forEach(el => el.style.display = 'inline');
+        }
+        
+        // 接続状態を監視
+        window.addEventListener('online', function() {
+            // オンラインになったら自動的にリロード
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        });
+        
+        function goHome() {
+            window.location.href = '/';
+        }
+        
+        // サービスワーカーとの通信
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(registration) {
+                // サービスワーカーにメッセージを送信
+                registration.active.postMessage({
+                    type: 'OFFLINE_PAGE_LOADED'
                 });
             });
-            
-            function switchLanguage(lang) {
-                document.body.classList.toggle('ja', lang === 'ja');
-                
-                buttons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-            }
-        });
-
-        // 接続状態の監視
-        function checkConnection() {
-            if (navigator.onLine) {
-                // 接続が復旧した場合、ホームページにリダイレクト
-                window.location.href = '/';
-            }
         }
-
-        // 定期的に接続状態をチェック
-        setInterval(checkConnection, 5000);
-
-        // オンライン/オフラインイベントリスナー
-        window.addEventListener('online', function() {
-            window.location.href = '/';
-        });
-
-        // キーボードショートカット (Enter or Space for retry)
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.location.reload();
-            }
-        });
     </script>
 </body>
 </html>

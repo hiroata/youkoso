@@ -5,193 +5,227 @@
       "name": "Figura Demon Slayer - Tanjiro Kamado",
       "category": "figuras",
       "price": 1299,
-      "image": "assets/images/products/tanjiro.jpg",
-      "description": "Figura de colección de Tanjiro Kamado de Demon Slayer (Kimetsu no Yaiba). Alta calidad, 18cm de altura.",
-      "featured": true
+      "image": "assets/images/products/nezuko.jpg",
+      "description": "Figura de alta calidad de Tanjiro Kamado del popular anime Demon Slayer. Perfecta para coleccionistas.",
+      "featured": true,
+      "tags": ["anime", "demon-slayer", "figura"]
     },
     {
       "id": "p002",
-      "name": "Manga My Hero Academia Vol. 1-5",
-      "category": "manga",
-      "price": 850,
-      "image": "assets/images/products/myhero.jpg",
-      "description": "Colección de los primeros 5 volúmenes del manga My Hero Academia en español.",
-      "featured": true
+      "name": "Figura My Hero Academia - All Might",
+      "category": "figuras",
+      "price": 1499,
+      "image": "assets/images/products/allmight.jpg",
+      "description": "Figura del símbolo de la paz All Might de My Hero Academia en su forma musculosa.",
+      "featured": true,
+      "tags": ["anime", "my-hero-academia", "figura"]
     },
     {
       "id": "p003",
-      "name": "Peluche Totoro Grande",
+      "name": "Peluche Pikachu Pokémon",
       "category": "peluches",
-      "price": 599,
-      "image": "assets/images/products/totoro.jpg",
-      "description": "Peluche oficial de Mi Vecino Totoro, 40cm, super suave y de alta calidad.",
-      "featured": true
+      "price": 699,
+      "image": "assets/images/products/pikachu-plush.jpg",
+      "description": "Peluche oficial de Pikachu, el Pokémon más querido.",
+      "featured": true,
+      "tags": ["pokemon", "pikachu", "peluche"]
     },
     {
       "id": "p004",
-      "name": "Nintendo Switch Edición Pokémon",
-      "category": "videojuegos",
-      "price": 7999,
-      "image": "assets/images/products/switch.jpg",
-      "description": "Nintendo Switch edición especial Pokémon. Incluye el juego Pokémon Legends Arceus.",
-      "featured": false
+      "name": "Camiseta Dragon Ball Z",
+      "category": "ropa",
+      "price": 599,
+      "image": "assets/images/products/dbz-shirt.jpg",
+      "description": "Camiseta oficial de Dragon Ball Z con diseño de Goku.",
+      "featured": false,
+      "tags": ["dragon-ball", "camiseta", "ropa"]
     },
     {
       "id": "p005",
-      "name": "Camiseta Dragon Ball Z",
-      "category": "ropa",
-      "price": 449,
-      "image": "assets/images/products/dbz-shirt.jpg",
-      "description": "Camiseta oficial de Dragon Ball Z con diseño de Goku en Super Saiyan. 100% algodón.",
-      "featured": true
+      "name": "Figura Attack on Titan - Levi",
+      "category": "figuras",
+      "price": 1399,
+      "image": "assets/images/products/levi.jpg",
+      "description": "Figura del Capitán Levi de Attack on Titan en pose de combate.",
+      "featured": false,
+      "tags": ["attack-on-titan", "levi", "figura"]
     },
     {
       "id": "p006",
-      "name": "Set de Cartas Pokémon Japonés",
-      "category": "cartas",
-      "price": 899,
-      "image": "assets/images/products/pokemon-cards.jpg",
-      "description": "Set de 50 cartas Pokémon originales en japonés. Incluye cartas raras y holofoil.",
-      "featured": false
+      "name": "Figura Jujutsu Kaisen - Gojo",
+      "category": "figuras",
+      "price": 1599,
+      "image": "assets/images/products/gojo.jpg",
+      "description": "Figura de Satoru Gojo de Jujutsu Kaisen con efectos especiales.",
+      "featured": true,
+      "tags": ["jujutsu-kaisen", "gojo", "figura"]
     },
     {
       "id": "p007",
-      "name": "Figura Sailor Moon",
-      "category": "figuras",
-      "price": 1199,
-      "image": "assets/images/products/sailormoon.jpg",
-      "description": "Figura de colección de Sailor Moon. Edición limitada, 20cm de altura.",
-      "featured": true
+      "name": "Manga One Piece Tomo 1",
+      "category": "manga",
+      "price": 299,
+      "image": "assets/images/products/onepiece-manga.jpg",
+      "description": "Primer tomo del manga One Piece de Eiichiro Oda.",
+      "featured": false,
+      "tags": ["one-piece", "manga", "luffy"]
     },
     {
       "id": "p008",
-      "name": "Manga Death Note Colección Completa",
+      "name": "Figura Demon Slayer - Nezuko",
+      "category": "figuras",
+      "price": 1199,
+      "image": "assets/images/products/nezuko.jpg",
+      "description": "Figura de Nezuko Kamado en su forma demonio de Demon Slayer.",
+      "featured": false,
+      "tags": ["demon-slayer", "nezuko", "figura"]
+    },
+    {
+      "id": "p009",
+      "name": "Peluche Charizard Pokémon",
+      "category": "peluches",
+      "price": 899,
+      "image": "assets/images/products/charizard-plush.jpg",
+      "description": "Peluche de Charizard, el Pokémon dragón tipo fuego.",
+      "featured": false,
+      "tags": ["pokemon", "charizard", "peluche"]
+    },
+    {
+      "id": "p010",
+      "name": "Camiseta Attack on Titan",
+      "category": "ropa",
+      "price": 649,
+      "image": "assets/images/products/aot-shirt.jpg",
+      "description": "Camiseta con el emblema de las Alas de la Libertad de Attack on Titan.",
+      "featured": false,
+      "tags": ["attack-on-titan", "camiseta", "ropa"]
+    },
+    {
+      "id": "p011",
+      "name": "Figura Dragon Ball - Goku Ultra Instinct",
+      "category": "figuras",
+      "price": 1799,
+      "image": "assets/images/products/goku-ui.jpg",
+      "description": "Figura de Goku en su forma Ultra Instinto con efectos luminosos.",
+      "featured": true,
+      "tags": ["dragon-ball", "goku", "figura"]
+    },
+    {
+      "id": "p012",
+      "name": "Manga Jujutsu Kaisen Tomo 1",
       "category": "manga",
+      "price": 299,
+      "image": "assets/images/products/jjk-manga.jpg",
+      "description": "Primer tomo del manga Jujutsu Kaisen de Gege Akutami.",
+      "featured": false,
+      "tags": ["jujutsu-kaisen", "manga", "yuji"]
+    },
+    {
+      "id": "p013",
+      "name": "Figura My Hero Academia - Bakugo",
+      "category": "figuras",
+      "price": 1399,
+      "image": "assets/images/products/bakugo.jpg",
+      "description": "Figura de Katsuki Bakugo con efectos de explosión de My Hero Academia.",
+      "featured": false,
+      "tags": ["my-hero-academia", "bakugo", "figura"]
+    },
+    {
+      "id": "p014",
+      "name": "Camiseta Jujutsu Kaisen",
+      "category": "ropa",
+      "price": 599,
+      "image": "assets/images/products/jjk-shirt.jpg",
+      "description": "Camiseta oficial de Jujutsu Kaisen con diseño de Yuji Itadori.",
+      "featured": false,
+      "tags": ["jujutsu-kaisen", "camiseta", "ropa"]
+    },
+    {
+      "id": "p015",
+      "name": "Figura Demon Slayer - Inosuke",
+      "category": "figuras",
+      "price": 1299,
+      "image": "assets/images/products/inosuke.jpg",
+      "description": "Figura de Inosuke Hashibira con sus espadas serradas de Demon Slayer.",
+      "featured": false,
+      "tags": ["demon-slayer", "inosuke", "figura"]
+    },
+    {
+      "id": "p016",
+      "name": "Peluche Eevee Pokémon",
+      "category": "peluches",
+      "price": 799,
+      "image": "assets/images/products/eevee-plush.jpg",
+      "description": "Peluche de Eevee, el Pokémon evolución más adorable.",
+      "featured": false,
+      "tags": ["pokemon", "eevee", "peluche"]
+    },
+    {
+      "id": "p017",
+      "name": "Figura Fullmetal Alchemist - Edward Elric",
+      "category": "figuras",
       "price": 1499,
-      "image": "assets/images/products/deathnote.jpg",
-      "description": "Colección completa del manga Death Note en español. Edición Black Edition.",
-      "featured": false
-    }
-  ],
-  
-  "posts": [
-    {
-      "id": "b001",
-      "title": "Guía para principiantes: Anime",
-      "author": "María López",
-      "date": "2025-03-15",
-      "category": "anime",
-      "image": "../assets/images/blog/anime-guide.jpg",
-      "excerpt": "Todo lo que necesitas saber para iniciarte en el mundo del anime japonés.",
-      "content": "<p>El anime japonés es un universo fascinante con una enorme variedad de géneros y estilos. Si estás empezando en este mundo, puede ser abrumador decidir por dónde comenzar.</p><p>En esta guía, te recomendaremos algunos animes clásicos y modernos que son perfectos para principiantes, explicaremos los diferentes géneros y daremos consejos para disfrutar al máximo de esta forma de arte.</p><h3>Animes recomendados para principiantes:</h3><ul><li>Death Note - Un thriller psicológico que atrapa desde el primer episodio</li><li>My Hero Academia - Una historia de superhéroes con personajes carismáticos</li><li>Studio Ghibli - Cualquier película de este estudio es perfecta para iniciarse</li></ul>"
+      "image": "assets/images/products/edward-elric.jpg",
+      "description": "Figura del Alquimista Fullmetal Edward Elric con brazo automail.",
+      "featured": false,
+      "tags": ["fullmetal-alchemist", "edward", "figura"]
     },
     {
-      "id": "b002",
-      "title": "Los 5 mejores mangas de 2025",
-      "author": "Carlos Rodríguez",
-      "date": "2025-04-02",
+      "id": "p018",
+      "name": "Camiseta Fullmetal Alchemist",
+      "category": "ropa",
+      "price": 649,
+      "image": "assets/images/products/fma-shirt.jpg",
+      "description": "Camiseta con el símbolo de la alquimia de Fullmetal Alchemist.",
+      "featured": false,
+      "tags": ["fullmetal-alchemist", "camiseta", "ropa"]
+    },
+    {
+      "id": "p019",
+      "name": "Manga Attack on Titan Completa",
       "category": "manga",
-      "image": "../assets/images/blog/top-manga.jpg",
-      "excerpt": "Descubre los mangas que están causando sensación este año en Japón y el mundo.",
-      "content": "<p>El 2025 ha sido un año excepcional para la industria del manga, con nuevas series sorprendentes y continuaciones de obras maestras. Aquí te presentamos los 5 títulos que han destacado por encima del resto:</p><h3>1. Kaiju No. 8</h3><p>Una propuesta fresca que mezcla acción y monstruos con una narrativa madura.</p><h3>2. Spy x Family</h3><p>Continúa su éxito con nuevos volúmenes que mezclan comedia, espionaje y valores familiares.</p><h3>3. Sakamoto Days</h3><p>La historia del asesino retirado sigue sorprendiendo con su equilibrio entre humor y acción.</p><h3>4. Tokyo Revengers</h3><p>Su arco final está cumpliendo todas las expectativas de los fans.</p><h3>5. Blue Box</h3><p>Este manga deportivo y romántico está conquistando corazones en todo el mundo.</p>"
+      "price": 2999,
+      "image": "assets/images/products/aot-complete.jpg",
+      "description": "Colección completa del manga Attack on Titan de Hajime Isayama.",
+      "featured": true,
+      "tags": ["attack-on-titan", "manga", "coleccion"]
     },
     {
-      "id": "b003",
-      "title": "Cultura kawaii: Origen y significado",
-      "author": "Laura Martínez",
-      "date": "2025-04-20",
-      "category": "cultura",
-      "image": "../assets/images/blog/kawaii.jpg",
-      "excerpt": "Exploramos la fascinante cultura kawaii de Japón y cómo se ha extendido por todo el mundo.",
-      "content": "<p>La cultura kawaii es uno de los aspectos más reconocibles de la cultura popular japonesa moderna. La palabra 'kawaii' se traduce aproximadamente como 'lindo' o 'adorable', pero su significado e impacto van mucho más allá.</p><p>Originada en Japón durante los años 70, la estética kawaii ha evolucionado desde una simple tendencia de escritura entre colegialas hasta convertirse en un fenómeno cultural global que abarca moda, arte, diseño, gastronomía y mucho más.</p><h3>Orígenes de kawaii</h3><p>El término comenzó a ganar popularidad cuando las estudiantes japonesas empezaron a utilizar una caligrafía más redondeada y juguetona, a menudo adornada con pequeños corazones, estrellas o caras sonrientes.</p><h3>Expansión global</h3><p>Personajes como Hello Kitty, Pikachu y Totoro han sido embajadores de esta estética en todo el mundo, contribuyendo a su adopción global.</p><h3>Más que una apariencia</h3><p>Para muchos, lo kawaii representa una forma de escapismo y una celebración de la inocencia y la alegría en un mundo a menudo estresante y complicado.</p>"
+      "id": "p020",
+      "name": "Figura One Piece - Luffy Gear 4",
+      "category": "figuras",
+      "price": 1699,
+      "image": "assets/images/products/luffy-gear4.jpg",
+      "description": "Figura de Monkey D. Luffy en su forma Gear 4 de One Piece.",
+      "featured": true,
+      "tags": ["one-piece", "luffy", "figura"]
     }
   ],
-  
-  "testimonials": [
-    {
-      "id": "t001",
-      "name": "Juan Pérez",
-      "location": "Ciudad de México",
-      "avatar": "assets/images/ui/avatars/avatar1.jpg",
-      "content": "Increíble tienda con productos auténticos japoneses. Compré unas figuras de Demon Slayer y la calidad es excelente. El envío fue rápido y el producto venía muy bien protegido. ¡Volveré a comprar pronto!",
-      "rating": 5
-    },
-    {
-      "id": "t002",
-      "name": "Ana García",
-      "location": "Monterrey",
-      "avatar": "assets/images/ui/avatars/avatar2.jpg",
-      "content": "Por fin encontré una tienda donde puedo comprar manga japonés original. Los precios son justos y la atención al cliente es excelente. Tuve un problema con un pedido y lo solucionaron muy rápido.",
-      "rating": 4
-    },
-    {
-      "id": "t003",
-      "name": "Miguel Sánchez",
-      "location": "Guadalajara",
-      "avatar": "assets/images/ui/avatars/avatar3.jpg",
-      "content": "Compré varias camisetas de anime y llegaron en perfectas condiciones. La calidad del material es muy buena y los diseños son fieles a las series. El único detalle es que el envío tardó un poco más de lo esperado, pero valió la pena la espera.",
-      "rating": 4
-    },
-    {
-      "id": "t004",
-      "name": "Carmen Rodríguez",
-      "location": "Puebla",
-      "avatar": "assets/images/ui/avatars/avatar4.jpg",
-      "content": "Los peluches de Totoro que compré son absolutamente adorables y auténticos. Mi hija está encantada con ellos. El proceso de compra fue muy sencillo y el servicio al cliente respondió todas mis dudas amablemente.",
-      "rating": 5
-    },
-    {
-      "id": "t005",
-      "name": "Roberto Martínez",
-      "location": "Querétaro",
-      "avatar": "assets/images/ui/avatars/avatar5.jpg",
-      "content": "He comprado varias veces en Hola Japón y siempre quedo satisfecho. Los productos son originales y llegan en perfectas condiciones. Además, siempre incluyen algún detalle extra como stickers o postales, lo cual es un bonito gesto.",
-      "rating": 5
-    }
-  ],
-  
   "categories": [
     {
-      "id": "c001",
-      "slug": "figuras",
-      "name": "Figuras de Anime",
-      "nameJa": "アニメフィギュア",
-      "icon": "category-figures.jpg"
+      "id": "figuras",
+      "name": "Figuras",
+      "description": "Figuras de acción y coleccionables de anime"
     },
     {
-      "id": "c002",
-      "slug": "manga",
-      "name": "Manga",
-      "nameJa": "漫画",
-      "icon": "category-manga.jpg"
-    },
-    {
-      "id": "c003",
-      "slug": "videojuegos",
-      "name": "Videojuegos",
-      "nameJa": "ビデオゲーム",
-      "icon": "category-games.jpg"
-    },
-    {
-      "id": "c004",
-      "slug": "ropa",
-      "name": "Ropa y Accesorios",
-      "nameJa": "衣類とアクセサリー",
-      "icon": "category-clothing.jpg"
-    },
-    {
-      "id": "c005",
-      "slug": "peluches",
+      "id": "peluches",
       "name": "Peluches",
-      "nameJa": "ぬいぐるみ",
-      "icon": "category-plush.jpg"
+      "description": "Peluches adorables de personajes de anime y videojuegos"
     },
     {
-      "id": "c006",
-      "slug": "cartas",
-      "name": "Cartas Coleccionables",
-      "nameJa": "コレクションカード",
-      "icon": "category-cards.jpg"
+      "id": "ropa",
+      "name": "Ropa",
+      "description": "Camisetas y ropa con diseños de anime"
+    },
+    {
+      "id": "manga",
+      "name": "Manga",
+      "description": "Mangas originales japoneses"
+    },
+    {
+      "id": "videojuegos",
+      "name": "Videojuegos",
+      "description": "Consolas y videojuegos japoneses"
     }
   ]
 }

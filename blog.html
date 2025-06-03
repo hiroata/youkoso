@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - ¡Hola Japón!</title>
+    <meta name="description" content="Descubre la cultura japonesa a través de nuestros artículos sobre anime, manga, tradiciones y más.">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    <style>
+        /* Google-inspired clean design */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Product Sans', 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .blog-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e8eaed;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: #5f6368;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #1a73e8;
+        }
+        
+        /* Hero Section */
+        .blog-hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .blog-hero h1 {
+            font-size: 48px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: #5f6368;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        /* Search Section */
+        .blog-search {
+            background: #ffffff;
+            padding: 40px 0;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            height: 48px;
+            padding: 0 50px 0 20px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+        
+        .search-box:hover {
+            border-color: #dadce0;
+            box-shadow: 0 1px 6px rgba(32,33,36,.1);
+        }
+        
+        .search-box:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 1px 6px rgba(32,33,36,.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa0a6;
+            cursor: pointer;
+        }
+        
+        /* Filters */
+        .blog-filters {
+            background: #ffffff;
+            padding: 20px 0;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-chip {
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 20px;
+            background: #ffffff;
+            color: #3c4043;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip:hover {
+            background: #f8f9fa;
+            border-color: #dadce0;
+        }
+        
+        .filter-chip.active {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+            background: #ffffff;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+        }
+        
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .blog-card {
+            background: #ffffff;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .blog-card:hover {
+            box-shadow: 0 1px 6px rgba(32,33,36,.1);
+            border-color: #dadce0;
+        }
+        
+        .blog-card-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .blog-card-image a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+        
+        .blog-card-image a:hover img {
+            transform: scale(1.05);
+        }
+        
+        .blog-card-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(26, 115, 232, 0.9);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .read-time {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .blog-card-content {
+            padding: 20px;
+        }
+        
+        .blog-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #5f6368;
+            font-size: 14px;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1a73e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .blog-card-title {
+            margin: 0 0 12px 0;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        .blog-card-title a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        
+        .blog-card-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .blog-card-excerpt {
+            color: #5f6368;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        
+        .blog-card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            color: #5f6368;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-decoration: none;
+        }
+        
+        .tag:hover {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        
+        .blog-card-link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .blog-card-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+        
+        .sidebar-widget {
+            background: #ffffff;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .widget-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            margin-bottom: 8px;
+        }
+        
+        .category-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            color: #5f6368;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+        
+        .category-list a:hover {
+            background: #f8f9fa;
+            color: #1a73e8;
+        }
+        
+        .category-count {
+            background: #e8eaed;
+            color: #5f6368;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        
+        .popular-post {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+            margin-bottom: 12px;
+        }
+        
+        .popular-post:hover {
+            background: #f8f9fa;
+        }
+        
+        .popular-post-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .popular-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .popular-post-content h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        
+        .popular-post-content a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        
+        .popular-post-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .popular-post-date {
+            color: #5f6368;
+            font-size: 12px;
+        }
+        
+        /* Newsletter */
+        .newsletter-widget {
+            background: #f8f9fa;
+            border: 1px solid #e8eaed;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .newsletter-input {
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .newsletter-input:focus {
+            border-color: #1a73e8;
+        }
+        
+        .newsletter-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background: #1557b0;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+        
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            background: #ffffff;
+            color: #5f6368;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-btn:hover {
+            background: #f8f9fa;
+            border-color: #dadce0;
+        }
+        
+        .pagination-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .blog-hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .filter-chips {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="blog-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">¡Hola Japón!</a>
+                <nav class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="about.html">Acerca de</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="products.html">Productos</a>
+                    <a href="contact.html">Contacto</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="blog-hero">
+            <div class="container">
+                <h1>Blog de Cultura Japonesa</h1>
+                <p class="hero-subtitle">Descubre el fascinante mundo de Japón: anime, manga, tradiciones y cultura pop</p>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="blog-search">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Buscar artículos..." id="blogSearch">
+                    <span class="material-icons search-icon">search</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="blog-filters">
+            <div class="container">
+                <div class="filter-chips">
+                    <a href="#" class="filter-chip active" data-category="all">Todos</a>
+                    <a href="#" class="filter-chip" data-category="anime">Anime</a>
+                    <a href="#" class="filter-chip" data-category="manga">Manga</a>
+                    <a href="#" class="filter-chip" data-category="cultura">Cultura</a>
+                    <a href="#" class="filter-chip" data-category="gaming">Gaming</a>
+                    <a href="#" class="filter-chip" data-category="gastronomia">Gastronomía</a>
+                    <a href="#" class="filter-chip" data-category="tradiciones">Tradiciones</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <section class="main-content">
+            <div class="container">
+                <div class="content-grid">
+                    <!-- Blog Grid -->
+                    <div class="blog-content">
+                        <div class="blog-grid" id="blogGrid">
+                            <!-- Article 1 -->
+                            <article class="blog-card" data-category="anime">
+                                <div class="blog-card-image">
+                                    <a href="blog1.html">
+                                        <img src="assets/images/blog/anime-guide.jpg" alt="Guía de Anime" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Anime</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 8 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">MR</div>
+                                            <span>María Rodríguez</span>
+                                        </div>
+                                        <span class="blog-card-date">15 Mayo 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog1.html">Guía Completa para Principiantes en el Anime</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Descubre el fascinante mundo del anime con nuestra guía completa. Desde los géneros más populares hasta las series imprescindibles.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">principiantes</a>
+                                        <a href="#" class="tag">anime</a>
+                                        <a href="#" class="tag">guía</a>
+                                    </div>
+                                    <a href="blog1.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+
+                            <!-- Article 2 -->
+                            <article class="blog-card" data-category="cultura">
+                                <div class="blog-card-image">
+                                    <a href="blog2.html">
+                                        <img src="assets/images/blog/japanese-culture.jpg" alt="Cultura Japonesa" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Cultura</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 12 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">KT</div>
+                                            <span>Kenji Tanaka</span>
+                                        </div>
+                                        <span class="blog-card-date">10 Mayo 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog2.html">Tradiciones Japonesas Milenarias</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Explora las tradiciones más fascinantes de Japón que han sobrevivido siglos. Desde la ceremonia del té hasta los rituales.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">tradiciones</a>
+                                        <a href="#" class="tag">ceremonias</a>
+                                        <a href="#" class="tag">cultura</a>
+                                    </div>
+                                    <a href="blog2.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+
+                            <!-- Article 3 -->
+                            <article class="blog-card" data-category="manga">
+                                <div class="blog-card-image">
+                                    <a href="blog3.html">
+                                        <img src="assets/images/blog/manga.jpg" alt="Manga" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Manga</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 6 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">AS</div>
+                                            <span>Ana Sato</span>
+                                        </div>
+                                        <span class="blog-card-date">5 Mayo 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog3.html">Los 10 Mejores Mangas para Comenzar</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Una selección cuidadosamente curada de los mejores mangas para principiantes. Historias cautivadoras desde la primera página.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">manga</a>
+                                        <a href="#" class="tag">colección</a>
+                                        <a href="#" class="tag">reseñas</a>
+                                    </div>
+                                    <a href="blog3.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+
+                            <!-- Article 4 -->
+                            <article class="blog-card" data-category="gastronomia">
+                                <div class="blog-card-image">
+                                    <a href="blog4.html">
+                                        <img src="assets/images/blog/ramen.jpg" alt="Ramen Japonés" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Gastronomía</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 10 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">HN</div>
+                                            <span>Hiroshi Nakamura</span>
+                                        </div>
+                                        <span class="blog-card-date">1 Mayo 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog4.html">El Arte del Ramen: Una Filosofía</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Descubre la historia y tradición detrás del ramen japonés. Desde sus humildes orígenes hasta convertirse en símbolo gastronómico mundial.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">ramen</a>
+                                        <a href="#" class="tag">gastronomía</a>
+                                        <a href="#" class="tag">tradición</a>
+                                    </div>
+                                    <a href="blog4.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+
+                            <!-- Article 5 -->
+                            <article class="blog-card" data-category="gaming">
+                                <div class="blog-card-image">
+                                    <a href="blog5.html">
+                                        <img src="assets/images/blog/japanese-games.jpg" alt="Videojuegos Japoneses" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Gaming</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 15 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">YM</div>
+                                            <span>Yuki Matsumoto</span>
+                                        </div>
+                                        <span class="blog-card-date">28 Abril 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog5.html">La Revolución de los Videojuegos Japoneses</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Un viaje por la evolución de la industria del videojuego japonés. Desde Nintendo hasta las últimas innovaciones en realidad virtual.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">videojuegos</a>
+                                        <a href="#" class="tag">nintendo</a>
+                                        <a href="#" class="tag">innovación</a>
+                                    </div>
+                                    <a href="blog5.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+
+                            <!-- Article 6 -->
+                            <article class="blog-card" data-category="tradiciones">
+                                <div class="blog-card-image">
+                                    <a href="blog6.html">
+                                        <img src="assets/images/blog/matsuri.jpg" alt="Festival Matsuri" loading="lazy">
+                                    </a>
+                                    <span class="blog-card-category">Tradiciones</span>
+                                    <span class="read-time">
+                                        <span class="material-icons" style="font-size: 12px;">schedule</span> 9 min
+                                    </span>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-card-meta">
+                                        <div class="author-info">
+                                            <div class="author-avatar">SF</div>
+                                            <span>Sakura Fujiwara</span>
+                                        </div>
+                                        <span class="blog-card-date">25 Abril 2024</span>
+                                    </div>
+                                    <h3 class="blog-card-title">
+                                        <a href="blog6.html">Festivales Matsuri: La Alegría Comunitaria</a>
+                                    </h3>
+                                    <p class="blog-card-excerpt">Sumérgete en la magia de los festivales matsuri japoneses. Descubre cómo estas celebraciones unen a las comunidades.</p>
+                                    <div class="blog-card-tags">
+                                        <a href="#" class="tag">matsuri</a>
+                                        <a href="#" class="tag">festivales</a>
+                                        <a href="#" class="tag">comunidad</a>
+                                    </div>
+                                    <a href="blog6.html" class="blog-card-link">
+                                        Leer más <span class="material-icons" style="font-size: 14px;">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <a href="#" class="pagination-btn" id="prevPage">
+                                <span class="material-icons" style="font-size: 16px;">chevron_left</span> Anterior
+                            </a>
+                            <a href="#" class="pagination-btn active">1</a>
+                            <a href="#" class="pagination-btn">2</a>
+                            <a href="#" class="pagination-btn">3</a>
+                            <a href="#" class="pagination-btn" id="nextPage">
+                                Siguiente <span class="material-icons" style="font-size: 16px;">chevron_right</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <aside class="sidebar">
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Categorías</h3>
+                            <ul class="category-list">
+                                <li><a href="#" data-category="anime">Anime <span class="category-count">12</span></a></li>
+                                <li><a href="#" data-category="manga">Manga <span class="category-count">8</span></a></li>
+                                <li><a href="#" data-category="cultura">Cultura <span class="category-count">15</span></a></li>
+                                <li><a href="#" data-category="gaming">Gaming <span class="category-count">6</span></a></li>
+                                <li><a href="#" data-category="gastronomia">Gastronomía <span class="category-count">5</span></a></li>
+                                <li><a href="#" data-category="tradiciones">Tradiciones <span class="category-count">9</span></a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Artículos Populares</h3>
+                            <div class="popular-posts">
+                                <article class="popular-post">
+                                    <div class="popular-post-image">
+                                        <img src="assets/images/blog/onepiece.jpg" alt="One Piece" loading="lazy">
+                                    </div>
+                                    <div class="popular-post-content">
+                                        <h4><a href="blog1.html">One Piece: La aventura infinita</a></h4>
+                                        <span class="popular-post-date">15 Mayo 2024</span>
+                                    </div>
+                                </article>
+                                
+                                <article class="popular-post">
+                                    <div class="popular-post-image">
+                                        <img src="assets/images/blog/ghibli.jpg" alt="Studio Ghibli" loading="lazy">
+                                    </div>
+                                    <div class="popular-post-content">
+                                        <h4><a href="blog2.html">El mundo mágico de Studio Ghibli</a></h4>
+                                        <span class="popular-post-date">10 Mayo 2024</span>
+                                    </div>
+                                </article>
+
+                                <article class="popular-post">
+                                    <div class="popular-post-image">
+                                        <img src="assets/images/blog/kawaii.jpg" alt="Cultura Kawaii" loading="lazy">
+                                    </div>
+                                    <div class="popular-post-content">
+                                        <h4><a href="#">La cultura kawaii: estilo de vida</a></h4>
+                                        <span class="popular-post-date">5 Mayo 2024</span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter Widget -->
+                        <div class="sidebar-widget newsletter-widget">
+                            <h3 class="widget-title">Newsletter</h3>
+                            <p>Recibe las últimas noticias sobre cultura japonesa</p>
+                            <form class="newsletter-form">
+                                <input type="email" class="newsletter-input" placeholder="Tu email...">
+                                <button type="submit" class="newsletter-btn">Suscribirse</button>
+                            </form>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/core.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Clean Google-style blog functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('blogSearch');
+            const filterChips = document.querySelectorAll('.filter-chip');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filterBlogCards(searchTerm, getActiveCategory());
+            });
+
+            // Filter functionality
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active chip
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    const searchTerm = searchInput.value.toLowerCase();
+                    filterBlogCards(searchTerm, category);
+                });
+            });
+
+            function getActiveCategory() {
+                const activeChip = document.querySelector('.filter-chip.active');
+                return activeChip ? activeChip.getAttribute('data-category') : 'all';
+            }
+
+            function filterBlogCards(searchTerm, category) {
+                blogCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    const cardText = card.textContent.toLowerCase();
+                    
+                    const matchesSearch = !searchTerm || cardText.includes(searchTerm);
+                    const matchesCategory = category === 'all' || cardCategory === category;
+                    
+                    card.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
+                });
+            }
+
+            // Newsletter form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('.newsletter-input').value;
+                    if (email) {
+                        alert('¡Gracias por suscribirte!');
+                        this.reset();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

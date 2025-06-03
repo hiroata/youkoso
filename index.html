@@ -1,257 +1,630 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" itemscope itemtype="https://schema.org/Store">
 <head>
+    <!-- 基本メタタグ -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Japón - Tienda de Productos Japoneses Auténticos en México</title>
-    <meta name="description" content="Descubre la mejor tienda de productos japoneses en México. Figuras de anime, manga, peluches, videojuegos y más. Envío directo desde Japón con garantía de autenticidad.">
-    <meta name="keywords" content="tienda japonesa México, productos japoneses auténticos, figuras anime, manga español, peluches kawaii, videojuegos japoneses, cultura japonesa">
-    <meta name="author" content="Hola Japón">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://holajapon.mx/">
-    <link rel="manifest" href="/manifest.json">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <!-- Open Graph Meta Tags -->
+    <!-- SEO メタタグ -->
+    <title>¡Hola Japón! - Tienda Oficial de Productos Japoneses en México | Anime, Manga, Figuras</title>
+    <meta name="description" content="Descubre la mejor tienda de productos japoneses en México. Anime, manga, figuras, peluches y artículos auténticos directos de Japón. Envío gratuito en pedidos de $999 MXN.">
+    <meta name="keywords" content="productos japoneses México, anime México, manga original, figuras anime, peluches Pokémon, Dragon Ball, Demon Slayer, tienda japonesa">
+    
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Hola Japón - Tienda de Productos Japoneses Auténticos en México">
-    <meta property="og:description" content="Descubre la mejor tienda de productos japoneses en México. Figuras de anime, manga, peluches y más con envío directo desde Japón.">
-    <meta property="og:url" content="https://holajapon.mx/">
-    <meta property="og:site_name" content="Hola Japón">
-    <meta property="og:image" content="https://holajapon.mx/assets/images/ui/hero-bg.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:title" content="¡Hola Japón! - Productos Japoneses Auténticos en México">
+    <meta property="og:description" content="La mejor selección de productos japoneses: anime, manga, figuras y más. Directos de Japón a México.">
+    <meta property="og:image" content="https://holajapon.com/assets/images/og-image.jpg">
+    <meta property="og:url" content="https://holajapon.com">
+    <meta property="og:site_name" content="¡Hola Japón!">
     <meta property="og:locale" content="es_MX">
     <meta property="og:locale:alternate" content="ja_JP">
     
-    <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#007aff">
-    <meta name="msapplication-TileColor" content="#007aff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="format-detection" content="telephone=no">
-    
-    <!-- Twitter Card Meta Tags -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@holajapon">
-    <meta name="twitter:title" content="Hola Japón - Tienda de Productos Japoneses Auténticos">
-    <meta name="twitter:description" content="Figuras anime, manga, peluches y más productos japoneses auténticos con envío directo desde Japón.">
-    <meta name="twitter:image" content="https://holajapon.mx/assets/images/ui/hero-bg.jpg">
+    <meta name="twitter:site" content="@HolaJaponMX">
+    <meta name="twitter:title" content="¡Hola Japón! - Productos Japoneses en México">
+    <meta name="twitter:description" content="Anime, manga, figuras y más productos auténticos de Japón">
+    <meta name="twitter:image" content="https://holajapon.com/assets/images/twitter-card.jpg">
     
-    <!-- Structured Data for Organization -->
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://holajapon.com/">
+    
+    <!-- Alternate Languages -->
+    <link rel="alternate" hreflang="es-mx" href="https://holajapon.com/">
+    <link rel="alternate" hreflang="ja-jp" href="https://holajapon.com/?lang=ja">
+    <link rel="alternate" hreflang="x-default" href="https://holajapon.com/">
+    
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Hola Japón",
-      "alternateName": "オラ・ハポン",
-      "url": "https://holajapon.mx",
-      "logo": "https://holajapon.mx/assets/images/ui/logo.png",
-      "description": "Tienda especializada en productos japoneses auténticos en México",
-      "foundingDate": "2023",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "MX",
-        "addressLocality": "México"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+52-xxx-xxx-xxxx",
-        "contactType": "customer service",
-        "availableLanguage": ["Spanish", "Japanese"]
-      },
-      "sameAs": [
-        "https://facebook.com/holajapon",
-        "https://instagram.com/holajapon",
-        "https://twitter.com/holajapon"
-      ]
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "¡Hola Japón!",
+        "description": "Tienda especializada en productos japoneses auténticos en México",
+        "url": "https://holajapon.com",
+        "logo": "https://holajapon.com/assets/images/logo.png",
+        "image": "https://holajapon.com/assets/images/store-front.jpg",
+        "telephone": "+52-55-1234-5678",
+        "email": "info@holajapon.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Av. Reforma 123",
+            "addressLocality": "Ciudad de México",
+            "addressRegion": "CDMX",
+            "postalCode": "06600",
+            "addressCountry": "MX"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "19.4326",
+            "longitude": "-99.1332"
+        },
+        "openingHours": [
+            "Mo-Fr 09:00-18:00",
+            "Sa 10:00-16:00"
+        ],
+        "priceRange": "$100-$5000 MXN",
+        "currenciesAccepted": "MXN",
+        "paymentAccepted": [
+            "Credit Card",
+            "Debit Card",
+            "PayPal",
+            "OXXO",
+            "Bank Transfer"
+        ],
+        "sameAs": [
+            "https://facebook.com/HolaJaponMX",
+            "https://instagram.com/holajaponmx",
+            "https://twitter.com/HolaJaponMX",
+            "https://youtube.com/HolaJaponMX"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Productos Japoneses",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Figuras de Anime",
+                        "category": "Collectibles"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Manga Original",
+                        "category": "Books"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Peluches",
+                        "category": "Toys"
+                    }
+                }
+            ]
+        }
     }
     </script>
     
-    <!-- Enhanced Structured Data for Website -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Hola Japón",
-      "alternateName": "オラ・ハポン",
-      "url": "https://holajapon.mx",
-      "description": "Tienda especializada en productos japoneses auténticos en México",
-      "inLanguage": ["es-MX", "ja-JP"],
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://holajapon.mx/products/?search={search_term_string}",
-        "query-input": "required name=search_term_string"
-      },
-      "sameAs": [
-        "https://facebook.com/holajapon",
-        "https://instagram.com/holajapon",
-        "https://twitter.com/holajapon"
-      ]
-    }
-    </script>
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e91e63">
     
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="js/app.js" defer></script>
-    <script src="js/products.js" defer></script>
-    <script src="js/blog.js" defer></script>
-    <script src="js/search.js" defer></script>
-    <script src="js/cart.js" defer></script>
-    <script src="js/breadcrumb.js" defer></script>
-    <script src="js/accessibility.js" defer></script>
-    <script src="js/translate.js" defer></script>
-    <script>
-        // Service Worker登録
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Critical CSS with font fallbacks -->
+    <style>
+        /* Critical loading styles with system font fallbacks */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
-    </script>
+        
+        /* Loading state */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f0f0;
+            border-top: 3px solid #e91e63;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    
+    <!-- Optimized font loading with fallbacks -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    </noscript>
+    
+    <!-- Font Awesome with fallback -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+    <link rel="preload" href="data/data.json" as="fetch" type="application/json" crossorigin>
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//images.unsplash.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 </head>
-<body>
-    <!-- 言語切り替えボタン -->
-    <div class="language-toggle">
-        <button type="button" class="lang-btn active" data-lang="es">ES</button>
-        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-
-    <!-- Apple風のデザイン調整 -->
-    <header data-component="header">
+<body itemscope itemtype="https://schema.org/WebPage">
+    <!-- Skip to content for accessibility -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Header -->
+    <header class="header" role="banner" itemscope itemtype="https://schema.org/WPHeader">
         <div class="container">
-            <div class="logo">
-                <h1><a href="index.html">Hola <span class="japan">Japón</span></a></h1>
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>¡Hola Japón!</h1>
+                    <span class="logo-subtitle">本物の日本</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="products.html" class="nav-link">Productos</a></li>
+                        <li><a href="blog.html" class="nav-link">Blog</a></li>
+                        <li><a href="about.html" class="nav-link">Nosotros</a></li>
+                        <li><a href="contact.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <!-- Language Toggle -->
+                    <div class="language-toggle">
+                        <button class="lang-btn active" data-lang="es">ES</button>
+                        <button class="lang-btn" data-lang="ja">日本語</button>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" aria-label="Cambiar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <!-- Cart -->
+                    <div class="cart">
+                        <button class="cart-btn" aria-label="Carrito de compras">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" aria-label="Menú móvil">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="active">Inicio</a></li>
-                    <li><a href="products/index.html">Productos</a></li>
-                    <li><a href="blog/index.html">Blog</a></li>
-                    <li><a href="testimonials.html">Testimonios</a></li>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu">
+                <ul class="mobile-nav-list">
+                    <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
+                    <li><a href="products.html" class="mobile-nav-link">Productos</a></li>
+                    <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+                    <li><a href="about.html" class="mobile-nav-link">Nosotros</a></li>
+                    <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
                 </ul>
-            </nav>
+            </div>
         </div>
     </header>
 
-    <main>
+    <!-- Main Content -->
+    <main class="main" id="main-content" role="main" itemscope itemtype="https://schema.org/CollectionPage">
+        <!-- Hero Section -->
         <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>
-                        <span class="es-text">Descubre la <span>magia de Japón</span> sin salir de México</span>
-                        <span class="ja-text">ようこそ <span>オラ・ハポン</span>へ</span>
-                    </h2>
-                    <p class="es-text">Figuras de anime, manga, juegos de cartas, peluches y mucho más. Envío directo desde Japón hasta tu puerta.</p>
-                    <p class="ja-text">メキシコで最高の日本商品専門店</p>
-                    <a href="products/index.html" class="btn">
-                        <span class="es-text">Explorar Productos</span>
-                        <span class="ja-text">商品を見る</span>
-                    </a>
+            <div class="hero-content">
+                <div class="container">
+                    <div class="hero-text">
+                        <h2 class="hero-title">
+                            <span class="es-text">Descubre la Auténtica Cultura Japonesa</span>
+                            <span class="ja-text">本物の日本文化を発見しよう</span>
+                        </h2>
+                        <p class="hero-description">
+                            <span class="es-text">
+                                Productos originales de Japón: anime, manga, artesanías tradicionales y mucho más.
+                                Sumérgete en la fascinante cultura japonesa desde la comodidad de tu hogar.
+                            </span>
+                            <span class="ja-text">
+                                日本からの本格的な商品：アニメ、マンガ、伝統工芸品など。
+                                ご自宅で魅力的な日本文化をお楽しみください。
+                            </span>
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="products.html" class="btn btn-primary">
+                                <span class="es-text">Ver Productos</span>
+                                <span class="ja-text">商品を見る</span>
+                            </a>
+                            <a href="blog.html" class="btn btn-secondary">
+                                <span class="es-text">Explorar Blog</span>
+                                <span class="ja-text">ブログを探索</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="hero-background">
+                <div class="hero-pattern"></div>
             </div>
         </section>
 
+        <!-- Categories Section -->
         <section class="categories">
             <div class="container">
-                <h2>
-                    <span class="es-text">Categorías Populares</span>
-                    <span class="ja-text">人気カテゴリー</span>
-                </h2>
-                <div class="category-grid">
-                    <a href="products/index.html?category=figuras" class="category-card">
-                        <div class="category-icon anime-figures"></div>
-                        <h3>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="es-text">Categorías Populares</span>
+                        <span class="ja-text">人気カテゴリー</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="es-text">Explora nuestras categorías más buscadas</span>
+                        <span class="ja-text">最も人気のあるカテゴリーをご覧ください</span>
+                    </p>
+                </div>
+
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">🎭</div>
+                        <h3 class="category-title">
                             <span class="es-text">Figuras de Anime</span>
                             <span class="ja-text">アニメフィギュア</span>
                         </h3>
-                    </a>
-                    <a href="products/index.html?category=manga" class="category-card">
-                        <div class="category-icon manga"></div>
-                        <h3>
-                            <span class="es-text">Manga</span>
-                            <span class="ja-text">漫画</span>
+                        <p class="category-description">
+                            <span class="es-text">Figuras coleccionables de alta calidad</span>
+                            <span class="ja-text">高品質なコレクタブルフィギュア</span>
+                        </p>
+                        <a href="products.html?category=figuras" class="category-link">
+                            <span class="es-text">Ver más</span>
+                            <span class="ja-text">もっと見る</span>
+                        </a>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">🐰</div>
+                        <h3 class="category-title">
+                            <span class="es-text">Peluches Kawaii</span>
+                            <span class="ja-text">かわいいぬいぐるみ</span>
                         </h3>
-                    </a>
-                    <a href="products/index.html?category=videojuegos" class="category-card">
-                        <div class="category-icon videogames"></div>
-                        <h3>
-                            <span class="es-text">Videojuegos</span>
-                            <span class="ja-text">ビデオゲーム</span>
+                        <p class="category-description">
+                            <span class="es-text">Adorables peluches japoneses</span>
+                            <span class="ja-text">愛らしい日本のぬいぐるみ</span>
+                        </p>
+                        <a href="products.html?category=peluches" class="category-link">
+                            <span class="es-text">Ver más</span>
+                            <span class="ja-text">もっと見る</span>
+                        </a>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">📚</div>
+                        <h3 class="category-title">
+                            <span class="es-text">Manga Original</span>
+                            <span class="ja-text">オリジナルマンガ</span>
                         </h3>
-                    </a>
-                    <a href="products/index.html?category=ropa" class="category-card">
-                        <div class="category-icon clothing"></div>
-                        <h3>
+                        <p class="category-description">
+                            <span class="es-text">Manga auténtico directo de Japón</span>
+                            <span class="ja-text">日本直輸入の本格的なマンガ</span>
+                        </p>
+                        <a href="products.html?category=manga" class="category-link">
+                            <span class="es-text">Ver más</span>
+                            <span class="ja-text">もっと見る</span>
+                        </a>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-icon">👘</div>
+                        <h3 class="category-title">
                             <span class="es-text">Ropa y Accesorios</span>
-                            <span class="ja-text">衣類とアクセサリー</span>
+                            <span class="ja-text">服・アクセサリー</span>
                         </h3>
-                    </a>
+                        <p class="category-description">
+                            <span class="es-text">Moda japonesa y accesorios únicos</span>
+                            <span class="ja-text">日本のファッションとユニークなアクセサリー</span>
+                        </p>
+                        <a href="products.html?category=ropa" class="category-link">
+                            <span class="es-text">Ver más</span>
+                            <span class="ja-text">もっと見る</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Featured Products -->
         <section class="featured-products">
             <div class="container">
-                <h2>
-                    <span class="es-text">Productos Destacados</span>
-                    <span class="ja-text">おすすめ商品</span>
-                </h2>
-                <div class="product-grid" id="featured-products-container">
-                    <!-- JavaScriptで商品を動的に追加 -->
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="es-text">Productos Destacados</span>
+                        <span class="ja-text">注目商品</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="es-text">Los favoritos de nuestros clientes</span>
+                        <span class="ja-text">お客様のお気に入り</span>
+                    </p>
+                </div>
+
+                <div class="products-grid" id="featured-products">
+                    <!-- Products will be loaded here by JavaScript -->
+                    <div class="loading-placeholder">
+                        <div class="loading-spinner"></div>
+                        <p>
+                            <span class="es-text">Cargando productos...</span>
+                            <span class="ja-text">商品を読み込み中...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section-footer">
+                    <a href="products.html" class="btn btn-outline">
+                        <span class="es-text">Ver Todos los Productos</span>
+                        <span class="ja-text">すべての商品を見る</span>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="latest-posts">
+        <!-- About Preview -->
+        <section class="about-preview">
             <div class="container">
-                <h2>
-                    <span class="es-text">Últimos Artículos</span>
-                    <span class="ja-text">最新ブログ記事</span>
-                </h2>
-                <div class="blog-grid" id="latest-posts-container">
-                    <!-- JavaScriptでブログ記事を動的に追加 -->
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2 class="about-title">
+                            <span class="es-text">Nuestra Pasión por Japón</span>
+                            <span class="ja-text">日本への情熱</span>
+                        </h2>
+                        <p class="about-description">
+                            <span class="es-text">
+                                Somos un equipo apasionado por la cultura japonesa que se dedica a traerte
+                                los productos más auténticos y únicos directamente desde Japón.
+                                Cada artículo en nuestra tienda es cuidadosamente seleccionado para
+                                garantizar la calidad y autenticidad que mereces.
+                            </span>
+                            <span class="ja-text">
+                                私たちは日本文化に情熱を注ぐチームで、日本から直接、最も本格的で
+                                ユニークな商品をお届けしています。店舗のすべての商品は、
+                                お客様にふさわしい品質と真正性を保証するために慎重に選ばれています。
+                            </span>
+                        </p>
+                        <a href="about.html" class="btn btn-primary">
+                            <span class="es-text">Conoce Más</span>
+                            <span class="ja-text">詳しく見る</span>
+                        </a>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=500&h=400&fit=crop" 
+                             alt="Japan Culture" 
+                             class="about-main-image"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="image-placeholder" style="display: none;">🗾</div>
+                    </div>
                 </div>
-                <a href="blog/index.html" class="btn">
-                    <span class="es-text">Ver Más Artículos</span>
-                    <span class="ja-text">すべての記事を見る</span>
-                </a>
-            </div>
-        </section>
-        
-        <section class="testimonial-preview">
-            <div class="container">
-                <h2>
-                    <span class="es-text">Lo Que Dicen Nuestros Clientes</span>
-                    <span class="ja-text">お客様の声</span>
-                </h2>
-                <div class="testimonial-slider" id="testimonial-slider">
-                    <!-- JavaScriptでお客様の声を動的に追加 -->
-                </div>
-                <a href="testimonials.html" class="btn light">
-                    <span class="es-text">Ver Todos los Testimonios</span>
-                    <span class="ja-text">すべてのレビューを見る</span>
-                </a>
             </div>
         </section>
     </main>
 
-    <!-- フッターコンポーネント -->
-    <footer data-component="footer">
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
         <div class="container">
-            <p>&copy; 2025 Hola Japón. Todos los derechos reservados.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">¡Hola Japón!</h3>
+                    <p class="footer-description">
+                        <span class="es-text">Tu tienda de confianza para productos japoneses auténticos.</span>
+                        <span class="ja-text">本格的な日本製品の信頼できる店舗。</span>
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">
+                        <span class="es-text">Enlaces Rápidos</span>
+                        <span class="ja-text">クイックリンク</span>
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html" class="footer-link">
+                            <span class="es-text">Productos</span>
+                            <span class="ja-text">商品</span>
+                        </a></li>
+                        <li><a href="blog.html" class="footer-link">
+                            <span class="es-text">Blog</span>
+                            <span class="ja-text">ブログ</span>
+                        </a></li>
+                        <li><a href="about.html" class="footer-link">
+                            <span class="es-text">Nosotros</span>
+                            <span class="ja-text">私たちについて</span>
+                        </a></li>
+                        <li><a href="contact.html" class="footer-link">
+                            <span class="es-text">Contacto</span>
+                            <span class="ja-text">お問い合わせ</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">
+                        <span class="es-text">Categorías</span>
+                        <span class="ja-text">カテゴリー</span>
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html?category=figuras" class="footer-link">
+                            <span class="es-text">Figuras</span>
+                            <span class="ja-text">フィギュア</span>
+                        </a></li>
+                        <li><a href="products.html?category=peluches" class="footer-link">
+                            <span class="es-text">Peluches</span>
+                            <span class="ja-text">ぬいぐるみ</span>
+                        </a></li>
+                        <li><a href="products.html?category=manga" class="footer-link">
+                            <span class="es-text">Manga</span>
+                            <span class="ja-text">マンガ</span>
+                        </a></li>
+                        <li><a href="products.html?category=ropa" class="footer-link">
+                            <span class="es-text">Ropa</span>
+                            <span class="ja-text">服</span>
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">
+                        <span class="es-text">Contacto</span>
+                        <span class="ja-text">お問い合わせ</span>
+                    </h4>
+                    <div class="contact-info">
+                        <p class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@holajapon.com</span>
+                        </p>
+                        <p class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+52 (55) 1234-5678</span>
+                        </p>
+                        <p class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Ciudad de México, México</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        <span class="es-text">&copy; 2024 ¡Hola Japón! Todos los derechos reservados.</span>
+                        <span class="ja-text">&copy; 2024 ¡Hola Japón! すべての権利を保有しています。</span>
+                    </p>
+                    <div class="footer-bottom-links">
+                        <a href="#" class="footer-bottom-link">
+                            <span class="es-text">Política de Privacidad</span>
+                            <span class="ja-text">プライバシーポリシー</span>
+                        </a>
+                        <a href="#" class="footer-bottom-link">
+                            <span class="es-text">Términos de Servicio</span>
+                            <span class="ja-text">利用規約</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <!-- ダークモード切り替えボタン -->
-    <button type="button" class="theme-toggle" aria-label="テーマ切り替え" title="ダークモード切り替え">
-        <span class="theme-icon">🌙</span>
-    </button>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- Structured Data for Breadcrumbs -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Inicio",
+                "item": "https://holajapon.com/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: '¡Hola Japón! - Inicio',
+            page_location: window.location.href,
+            content_group1: 'Homepage',
+            send_page_view: true
+        });
+        
+        // Enhanced ecommerce tracking
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            custom_map: {'custom_parameter_1': 'user_type'}
+        });
+    </script>
+
+    <!-- JavaScript -->
+    <script src="js/core.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/features.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
