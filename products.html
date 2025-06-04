@@ -25,10 +25,7 @@
             <div class="header-content">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="index.html" style="text-decoration: none; color: inherit;">
-                        <h1>¡Hola Japón!</h1>
-                        <span class="logo-subtitle">本物の日本</span>
-                    </a>
+                    <h1>¡Hola Japón!</h1>
                 </div>
 
                 <!-- Navigation -->
@@ -88,98 +85,134 @@
     <!-- Main Content -->
     <main class="main">
         <!-- Page Header -->
-        <section class="page-header">
+        <section class="page-header modern-header">
             <div class="page-header-background">
                 <div class="hero-pattern"></div>
             </div>
             <div class="container">
                 <div class="page-header-content">
-                    <h1 class="page-title">
-                        <span class="es-text">Nuestros Productos</span>
-                        <span class="ja-text">私たちの商品</span>
-                    </h1>
-                    <p class="page-description">
-                        <span class="es-text">Descubre nuestra colección completa de productos japoneses auténticos</span>
-                        <span class="ja-text">本格的な日本製品の完全なコレクションをご覧ください</span>
-                    </p>
+                    <div class="header-text">
+                        <h1 class="page-title">
+                            <span class="es-text">Nuestros Productos</span>
+                            <span class="ja-text">私たちの商品</span>
+                        </h1>
+                        <p class="page-description">
+                            <span class="es-text">Descubre nuestra colección completa de productos japoneses auténticos</span>
+                            <span class="ja-text">本格的な日本製品の完全なコレクションをご覧ください</span>
+                        </p>
+                    </div>
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-products">20</span>
+                            <span class="stat-label">
+                                <span class="es-text">Productos</span>
+                                <span class="ja-text">商品</span>
+                            </span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <span class="stat-label">
+                                <span class="es-text">Categorías</span>
+                                <span class="ja-text">カテゴリー</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Filters Section -->
-        <section class="filters-section">
+        <section class="filters-section modern-filters">
             <div class="container">
-                <div class="filters-card">
-                    <div class="filters-group">
-                        <label class="filter-label">
-                            <i class="fas fa-list"></i>
-                            <span class="es-text">Categoría:</span>
-                            <span class="ja-text">カテゴリー:</span>
-                        </label>
-                        <select id="category-filter" class="filter-select">
-                            <option value="all">
-                                <span class="es-text">Todas las categorías</span>
-                                <span class="ja-text">すべてのカテゴリー</span>
-                            </option>
-                            <option value="figuras">
-                                <span class="es-text">Figuras</span>
-                                <span class="ja-text">フィギュア</span>
-                            </option>
-                            <option value="peluches">
-                                <span class="es-text">Peluches</span>
-                                <span class="ja-text">ぬいぐるみ</span>
-                            </option>
-                            <option value="manga">
-                                <span class="es-text">Manga</span>
-                                <span class="ja-text">マンガ</span>
-                            </option>
-                            <option value="ropa">
-                                <span class="es-text">Ropa</span>
-                                <span class="ja-text">服</span>
-                            </option>
-                        </select>
+                <div class="filters-wrapper">
+                    <div class="filters-header">
+                        <h2 class="filters-title">
+                            <i class="fas fa-filter"></i>
+                            <span class="es-text">Filtros</span>
+                            <span class="ja-text">フィルター</span>
+                        </h2>
+                        <button class="filters-reset" id="reset-filters">
+                            <i class="fas fa-undo"></i>
+                            <span class="es-text">Limpiar</span>
+                            <span class="ja-text">クリア</span>
+                        </button>
                     </div>
+                    
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-list"></i>
+                                <span class="es-text">Categoría</span>
+                                <span class="ja-text">カテゴリー</span>
+                            </label>
+                            <select id="category-filter" class="filter-select modern-select">
+                                <option value="all">
+                                    <span class="es-text">Todas las categorías</span>
+                                    <span class="ja-text">すべてのカテゴリー</span>
+                                </option>
+                                <option value="figuras">
+                                    <span class="es-text">Figuras</span>
+                                    <span class="ja-text">フィギュア</span>
+                                </option>
+                                <option value="peluches">
+                                    <span class="es-text">Peluches</span>
+                                    <span class="ja-text">ぬいぐるみ</span>
+                                </option>
+                                <option value="manga">
+                                    <span class="es-text">Manga</span>
+                                    <span class="ja-text">マンガ</span>
+                                </option>
+                                <option value="ropa">
+                                    <span class="es-text">Ropa</span>
+                                    <span class="ja-text">服</span>
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="filters-group">
-                        <label class="filter-label">
-                            <i class="fas fa-sort"></i>
-                            <span class="es-text">Ordenar por:</span>
-                            <span class="ja-text">並び順:</span>
-                        </label>
-                        <select id="sort-filter" class="filter-select">
-                            <option value="featured">
-                                <span class="es-text">Destacados</span>
-                                <span class="ja-text">注目商品</span>
-                            </option>
-                            <option value="price-low">
-                                <span class="es-text">Precio: Menor a Mayor</span>
-                                <span class="ja-text">価格: 安い順</span>
-                            </option>
-                            <option value="price-high">
-                                <span class="es-text">Precio: Mayor a Menor</span>
-                                <span class="ja-text">価格: 高い順</span>
-                            </option>
-                            <option value="name">
-                                <span class="es-text">Nombre A-Z</span>
-                                <span class="ja-text">名前順</span>
-                            </option>
-                        </select>
-                    </div>
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-sort"></i>
+                                <span class="es-text">Ordenar por</span>
+                                <span class="ja-text">並び順</span>
+                            </label>
+                            <select id="sort-filter" class="filter-select modern-select">
+                                <option value="featured">
+                                    <span class="es-text">Destacados</span>
+                                    <span class="ja-text">注目商品</span>
+                                </option>
+                                <option value="price-low">
+                                    <span class="es-text">Precio: Menor a Mayor</span>
+                                    <span class="ja-text">価格: 安い順</span>
+                                </option>
+                                <option value="price-high">
+                                    <span class="es-text">Precio: Mayor a Menor</span>
+                                    <span class="ja-text">価格: 高い順</span>
+                                </option>
+                                <option value="name">
+                                    <span class="es-text">Nombre A-Z</span>
+                                    <span class="ja-text">名前順</span>
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="filters-group">
-                        <label class="filter-label">
-                            <i class="fas fa-search"></i>
-                            <span class="es-text">Buscar:</span>
-                            <span class="ja-text">検索:</span>
-                        </label>
-                        <div class="search-box">
-                            <input type="text" id="search-input" class="search-input" 
-                                   placeholder="Buscar productos..."
-                                   data-placeholder-es="Buscar productos..."
-                                   data-placeholder-ja="商品を検索...">
-                            <button class="search-btn" aria-label="Buscar">
+                        <div class="filter-group search-group">
+                            <label class="filter-label">
                                 <i class="fas fa-search"></i>
-                            </button>
+                                <span class="es-text">Buscar</span>
+                                <span class="ja-text">検索</span>
+                            </label>
+                            <div class="search-wrapper">
+                                <input type="text" id="search-input" class="search-input modern-input" 
+                                       placeholder="Buscar productos..."
+                                       data-placeholder-es="Buscar productos..."
+                                       data-placeholder-ja="商品を検索...">
+                                <button class="search-btn" aria-label="Buscar">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <button class="search-clear" id="clear-search" style="display: none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

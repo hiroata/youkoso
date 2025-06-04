@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="es" data-lang="es">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - ¡Hola Japón!</title>
-    <meta name="description" content="Descubre la cultura japonesa a través de nuestros artículos sobre anime, manga, tradiciones y más.">
-    
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="css/style.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         /* Google-inspired clean design */
         * {
@@ -34,10 +32,10 @@
         }
         
         /* Header */
-        .blog-header {
+        .header {
             background: #ffffff;
             border-bottom: 1px solid #e8eaed;
-            padding: 20px 0;
+            padding: 10px 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -56,20 +54,127 @@
             text-decoration: none;
         }
         
-        .nav-links {
+        .nav {
             display: flex;
             gap: 30px;
         }
         
-        .nav-links a {
+        .nav-list {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-link {
             color: #5f6368;
             text-decoration: none;
             font-weight: 400;
             transition: color 0.2s ease;
         }
         
-        .nav-links a:hover {
+        .nav-link:hover {
             color: #1a73e8;
+        }
+        
+        .nav-link.active {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+        
+        /* Header Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .language-toggle {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            background: none;
+            border: 1px solid #dadce0;
+            color: #5f6368;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .lang-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .lang-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .cart {
+            position: relative;
+        }
+        
+        .cart-btn {
+            background: none;
+            border: none;
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -4px;
+            right: -8px;
+            background: #1a73e8;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #ffffff;
+            padding: 20px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #e8eaed;
+        }
+        
+        .mobile-nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .mobile-nav-link {
+            color: #202124;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 0;
+            transition: background 0.2s ease;
+        }
+        
+        .mobile-nav-link:hover {
+            background: #f8f9fa;
         }
         
         /* Hero Section */
@@ -77,6 +182,7 @@
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             padding: 60px 0;
             text-align: center;
+            margin-top: 0; /* Ensure no gap after header */
         }
         
         .blog-hero h1 {
@@ -548,33 +654,91 @@
             .nav-links {
                 display: none;
             }
+            
+            /* Mobile Menu */
+            .mobile-menu {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="blog-header">
+    <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">¡Hola Japón!</a>
-                <nav class="nav-links">
-                    <a href="index.html">Inicio</a>
-                    <a href="about.html">Acerca de</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="products.html">Productos</a>
-                    <a href="contact.html">Contacto</a>
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>¡Hola Japón!</h1>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Inicio</a></li>
+                        <li><a href="products.html" class="nav-link">Productos</a></li>
+                        <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                        <li><a href="about.html" class="nav-link">Nosotros</a></li>
+                        <li><a href="contact.html" class="nav-link">Contacto</a></li>
+                    </ul>
                 </nav>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <!-- Language Toggle -->
+                    <div class="language-toggle">
+                        <button class="lang-btn active" data-lang="es">ES</button>
+                        <button class="lang-btn" data-lang="ja">日本語</button>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" aria-label="Cambiar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <!-- Cart -->
+                    <div class="cart">
+                        <button class="cart-btn" aria-label="Carrito de compras">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" aria-label="Menú móvil">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu">
+                <ul class="mobile-nav-list">
+                    <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
+                    <li><a href="products.html" class="mobile-nav-link">Productos</a></li>
+                    <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+                    <li><a href="about.html" class="mobile-nav-link">Nosotros</a></li>
+                    <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
+                </ul>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main class="main">
         <!-- Hero Section -->
         <section class="blog-hero">
             <div class="container">
-                <h1>Blog de Cultura Japonesa</h1>
-                <p class="hero-subtitle">Descubre el fascinante mundo de Japón: anime, manga, tradiciones y cultura pop</p>
+                <h1>
+                    <span class="es-text">Blog de Cultura Japonesa</span>
+                    <span class="ja-text">日本文化ブログ</span>
+                </h1>
+                <p class="hero-subtitle">
+                    <span class="es-text">Descubre el fascinante mundo de Japón: anime, manga, tradiciones y cultura pop</span>
+                    <span class="ja-text">日本の魅力的な世界を発見：アニメ、マンガ、伝統と大衆文化</span>
+                </p>
             </div>
         </section>
 

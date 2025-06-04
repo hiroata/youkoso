@@ -228,10 +228,7 @@ function initializeLanguageToggle() {
                 currentLanguage = lang;
                 updateLanguage(lang);
                 saveSettings();
-                showNotification(
-                    lang === 'es' ? 'Idioma cambiado a Español' : '日本語に変更されました',
-                    'success'
-                );
+                // 通知を削除 - うざいので表示しない
             }
         });
     });
@@ -267,18 +264,7 @@ function initializeThemeToggle() {
         updateTheme(currentTheme);
         saveSettings();
         
-        const messages = {
-            light: {
-                es: 'Tema claro activado',
-                ja: 'ライトテーマに変更'
-            },
-            dark: {
-                es: 'Tema oscuro activado',
-                ja: 'ダークテーマに変更'
-            }
-        };
-        
-        showNotification(messages[currentTheme][currentLanguage], 'success');
+        // 通知を削除 - うざいので表示しない
     });
 }
 
