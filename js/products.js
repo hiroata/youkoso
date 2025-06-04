@@ -248,19 +248,12 @@ function showNoProductsMessage() {
     }
 }
 
-// Show products error
+// Show products error (無効化)
 function showProductsError() {
-    if (!productsElements.productsGrid) return;
-    
-    productsElements.productsGrid.innerHTML = `
-        <div class="loading-placeholder">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">😅</div>
-            <p>
-                <span class="es-text">Error al cargar productos. Por favor, recarga la página.</span>
-                <span class="ja-text">商品の読み込みエラー。ページを再読み込みしてください。</span>
-            </p>
-        </div>
-    `;
+    // エラー表示は無効化、コンソールのみに出力
+    console.error('Products loading error');
+    // ポップアップ通知を完全に無効化
+    return;
 }
 
 // Update results count

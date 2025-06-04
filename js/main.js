@@ -187,7 +187,7 @@ function loadSettings() {
         const savedTheme = localStorage.getItem('theme');
         const savedCart = localStorage.getItem('cart');
         
-        if (savedLanguage && ['es', 'ja'].includes(savedLanguage)) {
+        if (savedLanguage && ['es', 'en', 'ja'].includes(savedLanguage)) {
             currentLanguage = savedLanguage;
             updateLanguage(currentLanguage);
         }
@@ -250,6 +250,7 @@ function updateLanguage(lang) {
     // Update page title
     const titles = {
         es: '¡Hola Japón! - Tienda de Productos Japoneses',
+        en: '¡Hola Japón! - Japanese Products Store',
         ja: 'ハロー・ジャパン！ - 日本商品店'
     };
     document.title = titles[lang] || titles.es;
@@ -403,22 +404,13 @@ function addToCart(productId) {
         }, 1500);
     }
     
-    const messages = {
-        es: `${product.name} añadido al carrito`,
-        ja: `${product.name}をカートに追加しました`
-    };
-    
-    showNotification(messages[currentLanguage], 'success');
+    // ポップアップ通知を削除 - うざいので表示しない
 }
 
 // Show cart modal (placeholder)
 function showCartModal() {
-    const messages = {
-        es: 'Funcionalidad del carrito próximamente',
-        ja: 'カート機能は近日公開予定'
-    };
-    
-    showNotification(messages[currentLanguage], 'info');
+    // ポップアップ通知を削除 - うざいので表示しない
+    console.log('Cart functionality coming soon');
 }
 
 // Load products from JSON
@@ -516,27 +508,10 @@ function createProductCard(product) {
     `;
 }
 
-// Show products error
+// Show products error (無効化)
 function showProductsError() {
-    if (!elements.featuredProductsGrid) return;
-    
-    elements.featuredProductsGrid.innerHTML = `
-        <div class="error-container" role="alert">
-            <div class="error-icon" aria-hidden="true">😅</div>
-            <h3>
-                <span class="es-text">Error al cargar productos</span>
-                <span class="ja-text">商品の読み込みエラー</span>
-            </h3>
-            <p>
-                <span class="es-text">Por favor, recarga la página o intenta más tarde.</span>
-                <span class="ja-text">ページを再読み込みするか、後でもう一度お試しください。</span>
-            </p>
-            <button onclick="location.reload()" class="btn btn-primary">
-                <span class="es-text">Recargar</span>
-                <span class="ja-text">再読み込み</span>
-            </button>
-        </div>
-    `;
+    // エラー表示は無効化、コンソールのみに出力
+    console.error('Featured products loading error');
 }
 
 // Enhanced scroll effects with performance optimization
@@ -599,97 +574,20 @@ function initializeAnimations() {
     }, 100);
 }
 
-// Enhanced notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications if too many
-    const existingNotifications = document.querySelectorAll('.notification');
-    if (existingNotifications.length >= 3) {
-        removeNotification(existingNotifications[0]);
-    }
-    
-    // Get or create notifications container
-    let notificationsContainer = document.querySelector('.notifications-container');
-    if (!notificationsContainer) {
-        notificationsContainer = document.createElement('div');
-        notificationsContainer.className = 'notifications-container';
-        document.body.appendChild(notificationsContainer);
-    }
-    
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    
-    const icons = {
-        success: 'fa-check-circle',
-        error: 'fa-exclamation-triangle',
-        info: 'fa-info-circle',
-        warning: 'fa-exclamation-circle'
-    };
-    
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas ${icons[type]}" aria-hidden="true"></i>
-            <span role="status" aria-live="polite">${message}</span>
-        </div>
-        <button class="notification-close" aria-label="閉じる" type="button">
-            <i class="fas fa-times" aria-hidden="true"></i>
-        </button>
-    `;
-    
-    // Add to container
-    notificationsContainer.appendChild(notification);
-    
-    // Animate in with improved performance
-    requestAnimationFrame(() => {
-        notification.style.transform = 'translateX(0)';
-        notification.style.opacity = '1';
-    });
-    
-    // Close button functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => removeNotification(notification));
-    
-    // Auto-remove with mobile-friendly duration
-    const duration = isMobile ? 6000 : 5000;
-    setTimeout(() => {
-        if (notification.parentNode) {
-            removeNotification(notification);
-        }
-    }, duration);
-}
-
-// Enhanced notification removal
-function removeNotification(notification) {
-    if (!notification || !notification.parentNode) return;
-    
-    notification.style.transform = 'translateX(100%)';
-    notification.style.opacity = '0';
-    
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 300);
-}
-
 // Error boundary for JavaScript errors
 window.addEventListener('error', function(e) {
     console.error('JavaScript error:', e);
-    showNotification(
-        currentLanguage === 'es' ? 
-        'Ha ocurrido un error. Por favor, recarga la página.' :
-        'エラーが発生しました。ページを再読み込みしてください。',
-        'error'
-    );
+    // エラーはコンソールのみに出力
 });
 
 // Service Worker registration for PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
+            .then(function(_registration) {
                 console.log('ServiceWorker registration successful');
             })
-            .catch(function(error) {
+            .catch(function(_error) {
                 console.log('ServiceWorker registration failed');
             });
     });

@@ -87,7 +87,7 @@ class ContactFormManager {
         e.preventDefault();
 
         if (!this.validateForm()) {
-            this.showValidationError();
+            // バリデーションエラーはコンソールログのみ
             return;
         }
 
@@ -101,6 +101,10 @@ class ContactFormManager {
         if (!this.validateField('name')) isValid = false;
         if (!this.validateField('email')) isValid = false;
         if (!this.validateField('message')) isValid = false;
+
+        if (!isValid) {
+            console.warn('Contact form validation failed');
+        }
 
         return isValid;
     }
@@ -229,13 +233,14 @@ class ContactFormManager {
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 2000));
 
-            // Success
-            this.showSuccessMessage();
+            // Success - コンソールログのみ
+            console.log('Contact form submitted successfully');
             this.form.reset();
             this.clearAllErrors();
 
         } catch (error) {
-            this.showErrorMessage();
+            // Error - コンソールログのみ
+            console.error('Contact form submission error:', error);
         } finally {
             // Restore button
             this.submitButton.disabled = false;
@@ -254,95 +259,6 @@ class ContactFormManager {
                 field.style.boxShadow = '';
             }
         });
-    }
-
-    showSuccessMessage() {
-        const message = this.getSuccessMessage();
-        
-        // Use unified notification system if available
-        if (typeof showNotification === 'function') {
-            showNotification(message, 'success');
-        } else {
-            this.showFallbackNotification(message, 'success');
-        }
-    }
-
-    showErrorMessage() {
-        const message = this.getErrorMessage('submitError');
-        
-        if (typeof showNotification === 'function') {
-            showNotification(message, 'error');
-        } else {
-            this.showFallbackNotification(message, 'error');
-        }
-    }
-
-    showValidationError() {
-        const message = this.getErrorMessage('validationError');
-        
-        if (typeof showNotification === 'function') {
-            showNotification(message, 'warning');
-        } else {
-            this.showFallbackNotification(message, 'warning');
-        }
-    }
-
-    showFallbackNotification(message, type) {
-        const colors = {
-            success: '#4CAF50',
-            error: '#f44336',
-            warning: '#FF9800'
-        };
-
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <i class="fas ${this.getNotificationIcon(type)}" aria-hidden="true"></i>
-                <span>${message}</span>
-            </div>
-        `;
-
-        notification.style.cssText = `
-            position: fixed;
-            top: ${this.isMobile ? '10px' : '20px'};
-            right: ${this.isMobile ? '10px' : '20px'};
-            left: ${this.isMobile ? '10px' : 'auto'};
-            background: white;
-            color: #333;
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            border-left: 4px solid ${colors[type]};
-            z-index: 10000;
-            transform: translateY(-100%);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-width: ${this.isMobile ? 'none' : '400px'};
-        `;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.transform = 'translateY(0)';
-        }, 100);
-
-        setTimeout(() => {
-            notification.style.transform = 'translateY(-100%)';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 400);
-        }, 5000);
-    }
-
-    getNotificationIcon(type) {
-        const icons = {
-            success: 'fa-check-circle',
-            error: 'fa-exclamation-triangle',
-            warning: 'fa-exclamation-circle'
-        };
-        return icons[type] || 'fa-info-circle';
     }
 
     getErrorMessage(key) {

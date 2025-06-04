@@ -28,9 +28,9 @@ class BlogManager {
 
     async loadBlogData() {
         try {
-            const response = await fetch('data/data.json');
+            const response = await fetch('data/blogs.json');
             const data = await response.json();
-            this.blogPosts = data.blog || this.generateSamplePosts();
+            this.blogPosts = data.blogs || this.generateSamplePosts();
             
             // Sort by date (newest first)
             this.blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -586,7 +586,7 @@ class BlogManager {
         const originalText = submitBtn.innerHTML;
         
         if (!email || !this.isValidEmail(email)) {
-            this.showNotification('Por favor ingresa un email válido', 'error');
+            console.warn('Invalid email address provided');
             return;
         }
         
@@ -598,7 +598,7 @@ class BlogManager {
         submitBtn.disabled = true;
         
         setTimeout(() => {
-            this.showNotification('¡Gracias por suscribirte! Recibirás contenido exclusivo sobre cultura japonesa.', 'success');
+            console.log('Newsletter subscription successful');
             e.target.reset();
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
@@ -607,74 +607,6 @@ class BlogManager {
 
     isValidEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    showNotification(message, type = 'info') {
-        // Create notification container if it doesn't exist
-        let container = document.querySelector('.notifications-container');
-        if (!container) {
-            container = document.createElement('div');
-            container.className = 'notifications-container';
-            container.style.cssText = `
-                position: fixed;
-                top: 1rem;
-                right: 1rem;
-                z-index: 10000;
-                pointer-events: none;
-            `;
-            document.body.appendChild(container);
-        }
-
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.style.cssText = `
-            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            pointer-events: auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            max-width: 300px;
-        `;
-        
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas ${this.getNotificationIcon(type)}"></i>
-                <span>${message}</span>
-                <button onclick="this.parentElement.parentElement.remove()" 
-                        style="background: none; border: none; color: white; cursor: pointer; margin-left: auto;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-        
-        container.appendChild(notification);
-        
-        // Animate in
-        requestAnimationFrame(() => {
-            notification.style.transform = 'translateX(0)';
-        });
-        
-        // Auto-remove
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => notification.remove(), 300);
-            }
-        }, 5000);
-    }
-
-    getNotificationIcon(type) {
-        const icons = {
-            success: 'fa-check-circle',
-            error: 'fa-exclamation-triangle',
-            warning: 'fa-exclamation-circle',
-            info: 'fa-info-circle'
-        };
-        return icons[type] || 'fa-info-circle';
     }
 
     adjustForMobile() {

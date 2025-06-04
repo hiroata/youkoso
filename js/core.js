@@ -51,7 +51,7 @@ class App {
 
         } catch (error) {
             console.error('Failed to initialize app:', error);
-            this.showError('アプリケーションの初期化に失敗しました');
+            // エラー通知は表示しない
         }
     }
 
@@ -120,7 +120,7 @@ class App {
 
         } catch (error) {
             console.error('Failed to load featured products:', error);
-            container.innerHTML = window.createErrorComponent('注目商品の読み込みに失敗しました');
+            // エラー表示は無効化
         }
     }
 
@@ -158,18 +158,12 @@ class App {
             // カート数量を更新
             this.updateCartCount();
             
-            // 成功通知
-            window.createNotificationComponent(
-                'カートに追加しました',
-                'success'
-            );
+            // 成功通知は無効化
+            console.log('商品をカートに追加しました');
             
         } catch (error) {
             console.error('Failed to add to cart:', error);
-            window.createNotificationComponent(
-                'カートへの追加に失敗しました',
-                'error'
-            );
+            // エラー通知は無効化
         }
     }
 
@@ -328,9 +322,10 @@ class App {
         });
     }
 
-    // エラー表示
+    // エラー表示 (無効化)
     showError(message) {
-        window.createNotificationComponent(message, 'error');
+        // エラーはコンソールのみに表示
+        console.error('App Error:', message);
     }
 }
 
@@ -863,10 +858,12 @@ function createLoadingComponent(message = 'Cargando...') {
     `;
 }
 
-// エラーメッセージコンポーネント
+// エラーメッセージコンポーネント (通知は無効化)
 function createErrorComponent(message = 'Ha ocurrido un error', showRetry = true) {
+    // エラーはコンソールのみに表示
+    console.error('Error:', message);
     return `
-        <div class="error-container">
+        <div class="error-container" style="display: none;">
             <div class="error-message">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h3>Error</h3>
@@ -907,50 +904,6 @@ function createModalComponent(title, content, modalId = 'modal') {
     `;
 }
 
-// 通知コンポーネント
-function createNotificationComponent(message, type = 'info', duration = 3000) {
-    const notificationId = 'notification-' + Date.now();
-    const notification = `
-        <div class="notification ${type}" id="${notificationId}">
-            <div class="notification-content">
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span class="notification-message">${message}</span>
-            </div>
-            <button class="notification-close" onclick="removeNotification('${notificationId}')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    `;
-
-    // 通知を表示
-    let container = document.querySelector('.notifications-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'notifications-container';
-        document.body.appendChild(container);
-    }
-
-    container.insertAdjacentHTML('beforeend', notification);
-
-    // 自動削除
-    setTimeout(() => {
-        removeNotification(notificationId);
-    }, duration);
-
-    return notificationId;
-}
-
-// 通知削除
-function removeNotification(notificationId) {
-    const notification = document.getElementById(notificationId);
-    if (notification) {
-        notification.classList.add('fade-out');
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }
-}
-
 // グローバルに公開
 window.createProductCardComponent = createProductCardComponent;
 window.createCategoryFilterComponent = createCategoryFilterComponent;
@@ -962,7 +915,5 @@ window.createLoadingComponent = createLoadingComponent;
 window.createErrorComponent = createErrorComponent;
 window.createEmptyStateComponent = createEmptyStateComponent;
 window.createModalComponent = createModalComponent;
-window.createNotificationComponent = createNotificationComponent;
-window.removeNotification = removeNotification;
 
 console.log('Components.js loaded successfully');

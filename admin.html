@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - ¡Hola Japón!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .admin-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #333;
+            transition: all 0.3s;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .form-group input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .number-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .number-input-wrapper input {
+            flex: 1;
+            padding-right: 3rem;
+        }
+        
+        .number-controls {
+            position: absolute;
+            right: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .number-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .number-btn:hover {
+            background: #c0392b;
+        }
+        
+        .admin-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+        
+        .admin-btn:hover {
+            background: #c0392b;
+        }
+        
+        .admin-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .image-preview {
+            position: relative;
+        }
+        
+        .help-text {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+        
+        .form-section {
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: #fafbfc;
+        }
+        
+        .form-section h4 {
+            margin: 0 0 1rem 0;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 0.5rem;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+        
+        .admin-title {
+            text-align: center;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+        
+        .management-section {
+            display: none;
+            min-height: 100vh;
+            background: var(--background);
+            padding: 2rem;
+        }
+        
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .management-title {
+            color: var(--text);
+            margin: 0;
+        }
+        
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .product-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .product-form h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        
+        .product-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-form textarea {
+            min-height: 80px;
+            resize: vertical;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--background);
+            color: var(--text);
+            font-family: inherit;
+        }
+        
+        .products-list {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .products-list h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .products-table th,
+        .products-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        .products-table th {
+            background: var(--background);
+            font-weight: 600;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .edit-btn {
+            background: #f39c12;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .edit-btn:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .edit-btn i {
+            font-size: 1rem;
+        }
+        
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .delete-btn i {
+            font-size: 1rem;
+        }
+        
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .lang-btn {
+            background: var(--background);
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        
+        .lang-btn.active {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        /* Language switching system */
+        .es-text, .ja-text, .en-text { display: none; }
+        
+        /* Default to Spanish */
+        [data-lang="es"] .es-text,
+        html:not([data-lang]) .es-text { display: inline; }
+        
+        /* Japanese */
+        [data-lang="ja"] .ja-text { display: inline; }
+        
+        /* English */
+        [data-lang="en"] .en-text { display: inline; }
+        
+        /* Management Content Sections */
+        .management-content-section {
+            width: 100%;
+            display: block;
+            margin-bottom: 3rem;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Improved image upload container for all screen sizes */
+        .image-upload-container {
+            display: block !important;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .image-preview {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem !important;
+            position: relative;
+            z-index: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .image-controls {
+            width: 100% !important;
+            max-width: none !important;
+            position: relative;
+            z-index: 2;
+            margin-top: 0 !important;
+        }
+        
+        .image-buttons {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+            width: 100%;
+            margin-top: 0 !important;
+        }
+        
+        .image-buttons button {
+            width: 100% !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+        }
+        
+        .image-btn {
+            padding: 0.75rem 1rem !important;
+            font-size: 0.875rem !important;
+            text-align: left !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            justify-content: flex-start !important;
+        }
+        
+        .image-btn i {
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 0.5rem;
+                min-height: 100vh;
+            }
+            
+            .admin-card {
+                margin: 0;
+                padding: 1.5rem;
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .admin-card > div:first-child {
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                align-items: stretch;
+            }
+            
+            .admin-title {
+                text-align: center;
+                font-size: 1.2rem;
+                line-height: 1.3;
+            }
+            
+            .language-switcher {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .lang-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+                min-width: 60px;
+            }
+            
+            .product-form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .form-section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .form-section h4 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+            
+            .help-text {
+                font-size: 0.8rem;
+                margin-top: 0.25rem;
+                line-height: 1.3;
+            }
+            
+            /* Override desktop styles for mobile */
+            .image-upload-container {
+                display: block !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 !important;
+                background: transparent !important;
+                border-radius: 0 !important;
+                position: relative !important;
+            }
+            
+            .image-preview {
+                text-align: center;
+                margin-bottom: 1rem !important;
+                padding: 1rem !important;
+                background: white !important;
+                border-radius: 8px !important;
+                min-height: 140px !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                position: relative !important;
+                z-index: 1 !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .image-placeholder {
+                width: 120px !important;
+                height: 120px !important;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                border: 2px dashed #ddd;
+                border-radius: 8px;
+                margin: 0 auto;
+                font-size: 12px;
+                background: #fafafa;
+            }
+            
+            .image-placeholder div {
+                text-align: center;
+                padding: 0.5rem;
+            }
+            
+            .image-placeholder i {
+                font-size: 18px !important;
+                margin-bottom: 6px !important;
+                color: #999;
+            }
+            
+            #productImageDisplay,
+            #blogImageDisplay {
+                max-width: 120px !important;
+                max-height: 120px !important;
+                border-radius: 8px;
+                border: 2px solid #ddd;
+                margin: 0 auto;
+            }
+            
+            .image-controls {
+                margin-top: 0 !important;
+                width: 100% !important;
+                background: transparent !important;
+                padding: 0 !important;
+                border-radius: 0 !important;
+                position: relative !important;
+                z-index: 2 !important;
+            }
+            
+            .image-controls input {
+                margin-bottom: 1rem !important;
+            }
+            
+            .image-controls h5 {
+                display: none !important;
+            }
+            
+            .image-buttons {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+                margin-top: 0 !important;
+                position: relative !important;
+                z-index: 3 !important;
+            }
+            
+            .image-buttons button {
+                padding: 0.75rem !important;
+                font-size: 0.875rem !important;
+                text-align: left !important;
+                border-radius: 6px;
+                min-height: 44px;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                flex-direction: row !important;
+                gap: 0.5rem !important;
+                width: 100% !important;
+            }
+            
+            .image-buttons button i {
+                margin-right: 0.5rem !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .admin-btn {
+                width: 100%;
+                padding: 0.75rem;
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .products-table {
+                font-size: 0.8rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .products-table thead,
+            .products-table tbody,
+            .products-table th,
+            .products-table td,
+            .products-table tr {
+                display: block;
+            }
+            
+            .products-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .products-table tr {
+                border: 1px solid #ddd;
+                margin-bottom: 0.5rem;
+                padding: 0.5rem;
+                border-radius: 8px;
+                background: white;
+            }
+            
+            .products-table td {
+                border: none;
+                position: relative;
+                padding: 0.5rem 0.5rem 0.5rem 30%;
+                white-space: normal;
+                text-align: left;
+            }
+            
+            .products-table td:before {
+                content: attr(data-label) ": ";
+                position: absolute;
+                left: 6px;
+                width: 25%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #666;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            
+            .edit-btn,
+            .delete-btn {
+                width: 100%;
+                padding: 0.6rem;
+                justify-content: center;
+                font-size: 0.8rem;
+            }
+            
+            .management-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .management-section {
+                padding: 0.5rem;
+            }
+            
+            .blog-form,
+            .product-form,
+            .blogs-list,
+            .products-list {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .number-input-wrapper {
+                position: relative;
+            }
+            
+            .number-controls {
+                right: 0.25rem;
+            }
+            
+            .number-btn {
+                width: 20px;
+                height: 18px;
+                font-size: 10px;
+            }
+            
+            /* Mobile Tab Navigation */
+            .tab-navigation {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.75rem;
+            }
+            
+            .tab-btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+                min-height: 50px;
+                flex-direction: column;
+                gap: 0.25rem;
+                text-align: center;
+                pointer-events: auto !important;
+                z-index: 100;
+                position: relative;
+                cursor: pointer !important;
+                user-select: none;
+                outline: none;
+            }
+            
+            .tab-btn i {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginSection" class="admin-container">
+        <div class="admin-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="admin-title" style="margin: 0;">
+                    <i class="fas fa-lock"></i>
+                    <span class="es-text">Acceso de Administrador</span>
+                    <span class="ja-text">管理者ログイン</span>
+                    <span class="en-text">Admin Login</span>
+                </h2>
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="es">ES</button>
+                    <button class="lang-btn" data-lang="ja">日本語</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+            <form id="loginForm" class="admin-form">
+                <div class="form-group">
+                    <label for="adminId">
+                        <span class="es-text">ID de Usuario</span>
+                        <span class="ja-text">ユーザーID</span>
+                        <span class="en-text">User ID</span>
+                    </label>
+                    <input type="text" id="adminId" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPass">
+                        <span class="es-text">Contraseña</span>
+                        <span class="ja-text">パスワード</span>
+                        <span class="en-text">Password</span>
+                    </label>
+                    <input type="password" id="adminPass" required>
+                </div>
+                <button type="submit" class="admin-btn">
+                    <span class="es-text">Iniciar Sesión</span>
+                    <span class="ja-text">ログイン</span>
+                    <span class="en-text">Login</span>
+                </button>
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Management Interface -->
+    <div id="managementSection" class="management-section">
+        <div class="management-header">
+            <h1 class="management-title">
+                <span class="es-text">Panel de Administración</span>
+                <span class="ja-text">管理パネル</span>
+                <span class="en-text">Admin Panel</span>
+            </h1>
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="es-text">Cerrar Sesión</span>
+                <span class="ja-text">ログアウト</span>
+                <span class="en-text">Logout</span>
+            </button>
+        </div>
+
+        <!-- Products Management Section -->
+        <div class="management-content-section">
+            <!-- Section Header -->
+            <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 2rem; text-align: center;">
+                <h2 style="margin: 0; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <i class="fas fa-box" style="color: #e74c3c;"></i>
+                    <span class="es-text">Gestión de Productos</span>
+                    <span class="ja-text">商品管理</span>
+                    <span class="en-text">Product Management</span>
+                </h2>
+            </div>
+            
+            <!-- Product Form -->
+            <div class="product-form">
+                <h3>
+                    <span class="es-text">➕ Agregar nuevo producto o ✏️ editar producto existente</span>
+                    <span class="ja-text">➕ 新商品追加 または ✏️ 既存商品編集</span>
+                    <span class="en-text">➕ Add new product or ✏️ edit existing product</span>
+                </h3>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-section">
+                        <h4>
+                            <span class="es-text">📝 Información Básica</span>
+                            <span class="ja-text">📝 基本情報</span>
+                            <span class="en-text">📝 Basic Information</span>
+                        </h4>
+                        <div class="product-form-grid">
+                            <div class="form-group">
+                                <label for="productName">
+                                    <span class="es-text">Nombre</span>
+                                    <span class="ja-text">商品名</span>
+                                    <span class="en-text">Name</span>
+                                </label>
+                                <input type="text" id="productName" required>
+                                <div class="help-text">
+                                    <span class="es-text">Nombre descriptivo del producto</span>
+                                    <span class="ja-text">商品の説明的な名前</span>
+                                    <span class="en-text">Descriptive product name</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">
+                                    <span class="es-text">Categoría</span>
+                                    <span class="ja-text">カテゴリー</span>
+                                    <span class="en-text">Category</span>
+                                </label>
+                                <select id="productCategory" required>
+                                    <option value="figuras">Figuras</option>
+                                    <option value="peluches">Peluches</option>
+                                    <option value="ropa">Ropa</option>
+                                    <option value="manga">Manga</option>
+                                    <option value="videojuegos">Videojuegos</option>
+                                </select>
+                                <div class="help-text">
+                                    <span class="es-text">Selecciona la categoría del producto</span>
+                                    <span class="ja-text">商品のカテゴリーを選択</span>
+                                    <span class="en-text">Select product category</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">
+                                    <span class="es-text">Precio</span>
+                                    <span class="ja-text">価格</span>
+                                    <span class="en-text">Price</span>
+                                </label>
+                                <div class="number-input-wrapper">
+                                    <input type="number" id="productPrice" min="0" required>
+                                    <div class="number-controls">
+                                        <button type="button" class="number-btn" onclick="adjustNumber('productPrice', 1)">▲</button>
+                                        <button type="button" class="number-btn" onclick="adjustNumber('productPrice', -1)">▼</button>
+                                    </div>
+                                </div>
+                                <div class="help-text">
+                                    <span class="es-text">Precio en pesos mexicanos</span>
+                                    <span class="ja-text">メキシコペソでの価格</span>
+                                    <span class="en-text">Price in Mexican pesos</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" id="productImageFile" accept="image/*" style="display: none;" onchange="handleProductImageUpload(event)">
+                                <input type="hidden" id="productImage">
+                            </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>
+                            <span class="es-text">🖼️ Imagen del Producto</span>
+                            <span class="ja-text">🖼️ 商品画像</span>
+                            <span class="en-text">🖼️ Product Image</span>
+                        </h4>
+                        
+                        <div style="text-align: center; margin-bottom: 1.5rem; padding: 2rem; background: white; border-radius: 8px; border: 1px solid #ddd;">
+                            <img id="productImageDisplay" style="display: none; max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div id="productImagePlaceholder" style="width: 200px; height: 200px; border: 2px dashed #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 14px; background: #f8f9fa; margin: 0 auto;">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-image" style="font-size: 48px; margin-bottom: 8px; display: block; color: #ccc;"></i>
+                                    <span class="es-text">No hay imagen</span>
+                                    <span class="ja-text">画像なし</span>
+                                    <span class="en-text">No image</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <button type="button" class="admin-btn" style="background: #3498db; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="document.getElementById('productImageFile').click()">
+                                <i class="fas fa-upload" style="font-size: 1.1rem;"></i>
+                                <span class="es-text">Subir imagen desde dispositivo</span>
+                                <span class="ja-text">デバイスから画像をアップロード</span>
+                                <span class="en-text">Upload image from device</span>
+                            </button>
+                            <button type="button" class="admin-btn" style="background: #f39c12; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="previewProductImage()">
+                                <i class="fas fa-eye" style="font-size: 1.1rem;"></i>
+                                <span class="es-text">Actualizar vista previa</span>
+                                <span class="ja-text">プレビューを更新</span>
+                                <span class="en-text">Update preview</span>
+                            </button>
+                            <button type="button" class="admin-btn" style="background: #95a5a6; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="clearProductImage()">
+                                <i class="fas fa-times" style="font-size: 1.1rem;"></i>
+                                <span class="es-text">Quitar imagen</span>
+                                <span class="ja-text">画像を削除</span>
+                                <span class="en-text">Remove image</span>
+                            </button>
+                        </div>
+                    <div class="form-group">
+                        <label for="productDescription">
+                            <span class="es-text">Descripción</span>
+                            <span class="ja-text">説明</span>
+                            <span class="en-text">Description</span>
+                        </label>
+                        <textarea id="productDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productTags">
+                            <span class="es-text">Tags (separados por comas)</span>
+                            <span class="ja-text">タグ（カンマ区切り）</span>
+                            <span class="en-text">Tags (comma separated)</span>
+                        </label>
+                        <input type="text" id="productTags" placeholder="anime, manga, figura">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="productFeatured">
+                            <span class="es-text">Producto destacado</span>
+                            <span class="ja-text">注目商品</span>
+                            <span class="en-text">Featured Product</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="admin-btn">
+                        <span class="es-text">💾 Guardar este producto</span>
+                        <span class="ja-text">💾 この商品を保存</span>
+                        <span class="en-text">💾 Save this product</span>
+                    </button>
+                    <button type="button" id="cancelEdit" class="admin-btn" style="background: var(--border); display: none;">
+                        <span class="es-text">↩️ Cancelar y volver</span>
+                        <span class="ja-text">↩️ キャンセルして戻る</span>
+                        <span class="en-text">↩️ Cancel and go back</span>
+                    </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Products List -->
+            <div class="products-list">
+                <h3>
+                    <span class="es-text">Lista de Productos</span>
+                    <span class="ja-text">商品リスト</span>
+                    <span class="en-text">Products List</span>
+                </h3>
+                <div id="productsContainer">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>
+                                    <span class="es-text">Nombre</span>
+                                    <span class="ja-text">名前</span>
+                                    <span class="en-text">Name</span>
+                                </th>
+                                <th>
+                                    <span class="es-text">Categoría</span>
+                                    <span class="ja-text">カテゴリー</span>
+                                    <span class="en-text">Category</span>
+                                </th>
+                                <th>
+                                    <span class="es-text">Precio</span>
+                                    <span class="ja-text">価格</span>
+                                    <span class="en-text">Price</span>
+                                </th>
+                                <th>
+                                    <span class="es-text">Destacado</span>
+                                    <span class="ja-text">注目</span>
+                                    <span class="en-text">Featured</span>
+                                </th>
+                                <th>
+                                    <span class="es-text">Acciones</span>
+                                    <span class="ja-text">操作</span>
+                                    <span class="en-text">Actions</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blogs Management Section -->
+        <div class="management-content-section" style="margin-top: 3rem;">
+            <!-- Section Header -->
+            <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 2rem; text-align: center;">
+                <h2 style="margin: 0; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <i class="fas fa-blog" style="color: #e74c3c;"></i>
+                    <span class="es-text">Gestión de Blogs</span>
+                    <span class="ja-text">ブログ管理</span>
+                    <span class="en-text">Blog Management</span>
+                </h2>
+            </div>
+            
+            <!-- Blog Management -->
+            <div class="blog-management" style="margin-bottom: 2rem;">
+                <div class="blog-form" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 2rem;">
+                    <h3>
+                        <span class="es-text">📝 Escribir nuevo artículo o ✏️ editar artículo existente</span>
+                        <span class="ja-text">📝 新記事作成 または ✏️ 既存記事編集</span>
+                        <span class="en-text">📝 Write new article or ✏️ edit existing article</span>
+                    </h3>
+                    <form id="blogForm">
+                        <input type="hidden" id="blogId">
+                        <div class="product-form-grid">
+                            <div class="form-group">
+                                <label for="blogTitle">
+                                    <span class="es-text">Título</span>
+                                    <span class="ja-text">タイトル</span>
+                                    <span class="en-text">Title</span>
+                                </label>
+                                <input type="text" id="blogTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="blogSlug">
+                                    <span class="es-text">URL Slug</span>
+                                    <span class="ja-text">URL スラッグ</span>
+                                    <span class="en-text">URL Slug</span>
+                                </label>
+                                <input type="text" id="blogSlug" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="blogAuthor">
+                                    <span class="es-text">Autor</span>
+                                    <span class="ja-text">著者</span>
+                                    <span class="en-text">Author</span>
+                                </label>
+                                <input type="text" id="blogAuthor" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" id="blogImageFile" accept="image/*" style="display: none;" onchange="handleBlogImageUpload(event)">
+                                <input type="hidden" id="blogImage">
+                            </div>
+                        </div>
+                        <div class="form-section" style="margin-top: 2rem;">
+                            <h4>
+                                <span class="es-text">🖼️ Imagen del Artículo</span>
+                                <span class="ja-text">🖼️ 記事画像</span>
+                                <span class="en-text">🖼️ Article Image</span>
+                            </h4>
+                            
+                            <div style="text-align: center; margin-bottom: 1.5rem; padding: 2rem; background: white; border-radius: 8px; border: 1px solid #ddd;">
+                                <img id="blogImageDisplay" style="display: none; max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <div id="blogImagePlaceholder" style="width: 200px; height: 200px; border: 2px dashed #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 14px; background: #f8f9fa; margin: 0 auto;">
+                                    <div style="text-align: center;">
+                                        <i class="fas fa-image" style="font-size: 48px; margin-bottom: 8px; display: block; color: #ccc;"></i>
+                                        <span class="es-text">No hay imagen</span>
+                                        <span class="ja-text">画像なし</span>
+                                        <span class="en-text">No image</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <button type="button" class="admin-btn" style="background: #3498db; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="document.getElementById('blogImageFile').click()">
+                                    <i class="fas fa-upload" style="font-size: 1.1rem;"></i>
+                                    <span class="es-text">Subir imagen desde dispositivo</span>
+                                    <span class="ja-text">デバイスから画像をアップロード</span>
+                                    <span class="en-text">Upload image from device</span>
+                                </button>
+                                <button type="button" class="admin-btn" style="background: #f39c12; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="previewBlogImage()">
+                                    <i class="fas fa-eye" style="font-size: 1.1rem;"></i>
+                                    <span class="es-text">Actualizar vista previa</span>
+                                    <span class="ja-text">プレビューを更新</span>
+                                    <span class="en-text">Update preview</span>
+                                </button>
+                                <button type="button" class="admin-btn" style="background: #95a5a6; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="clearBlogImage()">
+                                    <i class="fas fa-times" style="font-size: 1.1rem;"></i>
+                                    <span class="es-text">Quitar imagen</span>
+                                    <span class="ja-text">画像を削除</span>
+                                    <span class="en-text">Remove image</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="blogExcerpt">
+                                <span class="es-text">Resumen</span>
+                                <span class="ja-text">概要</span>
+                                <span class="en-text">Excerpt</span>
+                            </label>
+                            <textarea id="blogExcerpt" style="min-height: 60px;" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="blogContent">
+                                <span class="es-text">Contenido (Markdown)</span>
+                                <span class="ja-text">コンテンツ (Markdown)</span>
+                                <span class="en-text">Content (Markdown)</span>
+                            </label>
+                            <textarea id="blogContent" style="min-height: 300px;" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="blogTags">
+                                <span class="es-text">Tags (separados por comas)</span>
+                                <span class="ja-text">タグ（カンマ区切り）</span>
+                                <span class="en-text">Tags (comma separated)</span>
+                            </label>
+                            <input type="text" id="blogTags" placeholder="anime, manga, cultura">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="blogFeatured">
+                                <span class="es-text">Blog destacado</span>
+                                <span class="ja-text">注目ブログ</span>
+                                <span class="en-text">Featured Blog</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="blogPublished" checked>
+                                <span class="es-text">Publicado</span>
+                                <span class="ja-text">公開</span>
+                                <span class="en-text">Published</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="admin-btn">
+                            <span class="es-text">💾 Guardar este artículo</span>
+                            <span class="ja-text">💾 この記事を保存</span>
+                            <span class="en-text">💾 Save this article</span>
+                        </button>
+                        <button type="button" id="cancelBlogEdit" class="admin-btn" style="background: var(--border); display: none;">
+                            <span class="es-text">↩️ Cancelar y volver</span>
+                            <span class="ja-text">↩️ キャンセルして戻る</span>
+                            <span class="en-text">↩️ Cancel and go back</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Blogs List -->
+                <div class="blogs-list" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow);">
+                    <h3>
+                        <span class="es-text">Lista de Blogs</span>
+                        <span class="ja-text">ブログリスト</span>
+                        <span class="en-text">Blogs List</span>
+                    </h3>
+                    <div id="blogsContainer">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>
+                                        <span class="es-text">Título</span>
+                                        <span class="ja-text">タイトル</span>
+                                        <span class="en-text">Title</span>
+                                    </th>
+                                    <th>
+                                        <span class="es-text">Autor</span>
+                                        <span class="ja-text">著者</span>
+                                        <span class="en-text">Author</span>
+                                    </th>
+                                    <th>
+                                        <span class="es-text">Fecha</span>
+                                        <span class="ja-text">日付</span>
+                                        <span class="en-text">Date</span>
+                                    </th>
+                                    <th>
+                                        <span class="es-text">Estado</span>
+                                        <span class="ja-text">状態</span>
+                                        <span class="en-text">Status</span>
+                                    </th>
+                                    <th>
+                                        <span class="es-text">Acciones</span>
+                                        <span class="ja-text">操作</span>
+                                        <span class="en-text">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="blogsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/core.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

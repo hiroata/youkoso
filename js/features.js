@@ -41,7 +41,7 @@ class ProductManager {
             console.log(`Loaded ${this.products.length} products and ${this.categories.length} categories`);
         } catch (error) {
             console.error('Failed to initialize products:', error);
-            this.showError('商品データの読み込みに失敗しました');
+            // エラー通知は無効化
         } finally {
             this.isLoading = false;
         }
@@ -66,12 +66,10 @@ class ProductManager {
         }
     }
 
-    // エラー表示
+    // エラー表示 (無効化)
     showError(message) {
-        const container = document.querySelector('.products-grid');
-        if (container) {
-            container.innerHTML = window.createErrorComponent(message);
-        }
+        // エラーはコンソールのみに表示
+        console.error('Product Error:', message);
     }
 
     // 商品を表示
@@ -298,11 +296,8 @@ class ProductManager {
 
             localStorage.setItem('cart', JSON.stringify(cart));
 
-            // 通知表示
-            window.createNotificationComponent(
-                `${product.name} をカートに追加しました`,
-                'success'
-            );
+            // 通知表示は無効化
+            console.log(`${product.name} をカートに追加しました`);
 
             // カートアイコンの数量更新
             this.updateCartCount();

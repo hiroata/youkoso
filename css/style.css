@@ -79,7 +79,11 @@ body {
 
 /* Language display control */
 [data-lang="es"] .ja-text,
-[data-lang="ja"] .es-text {
+[data-lang="es"] .en-text,
+[data-lang="en"] .es-text,
+[data-lang="en"] .ja-text,
+[data-lang="ja"] .es-text,
+[data-lang="ja"] .en-text {
     display: none;
 }
 
@@ -181,7 +185,7 @@ body {
 
 /* ===== HEADER ===== */
 .header {
-    background: var(--bg-primary);
+    background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -392,7 +396,7 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--bg-primary);
+    background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     padding: var(--spacing-md);
     backdrop-filter: blur(10px);
@@ -1492,7 +1496,7 @@ body {
 /* フォーカス状態の改善 */
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border
+    border: 2px solid var(--primary-color);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 

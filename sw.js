@@ -269,56 +269,6 @@ async function syncContactForms() {
   }
 }
 
-// プッシュ通知
-self.addEventListener('push', event => {
-  console.log('[SW] Push notification received');
-  
-  const options = {
-    body: event.data ? event.data.text() : 'Nueva actualización disponible',
-    icon: '/assets/images/ui/icon-192x192.png',
-    badge: '/assets/images/ui/badge-72x72.png',
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'Ver ahora',
-        icon: '/assets/images/ui/action-explore.png'
-      },
-      {
-        action: 'close',
-        title: 'Cerrar',
-        icon: '/assets/images/ui/action-close.png'
-      }
-    ]
-  };
-
-  event.waitUntil(
-    self.registration.showNotification('¡Hola Japón!', options)
-  );
-});
-
-// 通知クリックイベント
-self.addEventListener('notificationclick', event => {
-  console.log('[SW] Notification clicked');
-  event.notification.close();
-
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  } else if (event.action === 'close') {
-    // 何もしない（通知を閉じるだけ）
-  } else {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
-});
-
 // メッセージイベント（メインスレッドからの通信）
 self.addEventListener('message', event => {
   console.log('[SW] Message received:', event.data);
@@ -334,30 +284,30 @@ self.addEventListener('message', event => {
 
 // ヘルパー関数
 async function getStoredCartData() {
-  // IndexedDB からカートデータを取得
-  return new Promise((resolve) => {
-    // 実装は省略（IndexedDBアクセス）
-    resolve([]);
-  });
+    // IndexedDB からカートデータを取得
+    return new Promise((resolve) => {
+        // 実装は省略（IndexedDBアクセス）
+        resolve([]);
+    });
 }
 
 async function clearStoredCartData() {
-  // IndexedDB からカートデータを削除
-  return new Promise((resolve) => {
-    resolve();
-  });
+    // IndexedDB からカートデータを削除
+    return new Promise((resolve) => {
+        resolve();
+    });
 }
 
 async function getStoredContactForms() {
-  // IndexedDB からフォームデータを取得
-  return new Promise((resolve) => {
-    resolve([]);
-  });
+    // IndexedDB からフォームデータを取得
+    return new Promise((resolve) => {
+        resolve([]);
+    });
 }
 
 async function clearStoredContactForms() {
-  // IndexedDB からフォームデータを削除
-  return new Promise((resolve) => {
-    resolve();
-  });
+    // IndexedDB からフォームデータを削除
+    return new Promise((resolve) => {
+        resolve();
+    });
 }

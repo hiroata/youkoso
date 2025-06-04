@@ -424,29 +424,8 @@ window.updateExistingCards = async function() {
         await window.imageDownloader.updateProductCard(mangaProducts[i].id, mangaUrls[i]);
     }
     
-    // 成功メッセージを表示
-    const message = document.createElement('div');
-    message.innerHTML = `
-        <div style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(76, 175, 80, 0.95);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 10px;
-            z-index: 10000;
-            text-align: center;
-            font-size: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        ">
-            ✅ 商品カードの画像を更新しました！
-        </div>
-    `;
-    
-    document.body.appendChild(message);
-    setTimeout(() => message.remove(), 3000);
+    // 成功メッセージはコンソールログのみ
+    console.log('商品カードの画像を更新しました！');
 };
 
 // ページ読み込み時にパネルを作成
