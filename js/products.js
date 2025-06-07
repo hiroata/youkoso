@@ -166,8 +166,8 @@ function displayProducts() {
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.dataset.productId;
-            if (window.HolaJapon && window.HolaJapon.addToCart) {
-                window.HolaJapon.addToCart(productId);
+            if (window.Youkoso && window.Youkoso.addToCart) {
+                window.Youkoso.addToCart(productId);
             }
         });
     });
@@ -261,7 +261,7 @@ function updateResultsCount() {
     if (!productsElements.resultsCount) return;
     
     const total = filteredProducts.length;
-    const currentLang = window.HolaJapon ? window.HolaJapon.currentLanguage() : 'es';
+    const currentLang = window.Youkoso ? window.Youkoso.currentLanguage() : 'es';
     
     if (total === 0) {
         productsElements.resultsCount.innerHTML = `

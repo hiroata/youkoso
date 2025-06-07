@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # サイトマップの場所
-Sitemap: https://holajapon.com/sitemap.xml
+Sitemap: https://youkoso.com/sitemap.xml
 
 # クロール頻度の制御
 Crawl-delay: 1

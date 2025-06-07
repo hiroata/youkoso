@@ -1,6 +1,6 @@
-const CACHE_NAME = 'hola-japon-v1.0.0';
-const STATIC_CACHE = 'hola-japon-static-v1';
-const DYNAMIC_CACHE = 'hola-japon-dynamic-v1';
+const CACHE_NAME = 'youkoso-v1.0.0';
+const STATIC_CACHE = 'youkoso-static-v1';
+const DYNAMIC_CACHE = 'youkoso-dynamic-v1';
 
 // キャッシュするファイル
 const STATIC_FILES = [

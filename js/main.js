@@ -21,7 +21,7 @@ const elements = {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('¡Hola Japón! Website initialized');
+    console.log('Youkoso Website initialized');
     
     // Initialize DOM elements
     initializeElements();
@@ -249,9 +249,9 @@ function updateLanguage(lang) {
     
     // Update page title
     const titles = {
-        es: '¡Hola Japón! - Tienda de Productos Japoneses',
-        en: '¡Hola Japón! - Japanese Products Store',
-        ja: 'ハロー・ジャパン！ - 日本商品店'
+        es: 'Youkoso - Tienda de Productos Japoneses',
+        en: 'Youkoso - Japanese Products Store',
+        ja: 'ようこそ - 日本商品店'
     };
     document.title = titles[lang] || titles.es;
 }
