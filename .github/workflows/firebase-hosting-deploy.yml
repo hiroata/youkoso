@@ -16,18 +16,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-        
-      - name: Build Project
-        run: npm run build
-
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -35,5 +23,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_YOUKOSO_3D911 }}'
           channelId: live
           projectId: youkoso-3d911
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
