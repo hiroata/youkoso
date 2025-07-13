@@ -1,58 +1,85 @@
-# GitHub Secrets設定手順
+# Firebase Auto-Deploy Setup Guide
 
-## Firebase自動デプロイの設定
+## Configuración General de GitHub Actions para Firebase
 
-### 1. GitHubリポジトリにアクセス
-https://github.com/hiroata/youkoso
+### 1. Generar Service Account Key en Firebase Console
 
-### 2. Settings タブをクリック
+1. Ve a [Firebase Console](https://console.firebase.google.com/)
+2. Selecciona tu proyecto
+3. Ve a **Settings** > **Service accounts**
+4. Haz clic en **Generate new private key**
+5. Descarga el archivo JSON
 
-### 3. 左サイドバーで "Secrets and variables" > "Actions" をクリック
+### 2. Configurar GitHub Secrets
 
-### 4. "New repository secret" ボタンをクリック
+1. Ve a tu repositorio en GitHub
+2. **Settings** > **Secrets and variables** > **Actions**
+3. **New repository secret**
 
-### 5. 以下の情報を入力:
-
-**Name:**
+**Nombre del Secret:**
 ```
-FIREBASE_SERVICE_ACCOUNT_YOUKOSO_3D911
+FIREBASE_SERVICE_ACCOUNT_[TU_PROYECTO_ID]
 ```
 
-**Secret (サービスアカウントキーのJSONをそのまま貼り付け):**
+**Valor:**
+- Copia y pega el contenido completo del archivo JSON del service account
+
+### 3. Configurar GitHub Actions Workflow
+
+Crear `.github/workflows/firebase-hosting-deploy.yml`:
+
+```yaml
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_[TU_PROYECTO_ID] }}'
+          projectId: [TU_PROYECTO_ID]
+```
+
+### 4. Configurar firebase.json
+
 ```json
 {
-  "type": "service_account",
-  "project_id": "youkoso-3d911",
-  "private_key_id": "YOUR_PRIVATE_KEY_ID",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_CONTENT\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fbsvc@youkoso-3d911.iam.gserviceaccount.com",
-  "client_id": "YOUR_CLIENT_ID",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40youkoso-3d911.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
+  }
 }
 ```
 
-⚠️ **注意**: 実際のサービスアカウントキーの値は既に提供されたJSONファイルから取得してください。
+## ⚠️ Mejores Prácticas de Seguridad
 
-### 6. "Add secret" ボタンをクリック
+- **NUNCA** commits service account keys en el código
+- Usa solo GitHub Secrets para credenciales
+- Rota las claves periódicamente
+- Limita los permisos del service account
+- Monitorea los logs de deploy
 
-## 確認方法
+## Verificación
 
-### 1. GitHubリポジトリの "Actions" タブで自動デプロイが動作することを確認
-
-### 2. 次回のPushで自動的にFirebaseにデプロイされることを確認
-
-### 3. デプロイ後のサイト確認URL
-https://youkoso-3d911.web.app
+1. Push a la rama `main` debe activar el deploy automático
+2. Verifica en la pestaña **Actions** de GitHub
+3. Confirma el deploy en Firebase Console
 
 ---
 
-## ⚠️ セキュリティ重要事項
-
-- このサービスアカウントキーは機密情報です
-- 絶対に公開リポジトリや不適切な場所に保存しないでください
-- GitHub Secretsは暗号化されて安全に保存されます
-- 必要に応じて新しいサービスアカウントキーを生成し、古いものを無効にできます
+**Nota**: Este archivo contiene instrucciones generales. Adapta los nombres de proyecto y configuraciones según tu entorno específico.

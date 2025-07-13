@@ -36,10 +36,13 @@ function displayProducts() {
     
     grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
     
+    // Load product images asynchronously
+    loadProductImages(productsToShow);
+    
     // Add to cart functionality
     grid.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', function() {
-            const productId = parseInt(this.dataset.productId);
+            const productId = this.dataset.productId;
             const product = allProducts.find(p => p.id === productId);
             if (product) {
                 utils.cart.add(product);
@@ -60,19 +63,19 @@ function displayProducts() {
 // Create product card
 function createProductCard(product) {
     const price = utils.formatPrice(product.price);
-    const image = product.image || 'assets/images/ui/placeholder.jpg';
+    const placeholderImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23f8f9fa"/%3E%3Ctext x="50%" y="50%" font-family="Arial" font-size="16" fill="%23adb5bd" text-anchor="middle" dy=".3em"%3ECargando...%3C/text%3E%3C/svg%3E';
     
     return `
-        <div class="product-card">
-            <div class="product-image">
-                <img src="${image}" alt="${product.name}" loading="lazy">
+        <div class="product-card" data-product-id="${product.id}">
+            <div class="product-image" onclick="goToProductDetail('${product.id}')">
+                <img src="${placeholderImage}" alt="${product.name}" loading="lazy" data-product-id="${product.id}">
                 ${product.discount ? `<span class="badge badge-discount">${product.discount}% OFF</span>` : ''}
             </div>
             <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
+                <h3 class="product-name" onclick="goToProductDetail('${product.id}')">${product.name}</h3>
                 <p class="product-category">${product.category}</p>
                 <p class="product-price">${price}</p>
-                <button class="btn btn-primary add-to-cart" data-product-id="${product.id}">
+                <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" onclick="event.stopPropagation()">
                     <i class="fas fa-shopping-cart"></i> Agregar
                 </button>
             </div>
@@ -190,6 +193,24 @@ function updateResultsCount() {
     count.textContent = `Mostrando ${start}-${end} de ${total} productos`;
 }
 
+// Load product images asynchronously
+async function loadProductImages(products) {
+    const imagePromises = products.map(async (product) => {
+        try {
+            const imageUrl = await utils.getProductImage(product);
+            const imgElement = document.querySelector(`img[data-product-id="${product.id}"]`);
+            if (imgElement) {
+                imgElement.src = imageUrl;
+                imgElement.classList.add('loaded');
+            }
+        } catch (error) {
+            console.error(`Error loading image for product ${product.id}:`, error);
+        }
+    });
+    
+    await Promise.all(imagePromises);
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('products-grid')) {
@@ -197,5 +218,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Make changePage available globally
+// Navigate to product detail page
+function goToProductDetail(productId) {
+    // Store product ID in localStorage for the detail page
+    localStorage.setItem('selectedProductId', productId);
+    // Navigate to product detail page
+    window.location.href = 'product-detail.html';
+}
+
+// Make functions available globally
 window.changePage = changePage;
+window.goToProductDetail = goToProductDetail;

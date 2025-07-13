@@ -16,28 +16,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* カワイイブログ記事ページのスタイル - 料理テーマ */
+        /* Modern blog article page styles - Culinary theme */
         :root {
-            --kawaii-pink: #ff6b9d;
-            --kawaii-blue: #4ecdc4;
-            --kawaii-yellow: #ffe66d;
-            --kawaii-purple: #a8e6cf;
-            --kawaii-orange: #ff8b94;
-            --kawaii-mint: #b4f8c8;
-            --kawaii-peach: #fbb2d6;
-            --ramen-brown: #d4a574;
-            --pozole-red: #e74c3c;
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --muted-blue: #95a5a6;
+            --light-gray: #ecf0f1;
+            --culinary-warm: #d35400;
+            --culinary-earthy: #8b4513;
         }
         
-        /* 明るい背景 - 料理テーマ */
+        /* Clean background - Culinary theme */
         body {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 25%, #e17055 50%, #fab1a0 75%, #fd79a8 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         /* フローティング要素 - 料理テーマ */
@@ -57,7 +54,7 @@
             font-size: 2rem;
             opacity: 0.1;
             animation: float-around 20s ease-in-out infinite;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
         }
         
         .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
@@ -78,7 +75,7 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             padding: 20px 0;
-            border-bottom: 3px solid var(--kawaii-pink);
+            border-bottom: 3px solid var(--accent-color);
         }
         
         .breadcrumb-list {
@@ -91,18 +88,18 @@
         }
         
         .breadcrumb-list li {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 500;
         }
         
         .breadcrumb-list li:not(:last-child)::after {
-            content: '🍜';
+            content: '•';
             margin-left: 10px;
             color: var(--ramen-brown);
         }
         
         .breadcrumb-list a {
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             text-decoration: none;
             transition: all 0.3s ease;
             padding: 5px 10px;
@@ -110,7 +107,7 @@
         }
         
         .breadcrumb-list a:hover {
-            background: var(--kawaii-pink);
+            background: var(--primary-color);
             color: white;
             transform: scale(1.05);
         }
@@ -145,7 +142,7 @@
             left: 0;
             right: 0;
             height: 6px;
-            background: linear-gradient(90deg, var(--ramen-brown), var(--pozole-red), var(--kawaii-yellow), var(--kawaii-mint));
+            background: linear-gradient(90deg, var(--ramen-brown), var(--pozole-red), var(--text-light), var(--text-light));
             background-size: 200% 100%;
             animation: rainbow-border 4s ease infinite;
         }
@@ -172,7 +169,7 @@
         }
         
         .article-meta span {
-            background: linear-gradient(135deg, var(--kawaii-mint), var(--kawaii-purple));
+            background: linear-gradient(135deg, var(--text-light), var(--muted-blue));
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -201,10 +198,10 @@
         }
         
         .article-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             margin: 20px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             animation: bounce-title 3s ease-in-out infinite;
@@ -270,19 +267,19 @@
         }
         
         .article-body h2 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2rem;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             margin: 40px 0 20px 0;
             padding: 15px 20px;
             background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 230, 109, 0.1));
             border-radius: 15px;
-            border-left: 5px solid var(--kawaii-blue);
+            border-left: 5px solid var(--accent-color);
             position: relative;
         }
         
         .article-body h2::after {
-            content: '🍜';
+            content: '•';
             position: absolute;
             right: 20px;
             top: 50%;
@@ -296,9 +293,9 @@
         }
         
         .article-body h3 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.5rem;
-            color: var(--kawaii-orange);
+            color: var(--accent-color);
             margin: 30px 0 15px 0;
         }
         
@@ -307,7 +304,7 @@
         }
         
         .article-body blockquote {
-            background: linear-gradient(135deg, var(--kawaii-peach), var(--kawaii-mint));
+            background: linear-gradient(135deg, var(--accent-color), var(--text-light));
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -356,7 +353,7 @@
         }
         
         .comparison-section h4 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--pozole-red);
             margin-bottom: 15px;
             text-align: center;
@@ -377,14 +374,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
         .stat-item:hover {
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             transform: scale(1.1);
         }
         
@@ -397,7 +394,7 @@
         }
         
         .article-tags .tag {
-            background: linear-gradient(135deg, var(--kawaii-mint), var(--kawaii-purple));
+            background: linear-gradient(135deg, var(--text-light), var(--muted-blue));
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -420,9 +417,9 @@
         }
         
         .related-articles .section-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2.5rem;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             text-align: center;
             margin-bottom: 40px;
             animation: bounce-title 3s ease-in-out infinite;
@@ -450,7 +447,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--kawaii-pink), var(--kawaii-blue), var(--kawaii-yellow));
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--text-light));
             background-size: 200% 100%;
             animation: rainbow-border 3s ease infinite;
         }
@@ -480,7 +477,7 @@
         }
         
         .article-info .article-category {
-            background: linear-gradient(135deg, var(--kawaii-pink), var(--kawaii-orange));
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             padding: 6px 12px;
             border-radius: 15px;
@@ -508,7 +505,7 @@
         
         /* ニュースレター */
         .newsletter {
-            background: linear-gradient(135deg, var(--kawaii-peach), var(--kawaii-mint));
+            background: linear-gradient(135deg, var(--accent-color), var(--text-light));
             padding: 60px 0;
             color: white;
         }
@@ -521,7 +518,7 @@
         }
         
         .newsletter-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2rem;
             margin-bottom: 10px;
         }
@@ -548,19 +545,19 @@
         
         .newsletter-btn {
             background: white;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
             font-weight: 600;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .newsletter-btn:hover {
-            background: var(--kawaii-yellow);
+            background: var(--text-light);
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }

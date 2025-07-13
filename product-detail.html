@@ -1,105 +1,230 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Producto - Youkoso</title>
+    <meta name="description" content="Detalles completos del producto japonés seleccionado.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style-simple.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="js/core-simple.js" defer></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Modern product detail page styles */
+        .product-detail {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .product-image-container {
+            position: relative;
+        }
+
+        .product-detail-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-info-section h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-transform: capitalize;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .breadcrumbs {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .breadcrumb-list li:not(:last-child)::after {
+            content: '>';
+            margin-left: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumb-list a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-list a:hover {
+            text-decoration: underline;
+        }
+
+        .loading-detail {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .product-detail {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <div class="header-content">
-                <!-- Logo -->
-                <div class="logo">
-                    <a href="index.html" style="text-decoration: none; color: inherit;">
-                        <h1>Youkoso</h1>
-                    </a>
+            <nav class="nav">
+                <div class="nav-brand">
+                    <a href="index.html" class="brand-link">Youkoso</a>
                 </div>
-
-                <!-- Navigation -->
-                <nav class="nav">
-                    <ul class="nav-list">
-                        <li><a href="index.html" class="nav-link">Inicio</a></li>
-                        <li><a href="products.html" class="nav-link active">Productos</a></li>
-                        <li><a href="blog.html" class="nav-link">Blog</a></li>
-                        <li><a href="about.html" class="nav-link">Nosotros</a></li>
-                        <li><a href="contact.html" class="nav-link">Contacto</a></li>
-                    </ul>
-                </nav>
-
-                <!-- Header Actions -->
-                <div class="header-actions">
-                    <!-- Language Toggle -->
-                    <div class="language-toggle">
+                
+                <ul class="nav-list">
+                    <li><a href="index.html"><span class="es-text">Inicio</span><span class="en-text">Home</span><span class="ja-text">ホーム</span></a></li>
+                    <li><a href="products.html" class="active"><span class="es-text">Productos</span><span class="en-text">Products</span><span class="ja-text">商品</span></a></li>
+                    <li><a href="blog.html"><span class="es-text">Blog</span><span class="en-text">Blog</span><span class="ja-text">ブログ</span></a></li>
+                    <li><a href="about.html"><span class="es-text">Nosotros</span><span class="en-text">About</span><span class="ja-text">私たちについて</span></a></li>
+                    <li><a href="contact.html"><span class="es-text">Contacto</span><span class="en-text">Contact</span><span class="ja-text">お問い合わせ</span></a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <div class="language-selector">
                         <button class="lang-btn active" data-lang="es">ES</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
                         <button class="lang-btn" data-lang="ja">日本語</button>
                     </div>
-
-                    <!-- Theme Toggle -->
-                    <button class="theme-toggle" aria-label="Cambiar tema">
+                    <button class="theme-toggle" onclick="utils.toggleTheme()">
                         <i class="fas fa-moon"></i>
                     </button>
-
-                    <!-- Cart -->
-                    <div class="cart">
-                        <button class="cart-btn" aria-label="Carrito de compras">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count">0</span>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle" aria-label="Menú móvil">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <button class="cart-toggle">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
                     </button>
                 </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div class="mobile-menu">
-                <ul class="mobile-nav-list">
-                    <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
-                    <li><a href="products.html" class="mobile-nav-link">Productos</a></li>
-                    <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
-                    <li><a href="about.html" class="mobile-nav-link">Nosotros</a></li>
-                    <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
-                </ul>
-            </div>
+            </nav>
         </div>
     </header>
 
-    <!-- メインコンテンツ -->
-    <main class="main">
-        <section class="product-detail" id="product-detail-container">
-            <!-- 商品詳細がJSで動的に挿入されます -->
-            <div class="container">
-                <div class="loading-message">
-                    <span class="es-text">Cargando información del producto...</span>
-                    <span class="ja-text">商品情報を読み込み中...</span>
-                </div>
-            </div>
-        </section>
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+        <ol class="breadcrumb-list">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="products.html">Productos</a></li>
+            <li id="product-breadcrumb">Producto</li>
+        </ol>
+    </nav>
 
-        <section class="related-products">
-            <div class="container">
-                <h2>
-                    <span class="es-text">Productos Relacionados</span>
-                    <span class="ja-text">関連商品</span>
-                </h2>
-                <div class="product-grid" id="related-products-container">
-                    <!-- 関連商品がJSで動的に挿入されます -->
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div id="product-detail-container">
+                <div class="loading-detail">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p>Cargando detalles del producto...</p>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -107,118 +232,193 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3 class="footer-title">Youkoso</h3>
-                    <p class="footer-description">
-                        <span class="es-text">Tu tienda de confianza para productos japoneses auténticos.</span>
-                        <span class="ja-text">本格的な日本製品の信頼できる店舗。</span>
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
+                    <h3>Youkoso</h3>
+                    <p>Tu tienda de confianza para productos japoneses auténticos.</p>
                 </div>
-
+                
                 <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Enlaces Rápidos</span>
-                        <span class="ja-text">クイックリンク</span>
-                    </h4>
+                    <h4>Enlaces Rápidos</h4>
                     <ul class="footer-links">
-                        <li><a href="products.html" class="footer-link">
-                            <span class="es-text">Productos</span>
-                            <span class="ja-text">商品</span>
-                        </a></li>
-                        <li><a href="blog.html" class="footer-link">
-                            <span class="es-text">Blog</span>
-                            <span class="ja-text">ブログ</span>
-                        </a></li>
-                        <li><a href="about.html" class="footer-link">
-                            <span class="es-text">Nosotros</span>
-                            <span class="ja-text">私たちについて</span>
-                        </a></li>
-                        <li><a href="contact.html" class="footer-link">
-                            <span class="es-text">Contacto</span>
-                            <span class="ja-text">お問い合わせ</span>
-                        </a></li>
+                        <li><a href="products.html">Productos</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">Nosotros</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
                     </ul>
                 </div>
-
+                
                 <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Categorías</span>
-                        <span class="ja-text">カテゴリー</span>
-                    </h4>
+                    <h4>Categorías</h4>
                     <ul class="footer-links">
-                        <li><a href="products.html?category=figuras" class="footer-link">
-                            <span class="es-text">Figuras</span>
-                            <span class="ja-text">フィギュア</span>
-                        </a></li>
-                        <li><a href="products.html?category=peluches" class="footer-link">
-                            <span class="es-text">Peluches</span>
-                            <span class="ja-text">ぬいぐるみ</span>
-                        </a></li>
-                        <li><a href="products.html?category=manga" class="footer-link">
-                            <span class="es-text">Manga</span>
-                            <span class="ja-text">マンガ</span>
-                        </a></li>
-                        <li><a href="products.html?category=ropa" class="footer-link">
-                            <span class="es-text">Ropa</span>
-                            <span class="ja-text">服</span>
-                        </a></li>
+                        <li><a href="products.html?category=figuras">Figuras</a></li>
+                        <li><a href="products.html?category=peluches">Peluches</a></li>
+                        <li><a href="products.html?category=manga">Manga</a></li>
+                        <li><a href="products.html?category=ropa">Ropa</a></li>
                     </ul>
                 </div>
-
+                
                 <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Contacto</span>
-                        <span class="ja-text">お問い合わせ</span>
-                    </h4>
-                    <div class="contact-info">
-                        <p class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>info@youkoso.com</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+52 (55) 1234-5678</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Ciudad de México, México</span>
-                        </p>
-                    </div>
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> info@youkoso.com</p>
+                    <p><i class="fas fa-phone"></i> +52 (55) 1234-5678</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Ciudad de México, México</p>
                 </div>
             </div>
-
+            
             <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <p class="copyright">
-                        <span class="es-text">&copy; 2024 Youkoso Todos los derechos reservados.</span>
-                        <span class="ja-text">&copy; 2024 Youkoso すべての権利を保有しています。</span>
-                    </p>
-                    <div class="footer-bottom-links">
-                        <a href="#" class="footer-bottom-link">
-                            <span class="es-text">Política de Privacidad</span>
-                            <span class="ja-text">プライバシーポリシー</span>
-                        </a>
-                        <a href="#" class="footer-bottom-link">
-                            <span class="es-text">Términos de Servicio</span>
-                            <span class="ja-text">利用規約</span>
-                        </a>
-                    </div>
-                </div>
+                <p>&copy; 2024 Youkoso. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="js/core-simple.js"></script>
+    <script>
+        let currentProduct = null;
+        let quantity = 1;
+
+        // Load product details
+        async function loadProductDetail() {
+            const productId = localStorage.getItem('selectedProductId');
+            
+            if (!productId) {
+                document.getElementById('product-detail-container').innerHTML = `
+                    <div class="loading-detail">
+                        <p>No se encontró el producto seleccionado.</p>
+                        <a href="products.html" class="btn btn-primary">Volver a productos</a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const products = await utils.loadData('products');
+                currentProduct = products.find(p => p.id === productId);
+                
+                if (!currentProduct) {
+                    throw new Error('Product not found');
+                }
+
+                await displayProductDetail();
+            } catch (error) {
+                console.error('Error loading product detail:', error);
+                document.getElementById('product-detail-container').innerHTML = `
+                    <div class="loading-detail">
+                        <p>Error al cargar el producto.</p>
+                        <a href="products.html" class="btn btn-primary">Volver a productos</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Display product details
+        async function displayProductDetail() {
+            if (!currentProduct) return;
+
+            // Update page title and breadcrumb
+            document.title = `${currentProduct.name} - Youkoso`;
+            document.getElementById('product-breadcrumb').textContent = currentProduct.name;
+
+            // Get product image
+            const imageUrl = await utils.getProductImage(currentProduct);
+            const price = utils.formatPrice(currentProduct.price);
+
+            const detailHTML = `
+                <div class="product-detail">
+                    <div class="product-detail-grid">
+                        <div class="product-image-container">
+                            <img src="${imageUrl}" alt="${currentProduct.name}" class="product-detail-image">
+                        </div>
+                        
+                        <div class="product-info-section">
+                            <span class="product-category">${currentProduct.category}</span>
+                            <h1>${currentProduct.name}</h1>
+                            <div class="product-price">${price}</div>
+                            
+                            <p class="product-description">
+                                ${currentProduct.description || 'Producto japonés auténtico de alta calidad.'}
+                            </p>
+                            
+                            <div class="quantity-selector">
+                                <label for="quantity">Cantidad:</label>
+                                <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                                <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="10" readonly>
+                                <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                            </div>
+                            
+                            <div class="product-actions">
+                                <button class="btn btn-primary btn-large" onclick="addToCart()">
+                                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                                </button>
+                                <button class="btn btn-secondary btn-large" onclick="goBack()">
+                                    <i class="fas fa-arrow-left"></i> Volver
+                                </button>
+                            </div>
+                            
+                            ${currentProduct.tags ? `
+                                <div class="product-tags">
+                                    <strong>Tags:</strong> ${currentProduct.tags.join(', ')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('product-detail-container').innerHTML = detailHTML;
+        }
+
+        // Update quantity
+        function updateQuantity(change) {
+            quantity = Math.max(1, Math.min(10, quantity + change));
+            document.getElementById('quantity').value = quantity;
+        }
+
+        // Add to cart
+        function addToCart() {
+            if (!currentProduct) return;
+
+            for (let i = 0; i < quantity; i++) {
+                utils.cart.add(currentProduct);
+            }
+
+            // Show confirmation
+            const addButton = document.querySelector('.product-actions .btn-primary');
+            const originalText = addButton.innerHTML;
+            addButton.innerHTML = '<i class="fas fa-check"></i> Agregado al Carrito';
+            addButton.disabled = true;
+
+            setTimeout(() => {
+                addButton.innerHTML = originalText;
+                addButton.disabled = false;
+            }, 2000);
+        }
+
+        // Go back to products
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            utils.initLanguage();
+            utils.initTheme();
+            loadProductDetail();
+
+            // Language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    utils.setLanguage(btn.dataset.lang);
+                });
+            });
+
+            // Cart count update
+            utils.cart.updateDisplay();
+        });
+
+        // Make functions global
+        window.updateQuantity = updateQuantity;
+        window.addToCart = addToCart;
+        window.goBack = goBack;
+    </script>
 </body>
 </html>

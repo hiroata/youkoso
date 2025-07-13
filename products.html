@@ -16,27 +16,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* カワイイ商品ページのスタイル - ショッピングテーマ */
+        /* Modern products page styles - Shopping theme */
         :root {
-            --kawaii-pink: #ff6b9d;
-            --kawaii-blue: #4ecdc4;
-            --kawaii-yellow: #ffe66d;
-            --kawaii-purple: #a8e6cf;
-            --kawaii-orange: #ff8b94;
-            --kawaii-mint: #b4f8c8;
-            --kawaii-peach: #fbb2d6;
-            --shop-rainbow: linear-gradient(45deg, #ff6b9d, #4ecdc4, #ffe66d, #a8e6cf, #ff8b94);
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --muted-blue: #95a5a6;
+            --light-gray: #ecf0f1;
+            --success-color: #27ae60;
+            --modern-gradient: linear-gradient(45deg, #2c3e50, #3498db, #95a5a6, #ecf0f1);
         }
         
-        /* ポップな背景 - ショッピングテーマ */
+        /* Clean background - Shopping theme */
         body {
-            background: linear-gradient(135deg, #ff6b9d 0%, #4ecdc4 25%, #ffe66d 50%, #a8e6cf 75%, #ff8b94 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Image loading effects */
+        .product-card img {
+            transition: opacity 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .product-card img.loaded {
+            opacity: 1;
+        }
+
+        .product-image {
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
         }
         
         /* フローティング要素 - ショッピングテーマ */
@@ -56,17 +78,17 @@
             font-size: 2rem;
             opacity: 0.1;
             animation: shop-float 20s ease-in-out infinite;
-            color: var(--kawaii-pink);
+            color: var(--primary-color);
         }
         
-        .floating-element:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; color: var(--kawaii-pink); }
-        .floating-element:nth-child(2) { top: 15%; right: 15%; animation-delay: 2s; color: var(--kawaii-blue); }
-        .floating-element:nth-child(3) { top: 25%; left: 5%; animation-delay: 4s; color: var(--kawaii-yellow); }
-        .floating-element:nth-child(4) { top: 35%; right: 10%; animation-delay: 6s; color: var(--kawaii-purple); }
-        .floating-element:nth-child(5) { top: 45%; left: 20%; animation-delay: 8s; color: var(--kawaii-mint); }
-        .floating-element:nth-child(6) { top: 55%; right: 25%; animation-delay: 10s; color: var(--kawaii-orange); }
-        .floating-element:nth-child(7) { top: 65%; left: 15%; animation-delay: 12s; color: var(--kawaii-peach); }
-        .floating-element:nth-child(8) { top: 75%; right: 5%; animation-delay: 14s; color: var(--kawaii-pink); }
+        .floating-element:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; color: var(--primary-color); }
+        .floating-element:nth-child(2) { top: 15%; right: 15%; animation-delay: 2s; color: var(--accent-color); }
+        .floating-element:nth-child(3) { top: 25%; left: 5%; animation-delay: 4s; color: var(--text-light); }
+        .floating-element:nth-child(4) { top: 35%; right: 10%; animation-delay: 6s; color: var(--muted-blue); }
+        .floating-element:nth-child(5) { top: 45%; left: 20%; animation-delay: 8s; color: var(--text-light); }
+        .floating-element:nth-child(6) { top: 55%; right: 25%; animation-delay: 10s; color: var(--accent-color); }
+        .floating-element:nth-child(7) { top: 65%; left: 15%; animation-delay: 12s; color: var(--accent-color); }
+        .floating-element:nth-child(8) { top: 75%; right: 5%; animation-delay: 14s; color: var(--primary-color); }
         
         @keyframes shop-float {
             0%, 100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.1; }
@@ -105,7 +127,7 @@
         }
         
         .page-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 3rem;
             font-weight: 700;
             background: var(--shop-rainbow);
@@ -178,7 +200,7 @@
             display: block;
             font-size: 2.5rem;
             font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         .stat-label {
@@ -230,7 +252,7 @@
         }
         
         .filters-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
             background: var(--shop-rainbow);
             -webkit-background-clip: text;
@@ -242,7 +264,7 @@
         }
         
         .filters-title i {
-            color: var(--kawaii-pink);
+            color: var(--primary-color);
             animation: filter-spin 3s linear infinite;
         }
         
@@ -252,12 +274,12 @@
         }
         
         .filters-reset {
-            background: linear-gradient(135deg, var(--kawaii-orange), var(--kawaii-pink));
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -285,23 +307,23 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
         
         .filter-label i {
-            color: var(--kawaii-pink);
+            color: var(--primary-color);
         }
         
         .filter-select, .search-input {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid var(--kawaii-purple);
+            border: 2px solid var(--muted-blue);
             border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 16px;
             background: white;
             transition: all 0.3s ease;
@@ -309,7 +331,7 @@
         }
         
         .filter-select:focus, .search-input:focus {
-            border-color: var(--kawaii-pink);
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.2);
             transform: scale(1.02);
         }
@@ -323,7 +345,7 @@
             right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--kawaii-pink);
+            background: var(--primary-color);
             color: white;
             border: none;
             width: 40px;
@@ -337,7 +359,7 @@
         }
         
         .search-btn:hover {
-            background: var(--kawaii-blue);
+            background: var(--accent-color);
             transform: translateY(-50%) scale(1.1);
         }
         
@@ -346,7 +368,7 @@
             right: 55px;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--kawaii-orange);
+            background: var(--accent-color);
             color: white;
             border: none;
             width: 30px;
@@ -375,9 +397,9 @@
         }
         
         .results-count {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.2rem;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             font-weight: 600;
         }
         
@@ -388,8 +410,8 @@
         
         .view-btn {
             background: white;
-            border: 2px solid var(--kawaii-purple);
-            color: var(--kawaii-purple);
+            border: 2px solid var(--muted-blue);
+            color: var(--muted-blue);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -402,8 +424,8 @@
         
         .view-btn.active,
         .view-btn:hover {
-            background: var(--kawaii-pink);
-            border-color: var(--kawaii-pink);
+            background: var(--primary-color);
+            border-color: var(--primary-color);
             color: white;
             transform: scale(1.1);
         }
@@ -429,7 +451,7 @@
         .product-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border-color: var(--kawaii-pink);
+            border-color: var(--primary-color);
         }
         
         .product-card::before {
@@ -488,11 +510,11 @@
             font-weight: 600;
             display: inline-block;
             margin-bottom: 10px;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         .product-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.3rem;
             color: #333;
             margin: 10px 0;
@@ -502,9 +524,9 @@
         .product-price {
             font-size: 1.4rem;
             font-weight: 700;
-            color: var(--kawaii-pink);
+            color: var(--primary-color);
             margin: 15px 0;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         .product-actions {
@@ -519,7 +541,7 @@
             border: none;
             padding: 12px 20px;
             border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -533,8 +555,8 @@
         
         .btn-secondary {
             background: white;
-            color: var(--kawaii-blue);
-            border: 2px solid var(--kawaii-blue);
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
             padding: 10px;
             border-radius: 50%;
             cursor: pointer;
@@ -547,7 +569,7 @@
         }
         
         .btn-secondary:hover {
-            background: var(--kawaii-blue);
+            background: var(--accent-color);
             color: white;
             transform: scale(1.1);
         }
@@ -556,14 +578,14 @@
         .loading-placeholder {
             text-align: center;
             padding: 60px 20px;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
         }
         
         .loading-spinner {
             width: 60px;
             height: 60px;
-            border: 4px solid var(--kawaii-purple);
-            border-top: 4px solid var(--kawaii-pink);
+            border: 4px solid var(--muted-blue);
+            border-top: 4px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
@@ -584,21 +606,21 @@
         
         .pagination .page-btn {
             background: white;
-            color: var(--kawaii-blue);
-            border: 2px solid var(--kawaii-purple);
+            color: var(--accent-color);
+            border: 2px solid var(--muted-blue);
             padding: 12px 18px;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
         }
         
         .pagination .page-btn:hover,
         .pagination .page-btn.active {
-            background: var(--kawaii-pink);
+            background: var(--primary-color);
             color: white;
-            border-color: var(--kawaii-pink);
+            border-color: var(--primary-color);
             transform: scale(1.1);
         }
         
@@ -757,12 +779,12 @@
                 <div class="page-header-content">
                     <div class="header-text">
                         <h1 class="page-title">
-                            <span class="es-text">🌸 Nuestros Productos 🌸</span>
-                            <span class="ja-text">🌸 私たちの商品 🌸</span>
+                            <span class="es-text">Nuestros Productos</span>
+                            <span class="ja-text">私たちの商品</span>
                         </h1>
                         <p class="page-description">
-                            <span class="es-text">✨ Descubre nuestra colección completa de productos japoneses auténticos ✨</span>
-                            <span class="ja-text">✨ 本格的な日本製品の完全なコレクションをご覧ください ✨</span>
+                            <span class="es-text">Descubre nuestra colección completa de productos japoneses auténticos</span>
+                            <span class="ja-text">本格的な日本製品の完全なコレクションをご覧ください</span>
                         </p>
                     </div>
                     <div class="header-stats">
@@ -792,8 +814,8 @@
                     <div class="filters-header">
                         <h2 class="filters-title">
                             <i class="fas fa-filter"></i>
-                            <span class="es-text">🎨 Filtros</span>
-                            <span class="ja-text">🎨 フィルター</span>
+                            <span class="es-text">Filtros</span>
+                            <span class="ja-text">フィルター</span>
                         </h2>
                         <button class="filters-reset" id="reset-filters">
                             <i class="fas fa-undo"></i>
@@ -811,24 +833,24 @@
                             </label>
                             <select id="category-filter" class="filter-select modern-select">
                                 <option value="all">
-                                    <span class="es-text">🌈 Todas las categorías</span>
-                                    <span class="ja-text">🌈 すべてのカテゴリー</span>
+                                    <span class="es-text">Todas las categorías</span>
+                                    <span class="ja-text">すべてのカテゴリー</span>
                                 </option>
                                 <option value="figuras">
-                                    <span class="es-text">🎎 Figuras</span>
-                                    <span class="ja-text">🎎 フィギュア</span>
+                                    <span class="es-text">Figuras</span>
+                                    <span class="ja-text">フィギュア</span>
                                 </option>
                                 <option value="peluches">
-                                    <span class="es-text">🧸 Peluches</span>
-                                    <span class="ja-text">🧸 ぬいぐるみ</span>
+                                    <span class="es-text">Peluches</span>
+                                    <span class="ja-text">ぬいぐるみ</span>
                                 </option>
                                 <option value="manga">
-                                    <span class="es-text">📚 Manga</span>
-                                    <span class="ja-text">📚 マンガ</span>
+                                    <span class="es-text">Manga</span>
+                                    <span class="ja-text">マンガ</span>
                                 </option>
                                 <option value="ropa">
-                                    <span class="es-text">👕 Ropa</span>
-                                    <span class="ja-text">👕 服</span>
+                                    <span class="es-text">Ropa</span>
+                                    <span class="ja-text">服</span>
                                 </option>
                             </select>
                         </div>
@@ -841,20 +863,20 @@
                             </label>
                             <select id="sort-filter" class="filter-select modern-select">
                                 <option value="featured">
-                                    <span class="es-text">⭐ Destacados</span>
-                                    <span class="ja-text">⭐ 注目商品</span>
+                                    <span class="es-text">Destacados</span>
+                                    <span class="ja-text">注目商品</span>
                                 </option>
                                 <option value="price-low">
-                                    <span class="es-text">💰 Precio: Menor a Mayor</span>
-                                    <span class="ja-text">💰 価格: 安い順</span>
+                                    <span class="es-text">Precio: Menor a Mayor</span>
+                                    <span class="ja-text">価格: 安い順</span>
                                 </option>
                                 <option value="price-high">
-                                    <span class="es-text">💎 Precio: Mayor a Menor</span>
-                                    <span class="ja-text">💎 価格: 高い順</span>
+                                    <span class="es-text">Precio: Mayor a Menor</span>
+                                    <span class="ja-text">価格: 高い順</span>
                                 </option>
                                 <option value="name">
-                                    <span class="es-text">🔤 Nombre A-Z</span>
-                                    <span class="ja-text">🔤 名前順</span>
+                                    <span class="es-text">Nombre A-Z</span>
+                                    <span class="ja-text">名前順</span>
                                 </option>
                             </select>
                         </div>
@@ -867,9 +889,9 @@
                             </label>
                             <div class="search-wrapper">
                                 <input type="text" id="search-input" class="search-input modern-input" 
-                                       placeholder="🔍 Buscar productos kawaii..."
-                                       data-placeholder-es="🔍 Buscar productos kawaii..."
-                                       data-placeholder-ja="🔍 カワイイ商品を検索...">
+                                       placeholder="Buscar productos kawaii..."
+                                       data-placeholder-es="Buscar productos kawaii..."
+                                       data-placeholder-ja="カワイイ商品を検索...">
                                 <button class="search-btn" aria-label="Buscar">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -909,8 +931,8 @@
                         <div class="loading-placeholder">
                             <div class="loading-spinner"></div>
                             <p>
-                                <span class="es-text">🌸 Cargando productos kawaii... 🌸</span>
-                                <span class="ja-text">🌸 カワイイ商品を読み込み中... 🌸</span>
+                                <span class="es-text">Cargando productos kawaii...</span>
+                                <span class="ja-text">カワイイ商品を読み込み中...</span>
                             </p>
                         </div>
                     </div>

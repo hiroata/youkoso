@@ -1,128 +1,193 @@
-# Security Policy
+# Política de Seguridad 🔒
 
-## Supported Versions
+## Versiones Soportadas
 
-We release patches for security vulnerabilities in the following versions:
+Mantenemos parches de seguridad para las siguientes versiones del proyecto:
 
-| Version | Supported          |
+| Versión | Soportada          |
 | ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| 1.x.x   | ✅ Sí             |
+| < 1.0   | ❌ No              |
 
-## Reporting a Vulnerability
+## Reportar una Vulnerabilidad
 
-The **Youkoso** team takes security bugs seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+El equipo de **Youkoso** toma muy en serio los problemas de seguridad. Agradecemos tus esfuerzos por divulgar responsablemente tus hallazgos y haremos todo lo posible por reconocer tus contribuciones.
 
-To report a security issue, please use the GitHub Security Advisory ["Report a Vulnerability"](https://github.com/hiroata/youkoso/security/advisories/new) tab.
+### Cómo Reportar
 
-### What to Include
+Para reportar un problema de seguridad, utiliza la función de GitHub Security Advisory ["Reportar una Vulnerabilidad"](https://github.com/hiroata/youkoso/security/advisories/new).
 
-Please include the following information in your report:
+### Información a Incluir
 
-- **Type of issue** (e.g. XSS, SQL injection, etc.)
-- **Full paths of source file(s) related to the manifestation of the issue**
-- **The location of the affected source code** (tag/branch/commit or direct URL)
-- **Any special configuration required to reproduce the issue**
-- **Step-by-step instructions to reproduce the issue**
-- **Proof-of-concept or exploit code** (if possible)
-- **Impact of the issue**, including how an attacker might exploit the issue
+Por favor incluye la siguiente información en tu reporte:
 
-### What to Expect
+- **Tipo de problema** (ej. XSS, inyección SQL, etc.)
+- **Rutas completas** de los archivos de código relacionados con la manifestación del problema
+- **Ubicación del código fuente afectado** (tag/branch/commit o URL directa)
+- **Configuración especial requerida** para reproducir el problema
+- **Instrucciones paso a paso** para reproducir el problema
+- **Prueba de concepto o código de explotación** (si es posible)
+- **Impacto del problema**, incluyendo cómo un atacante podría explotar el problema
 
-- **Acknowledgment**: We will acknowledge receipt of your vulnerability report within 48 hours.
-- **Investigation**: We will investigate and validate the issue within 5 business days.
-- **Updates**: We will provide regular updates on our progress.
-- **Resolution**: We aim to resolve critical issues within 30 days.
+### Qué Esperar
 
-### Security Measures
+- **Confirmación**: Reconoceremos la recepción de tu reporte de vulnerabilidad en 48 horas.
+- **Investigación**: Investigaremos y validaremos el problema en 5 días hábiles.
+- **Actualizaciones**: Proporcionaremos actualizaciones regulares sobre nuestro progreso.
+- **Resolución**: Buscamos resolver problemas críticos en 30 días.
 
-This project implements several security measures:
+## Medidas de Seguridad Implementadas
 
-- **Content Security Policy (CSP)** headers
-- **Input validation** on all user inputs
-- **HTTPS enforcement** in production
-- **Regular dependency updates** to patch known vulnerabilities
-- **Safe handling** of user data and privacy
+Este proyecto implementa varias medidas de seguridad:
 
-### Scope
+### Seguridad del Frontend
+- **Content Security Policy (CSP)** configurada en Firebase Hosting
+- **Validación de entrada** en todos los inputs del usuario
+- **Sanitización de salida** para prevenir ataques XSS
+- **HTTPS obligatorio** en producción vía Firebase Hosting
+- **Headers de seguridad** configurados en `firebase.json`
 
-This security policy applies to:
+### Gestión de Datos
+- **Almacenamiento local seguro** (localStorage para carrito)
+- **No almacenamiento** de información sensible en frontend
+- **Validación de datos** antes del procesamiento
+- **Manejo seguro** de APIs externas (Unsplash)
 
-- The main **Youkoso** website and application
-- All related infrastructure and deployment processes
-- Third-party integrations and dependencies
+### Infraestructura
+- **Firebase Hosting** con CDN global y protecciones DDoS
+- **Deploy automático** sin exposición de credenciales
+- **GitHub Secrets** para información sensible
+- **Monitoreo** de dependencias con alertas de seguridad
 
-### Out of Scope
+## Alcance de la Política
 
-The following are considered out of scope for this security policy:
+Esta política de seguridad aplica a:
 
-- Theoretical vulnerabilities without proof of concept
-- Issues in third-party services that we don't control
-- Social engineering attacks
-- Physical attacks
-- Issues requiring physical access to servers
+- El sitio web principal de **Youkoso** y la aplicación
+- Toda la infraestructura relacionada y procesos de deploy
+- Integraciones y dependencias de terceros
 
-## Security Best Practices for Contributors
+### Fuera del Alcance
 
-When contributing to this project, please follow these security guidelines:
+Los siguientes elementos se consideran fuera del alcance de esta política:
 
-### Code Security
+- Vulnerabilidades teóricas sin prueba de concepto
+- Problemas en servicios de terceros que no controlamos
+- Ataques de ingeniería social
+- Ataques físicos
+- Problemas que requieren acceso físico a servidores
 
-- **Validate all inputs** from users and external sources
-- **Sanitize outputs** to prevent XSS attacks  
-- **Use HTTPS** for all external API calls
-- **Don't commit secrets** like API keys or passwords
-- **Use environment variables** for sensitive configuration
+## Mejores Prácticas de Seguridad para Contribuidores
 
-### Dependency Management
+Al contribuir a este proyecto, sigue estas pautas de seguridad:
 
-- **Keep dependencies updated** to the latest secure versions
-- **Review dependencies** before adding new ones
-- **Use dependency scanning** tools to identify vulnerabilities
-- **Remove unused dependencies** to reduce attack surface
+### Seguridad del Código
 
-### Data Protection
+- **Valida todas las entradas** de usuarios y fuentes externas
+- **Sanitiza las salidas** para prevenir ataques XSS
+- **Usa HTTPS** para todas las llamadas a APIs externas
+- **No hagas commit de secretos** como API keys o contraseñas
+- **Usa variables de entorno** para configuración sensible
 
-- **Minimize data collection** to only what's necessary
-- **Handle user data** according to privacy laws (GDPR, CCPA, etc.)
-- **Use secure storage** for any sensitive information
-- **Implement proper access controls**
+### Gestión de Dependencias
 
-## Security Headers
+- **Mantén las dependencias actualizadas** a las últimas versiones seguras
+- **Revisa las dependencias** antes de añadir nuevas
+- **Usa herramientas de escaneo** para identificar vulnerabilidades
+- **Elimina dependencias no utilizadas** para reducir la superficie de ataque
 
-This project implements the following security headers:
+### Protección de Datos
 
+- **Minimiza la recolección de datos** solo a lo necesario
+- **Maneja los datos de usuario** según las leyes de privacidad (GDPR, CCPA, etc.)
+- **Usa almacenamiento seguro** para cualquier información sensible
+- **Implementa controles de acceso** apropiados
+
+## Headers de Seguridad
+
+Este proyecto implementa los siguientes headers de seguridad en Firebase Hosting:
+
+```json
+{
+  "headers": [
+    {
+      "source": "**",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
 ```
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
-X-Frame-Options: DENY
-X-Content-Type-Options: nosniff
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: geolocation=(), microphone=(), camera=()
-```
 
-## Disclosure Policy
+## Tecnologías de Seguridad
 
-- **Coordinated disclosure**: We prefer coordinated disclosure with security researchers
-- **Public disclosure**: Issues will be publicly disclosed after they are fixed
-- **Credit**: We will give credit to security researchers who responsibly report vulnerabilities
-- **Bug bounty**: Currently, we don't have a formal bug bounty program, but we appreciate responsible disclosure
+### Implementadas
+- ✅ **Firebase Hosting**: SSL automático, CDN global, protección DDoS
+- ✅ **GitHub Actions**: Deploy seguro sin exposición de credenciales
+- ✅ **Content Security Policy**: Prevención de XSS
+- ✅ **Input Validation**: Validación en formularios
+- ✅ **Dependency Updates**: Monitoreo automático de dependencias
 
-## Contact
+### Recomendadas para el Futuro
+- 🔄 **Firestore Security Rules**: Cuando se implemente backend
+- 🔄 **Firebase Auth**: Para autenticación de usuarios
+- 🔄 **Rate Limiting**: Para prevenir abuse de APIs
+- 🔄 **Web Application Firewall**: Para protección adicional
 
-For security-related questions that are not vulnerabilities, you can contact us at:
+## Política de Divulgación
+
+- **Divulgación coordinada**: Preferimos la divulgación coordinada con investigadores de seguridad
+- **Divulgación pública**: Los problemas se divulgarán públicamente después de ser resueltos
+- **Crédito**: Daremos crédito a los investigadores que reporten vulnerabilidades responsablemente
+- **Bug bounty**: Actualmente no tenemos un programa formal de bug bounty, pero apreciamos la divulgación responsable
+
+## Contacto
+
+Para preguntas relacionadas con seguridad que no sean vulnerabilidades, puedes contactarnos en:
 
 - **Email**: [security@youkoso.mx](mailto:security@youkoso.mx)
-- **GitHub**: Open an issue with the `security` label
+- **GitHub**: Abre un issue con la etiqueta `security`
 
-## Legal
+## Marco Legal
 
-By submitting a vulnerability report, you agree that:
+Al enviar un reporte de vulnerabilidad, aceptas que:
 
-- You will not access or modify user data without explicit permission
-- You will not perform testing that could harm our systems or users
-- You will comply with all applicable laws and regulations
-- You will not publicly disclose the vulnerability before we have had a chance to address it
+- No accederás ni modificarás datos de usuario sin permiso explícito
+- No realizarás pruebas que puedan dañar nuestros sistemas o usuarios
+- Cumplirás con todas las leyes y regulaciones aplicables
+- No divulgarás públicamente la vulnerabilidad antes de que hayamos tenido la oportunidad de abordarla
+
+## Actualizaciones de Seguridad
+
+- **Dependencias**: Revisión mensual y actualización de dependencias
+- **Política**: Esta política se revisa y actualiza trimestralmente
+- **Monitoreo**: Monitoreo continuo de alertas de seguridad
+- **Respuesta**: Plan de respuesta a incidentes documentado
 
 ---
 
-Thank you for helping keep **Youkoso** and our users safe! 🔒
+## Estado Actual de Seguridad
+
+> ✅ **Nivel de Seguridad**: BUENO
+> 
+> Proyecto con medidas de seguridad básicas implementadas, hosting seguro, y buenas prácticas de desarrollo. Apropiado para aplicación e-commerce básica.
+
+---
+
+¡Gracias por ayudar a mantener **Youkoso** y nuestros usuarios seguros! 🔒

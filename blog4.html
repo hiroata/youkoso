@@ -16,29 +16,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* カワイイブログ記事ページのスタイル - クリーチャー/ファンタジーテーマ */
+        /* Modern blog article page styles - Creature/Fantasy theme */
         :root {
-            --kawaii-pink: #ff6b9d;
-            --kawaii-blue: #4ecdc4;
-            --kawaii-yellow: #ffe66d;
-            --kawaii-purple: #a8e6cf;
-            --kawaii-orange: #ff8b94;
-            --kawaii-mint: #b4f8c8;
-            --kawaii-peach: #fbb2d6;
-            --pokemon-electric: #f7d02c;
-            --pokemon-fire: #ee8130;
-            --alebrije-rainbow: linear-gradient(45deg, #ff6b9d, #4ecdc4, #ffe66d, #a8e6cf, #ff8b94);
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --muted-blue: #95a5a6;
+            --light-gray: #ecf0f1;
+            --fantasy-purple: #8e44ad;
+            --fantasy-teal: #16a085;
+            --modern-gradient: linear-gradient(45deg, #2c3e50, #3498db, #95a5a6, #ecf0f1);
         }
         
-        /* 魔法的な背景 - クリーチャーテーマ */
+        /* Clean background - Creature theme */
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         /* フローティング要素 - クリーチャーテーマ */
@@ -58,15 +55,15 @@
             font-size: 2rem;
             opacity: 0.15;
             animation: creature-float 25s ease-in-out infinite;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
         }
         
-        .floating-element:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; color: var(--pokemon-electric); }
-        .floating-element:nth-child(2) { top: 15%; right: 15%; animation-delay: 4s; color: var(--pokemon-fire); }
-        .floating-element:nth-child(3) { top: 35%; left: 5%; animation-delay: 8s; color: var(--kawaii-blue); }
-        .floating-element:nth-child(4) { top: 55%; right: 10%; animation-delay: 12s; color: var(--kawaii-purple); }
-        .floating-element:nth-child(5) { top: 75%; left: 20%; animation-delay: 16s; color: var(--kawaii-mint); }
-        .floating-element:nth-child(6) { top: 25%; left: 50%; animation-delay: 20s; color: var(--kawaii-orange); }
+        .floating-element:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; color: var(--fantasy-teal); }
+        .floating-element:nth-child(2) { top: 15%; right: 15%; animation-delay: 4s; color: var(--fantasy-purple); }
+        .floating-element:nth-child(3) { top: 35%; left: 5%; animation-delay: 8s; color: var(--accent-color); }
+        .floating-element:nth-child(4) { top: 55%; right: 10%; animation-delay: 12s; color: var(--fantasy-purple); }
+        .floating-element:nth-child(5) { top: 75%; left: 20%; animation-delay: 16s; color: var(--fantasy-teal); }
+        .floating-element:nth-child(6) { top: 25%; left: 50%; animation-delay: 20s; color: var(--accent-color); }
         
         @keyframes creature-float {
             0%, 100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.1; }
@@ -94,7 +91,7 @@
         }
         
         .breadcrumb-list li {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 500;
         }
         
@@ -111,7 +108,7 @@
         }
         
         .breadcrumb-list a {
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             text-decoration: none;
             transition: all 0.3s ease;
             padding: 5px 10px;
@@ -119,7 +116,7 @@
         }
         
         .breadcrumb-list a:hover {
-            background: var(--kawaii-pink);
+            background: var(--primary-color);
             color: white;
             transform: scale(1.05);
         }
@@ -184,7 +181,7 @@
         }
         
         .article-meta span {
-            background: linear-gradient(135deg, var(--kawaii-mint), var(--kawaii-purple));
+            background: linear-gradient(135deg, var(--text-light), var(--muted-blue));
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -213,7 +210,7 @@
         }
         
         .article-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             background: var(--alebrije-rainbow);
@@ -239,7 +236,7 @@
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(245, 87, 108, 0.1));
             padding: 20px;
             border-radius: 15px;
-            border-left: 5px solid var(--kawaii-pink);
+            border-left: 5px solid var(--primary-color);
         }
         
         .article-image {
@@ -252,7 +249,7 @@
         }
         
         .article-image::after {
-            content: '✨';
+            content: '•';
             position: absolute;
             top: 10px;
             right: 10px;
@@ -300,7 +297,7 @@
         }
         
         .article-body h2 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2rem;
             background: var(--alebrije-rainbow);
             -webkit-background-clip: text;
@@ -310,7 +307,7 @@
             padding: 15px 20px;
             background-color: rgba(102, 126, 234, 0.1);
             border-radius: 15px;
-            border-left: 5px solid var(--kawaii-blue);
+            border-left: 5px solid var(--accent-color);
             position: relative;
         }
         
@@ -329,9 +326,9 @@
         }
         
         .article-body h3 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.5rem;
-            color: var(--kawaii-orange);
+            color: var(--accent-color);
             margin: 30px 0 15px 0;
         }
         
@@ -390,7 +387,7 @@
         }
         
         .comparison-section::before {
-            content: '✨';
+            content: '•';
             position: absolute;
             top: 10px;
             right: 10px;
@@ -399,7 +396,7 @@
         }
         
         .comparison-section h4 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--pokemon-fire);
             margin-bottom: 15px;
             text-align: center;
@@ -420,14 +417,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--kawaii-blue);
+            color: var(--accent-color);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
         .stat-item:hover {
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             transform: scale(1.1);
         }
         
@@ -463,7 +460,7 @@
         }
         
         .related-articles .section-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2.5rem;
             background: var(--alebrije-rainbow);
             -webkit-background-clip: text;
@@ -574,7 +571,7 @@
         }
         
         .newsletter-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 2rem;
             margin-bottom: 10px;
         }
@@ -601,19 +598,19 @@
         
         .newsletter-btn {
             background: white;
-            color: var(--kawaii-pink);
+            color: var(--muted-blue);
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
             font-weight: 600;
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .newsletter-btn:hover {
-            background: var(--kawaii-yellow);
+            background: var(--text-light);
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }

@@ -57,15 +57,21 @@ Puedes contribuir de varias maneras:
    # Instalar dependencias
    npm install
    
-   # Opción 1: npm script
-   npm run dev
+   # Servidor de desarrollo (recomendado)
+   npm run dev              # Puerto 3000
    
-   # Opción 2: Firebase CLI
-   npm run firebase:serve
+   # Servidor Firebase local
+   npm run firebase:serve   # Puerto 5000
    
-   # Opción 3: Python
+   # Alternativa simple
    python -m http.server 8000
    ```
+
+5. **Archivos clave para desarrollo**
+   - **CSS**: `css/style-simple.css` (sistema de diseño)
+   - **JS Principal**: `js/core.js` (APIs y funciones principales)
+   - **Datos**: `data/data.json` (productos), `data/blogs.json`
+   - **Documentación**: `PROJECT_STATUS.md`, `DESIGN_SYSTEM.md`
 
 ## 🔄 Flujo de Trabajo
 
@@ -121,9 +127,10 @@ Puedes contribuir de varias maneras:
 ```
 
 ### CSS
-- Usar BEM methodology para nombres de clases
-- Propiedades en orden: layout, visual, typography
-- Variables CSS para colores y espaciados
+- **Archivo principal**: `css/style-simple.css` (NO usar `style.css`)
+- **Variables CSS**: Usar siempre las variables del sistema de diseño
+- **Metodología**: BEM para nombres de clases
+- **Orden**: layout, visual, typography
 
 ```css
 .product-card {
@@ -132,13 +139,33 @@ Puedes contribuir de varias maneras:
     flex-direction: column;
     
     /* Visual */
-    background-color: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--shadow-light);
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
     
     /* Typography */
-    font-family: var(--font-primary);
+    font-family: 'Inter', sans-serif;
 }
+```
+
+**Variables principales disponibles**:
+```css
+/* Colores */
+--primary-color: #2c3e50;
+--accent-color: #3498db;
+--text-color: #2c3e50;
+--bg-color: #ffffff;
+--card-bg: #ffffff;
+
+/* Espaciado */
+--spacing-sm: 0.5rem;
+--spacing-md: 1rem;
+--spacing-lg: 1.5rem;
+
+/* Efectos */
+--radius: 8px;
+--shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+--transition: all 0.3s ease;
 ```
 
 ### JavaScript
@@ -284,16 +311,42 @@ Todos los contribuidores serán reconocidos en:
 - Página "Acerca de" del sitio web
 - Releases notes cuando aplique
 
+## 📚 Documentación del Proyecto
+
+Antes de contribuir, revisa la documentación actualizada:
+
+- **[PROJECT_STATUS.md](PROJECT_STATUS.md)**: Estado completo del proyecto
+- **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)**: Guía del sistema de diseño
+- **[README.md](README.md)**: Información general y setup
+- **[SECURITY.md](SECURITY.md)**: Políticas de seguridad
+
+## 🚀 Estado Actual del Proyecto
+
+### ✅ **Completado (Evitar modificar sin consultar)**
+- Sistema de diseño unificado (`css/style-simple.css`)
+- Funcionalidad e-commerce básica (productos, carrito, navegación)
+- PWA implementada y deploy automático
+- Blog con 5 artículos culturales
+- Estructura de archivos optimizada
+
+### 🎯 **Áreas de Expansión Recomendadas**
+- **Backend**: Implementar Firestore, autenticación
+- **Pagos**: Integrar pasarela de pagos (Stripe/PayPal)
+- **Admin Panel**: Expandir funcionalidades CRUD
+- **Funcionalidades**: Reviews, wishlist, analytics
+
 ## 📞 ¿Necesitas Ayuda?
 
-- **Discord**: [Enlace al servidor] (próximamente)
-- **Email**: [contribuciones@youkoso.mx](mailto:contribuciones@youkoso.mx)
-- **Issues**: Para preguntas técnicas específicas
+- **GitHub Issues**: Para bugs y nuevas funcionalidades
+- **Email**: [contacto@youkoso.mx](mailto:contacto@youkoso.mx)
+- **Documentación**: Consulta los archivos `.md` del proyecto
 
 ## 📄 Código de Conducta
 
 Este proyecto se adhiere al [Contributor Covenant](https://www.contributor-covenant.org/). Al participar, te comprometes a mantener un ambiente acogedor y respetuoso para todos.
 
 ---
+
+**Estado**: ✅ Proyecto funcional completo - Listo para expansión avanzada
 
 ¡Gracias por contribuir a **Youkoso**! 🎌✨
