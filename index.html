@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" itemscope itemtype="https://schema.org/Store">
+<html lang="es" data-lang="es" itemscope itemtype="https://schema.org/Store">
 <head>
     <!-- 基本メタタグ -->
     <meta charset="UTF-8">
@@ -170,10 +170,10 @@
     </noscript>
     
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style-simple.css">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/style-simple.css" as="style">
     <link rel="preload" href="js/main.js" as="script">
     <link rel="preload" href="data/data.json" as="fetch" type="application/json" crossorigin>
     
@@ -255,47 +255,87 @@
 
     <!-- Main Content -->
     <main class="main" id="main-content" role="main" itemscope itemtype="https://schema.org/CollectionPage">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="container">
-                    <div class="hero-text">
-                        <h2 class="hero-title">
-                            <span class="es-text">Descubre la Auténtica Cultura Japonesa</span>
-                            <span class="en-text">Discover Authentic Japanese Culture</span>
-                            <span class="ja-text">本物の日本文化を発見しよう</span>
-                        </h2>
-                        <p class="hero-description">
+        <!-- Hero Section - Modern Redesign -->
+        <section class="hero-modern">
+            <div class="hero-container">
+                <div class="hero-content-wrapper">
+                    <div class="hero-main">
+                        <div class="hero-badge">
+                            <span class="es-text">Auténtico desde Japón</span>
+                            <span class="en-text">Authentic from Japan</span>
+                            <span class="ja-text">日本から本物を</span>
+                        </div>
+                        <h1 class="hero-headline">
+                            <span class="es-text">Cultura<br>Japonesa<br>Sin Límites</span>
+                            <span class="en-text">Japanese<br>Culture<br>Without Limits</span>
+                            <span class="ja-text">限界のない<br>日本文化</span>
+                        </h1>
+                        <p class="hero-subtitle">
                             <span class="es-text">
-                                Productos originales de Japón: anime, manga, artesanías tradicionales y mucho más.
-                                Sumérgete en la fascinante cultura japonesa desde la comodidad de tu hogar.
+                                Explora nuestra colección curada de productos auténticos japoneses. 
+                                Desde anime hasta artesanías tradicionales.
                             </span>
                             <span class="en-text">
-                                Original products from Japan: anime, manga, traditional crafts and much more.
-                                Immerse yourself in fascinating Japanese culture from the comfort of your home.
+                                Explore our curated collection of authentic Japanese products. 
+                                From anime to traditional crafts.
                             </span>
                             <span class="ja-text">
-                                日本からの本格的な商品：アニメ、マンガ、伝統工芸品など。
-                                ご自宅で魅力的な日本文化をお楽しみください。
+                                厳選された本格的な日本製品のコレクションをご覧ください。
+                                アニメから伝統工芸品まで。
                             </span>
                         </p>
-                        <div class="hero-buttons">
-                            <a href="products.html" class="btn btn-primary">
-                                <span class="es-text">Ver Productos</span>
-                                <span class="en-text">View Products</span>
-                                <span class="ja-text">商品を見る</span>
+                        <div class="hero-actions">
+                            <a href="products.html" class="hero-btn hero-btn-primary">
+                                <span class="es-text">Comenzar a Explorar</span>
+                                <span class="en-text">Start Exploring</span>
+                                <span class="ja-text">探索を開始</span>
+                                <svg class="hero-btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
-                            <a href="blog.html" class="btn btn-secondary">
-                                <span class="es-text">Explorar Blog</span>
-                                <span class="en-text">Explore Blog</span>
-                                <span class="ja-text">ブログを探索</span>
+                            <a href="#featured-products" class="hero-btn hero-btn-ghost">
+                                <span class="es-text">Ver Destacados</span>
+                                <span class="en-text">View Featured</span>
+                                <span class="ja-text">注目を見る</span>
                             </a>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="hero-image-container">
+                            <div class="hero-image-wrapper">
+                                <div class="hero-image-glow"></div>
+                                <img src="assets/images/ui/hero-bg.jpg" 
+                                     alt="Japanese Culture" 
+                                     class="hero-image"
+                                     loading="eager"
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-image-placeholder\'>🏮</div>'">
+                            </div>
+                            <div class="hero-stats">
+                                <div class="hero-stat">
+                                    <span class="hero-stat-number">500+</span>
+                                    <span class="hero-stat-label">
+                                        <span class="es-text">Productos</span>
+                                        <span class="en-text">Products</span>
+                                        <span class="ja-text">製品</span>
+                                    </span>
+                                </div>
+                                <div class="hero-stat">
+                                    <span class="hero-stat-number">4.9★</span>
+                                    <span class="hero-stat-label">
+                                        <span class="es-text">Calificación</span>
+                                        <span class="en-text">Rating</span>
+                                        <span class="ja-text">評価</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hero-background">
-                <div class="hero-pattern"></div>
+            <div class="hero-background-elements">
+                <div class="hero-gradient-orb hero-gradient-orb-1"></div>
+                <div class="hero-gradient-orb hero-gradient-orb-2"></div>
+                <div class="hero-gradient-orb hero-gradient-orb-3"></div>
             </div>
         </section>
 
@@ -396,7 +436,7 @@
         </section>
 
         <!-- Featured Products -->
-        <section class="featured-products">
+        <section class="featured-products" id="featured-products">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">
@@ -411,7 +451,7 @@
                     </p>
                 </div>
 
-                <div class="products-grid" id="featured-products">
+                <div class="products-grid" id="featured-products-grid">
                     <!-- Products will be loaded here by JavaScript -->
                     <div class="loading-placeholder">
                         <div class="loading-spinner"></div>
@@ -642,9 +682,8 @@
     </script>
 
     <!-- JavaScript -->
-    <script src="js/core.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/features.js"></script>
+    <script src="js/core-simple.js"></script>
+    <script src="js/main-simple.js"></script>
     
     <!-- Service Worker Registration -->
     <script>

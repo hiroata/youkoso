@@ -271,25 +271,14 @@ function showManagementInterface() {
 // Load products from data.json
 async function loadProducts() {
     try {
-        // Check if we're running on file:// protocol
-        if (window.location.protocol === 'file:') {
-            // Use embedded data for file:// protocol
-            loadProductsFromEmbeddedData();
-        } else {
-            // Use fetch for http/https protocols
-            const response = await fetch('data/data.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            products = data.products || [];
-            
-            displayProductsList();
-        }
-        
+        // Use unified DataLoader
+        products = await window.utils.dataLoader.loadData('products');
+        displayProductsList();
     } catch (error) {
-        console.error('Error loading products:', error);
+        window.utils.handleError(error, {
+            module: 'admin',
+            context: 'loadProducts'
+        });
         // Fallback to embedded data
         loadProductsFromEmbeddedData();
     }
@@ -651,25 +640,14 @@ function removeNotification(notification) {
 // Load blogs from blogs.json
 async function loadBlogs() {
     try {
-        // Check if we're running on file:// protocol
-        if (window.location.protocol === 'file:') {
-            // Use embedded data for file:// protocol
-            loadBlogsFromEmbeddedData();
-        } else {
-            // Use fetch for http/https protocols
-            const response = await fetch('data/blogs.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            blogs = data.blogs || [];
-            
-            displayBlogsList();
-        }
-        
+        // Use unified DataLoader for blogs
+        blogs = await window.utils.dataLoader.loadData('blogs');
+        displayBlogsList();
     } catch (error) {
-        console.error('Error loading blogs:', error);
+        window.utils.handleError(error, {
+            module: 'admin',
+            context: 'loadBlogs'
+        });
         // Fallback to embedded data
         loadBlogsFromEmbeddedData();
     }

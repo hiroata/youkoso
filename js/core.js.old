@@ -120,7 +120,6 @@ class App {
 
         } catch (error) {
             console.error('Failed to load featured products:', error);
-            // エラー表示は無効化
         }
     }
 
@@ -158,12 +157,10 @@ class App {
             // カート数量を更新
             this.updateCartCount();
             
-            // 成功通知は無効化
             console.log('商品をカートに追加しました');
             
         } catch (error) {
             console.error('Failed to add to cart:', error);
-            // エラー通知は無効化
         }
     }
 
@@ -634,25 +631,671 @@ function hideLoading(container) {
     }
 }
 
-// エラー表示
-function showError(container, message = 'エラーが発生しました') {
-    if (typeof container === 'string') {
-        container = document.querySelector(container);
+// Unified Error Handler
+class ErrorHandler {
+    constructor() {
+        this.config = {
+            enableUserNotifications: true,
+            enableConsoleLogging: true,
+            defaultDisplayMethod: 'console', // 'console', 'toast', 'modal', 'inline'
+            autoHideDelay: 5000,
+            maxRetries: 3
+        };
+        this.moduleConfigs = new Map();
     }
-    if (container) {
-        container.innerHTML = `
-            <div class="error-message">
-                <p>${message}</p>
-                <button onclick="location.reload()" class="retry-btn">再試行</button>
+
+    // Configure error handling for specific modules
+    configureModule(moduleName, config) {
+        this.moduleConfigs.set(moduleName, {
+            ...this.config,
+            ...config
+        });
+    }
+
+    // Handle error with appropriate method based on configuration
+    handle(error, options = {}) {
+        const config = this.getConfig(options.module);
+        
+        // Always log to console for debugging
+        if (config.enableConsoleLogging) {
+            this.logToConsole(error, options);
+        }
+
+        // Show user notification if enabled
+        if (config.enableUserNotifications && options.showUser !== false) {
+            this.showUserError(error, options, config);
+        }
+
+        // Return formatted error info
+        return this.formatErrorInfo(error, options);
+    }
+
+    // Get configuration for module
+    getConfig(moduleName) {
+        return this.moduleConfigs.get(moduleName) || this.config;
+    }
+
+    // Log error to console with structured format
+    logToConsole(error, options) {
+        const timestamp = new Date().toISOString();
+        const module = options.module || 'unknown';
+        const context = options.context || '';
+        
+        const logData = {
+            timestamp,
+            module,
+            context,
+            message: error.message || error,
+            stack: error.stack,
+            userAgent: navigator.userAgent,
+            url: window.location.href
+        };
+
+        console.group(`🚨 Error in ${module}`);
+        console.error('Message:', logData.message);
+        if (context) console.info('Context:', context);
+        if (error.stack) console.error('Stack:', error.stack);
+        console.info('Timestamp:', timestamp);
+        console.groupEnd();
+    }
+
+    // Show error to user based on configuration
+    showUserError(error, options, config) {
+        const message = this.getUserMessage(error, options);
+        
+        switch (config.defaultDisplayMethod) {
+            case 'toast':
+                this.showToast(message, options.level || 'error');
+                break;
+            case 'modal':
+                this.showModal(message, options);
+                break;
+            case 'inline':
+                this.showInline(message, options.container);
+                break;
+            default:
+                // Default to console only for non-intrusive experience
+                break;
+        }
+    }
+
+    // Generate user-friendly error message
+    getUserMessage(error, options) {
+        const messages = {
+            network: {
+                es: 'Error de conexión. Por favor, verifica tu conexión a internet.',
+                ja: 'ネットワークエラーが発生しました。インターネット接続を確認してください。'
+            },
+            data: {
+                es: 'Error al cargar los datos. Intentando nuevamente...',
+                ja: 'データの読み込みに失敗しました。再試行中...'
+            },
+            generic: {
+                es: 'Ha ocurrido un error inesperado.',
+                ja: '予期しないエラーが発生しました。'
+            }
+        };
+
+        const errorType = this.categorizeError(error);
+        const currentLang = document.documentElement.getAttribute('data-lang') || 'es';
+        
+        return options.userMessage || 
+               messages[errorType]?.[currentLang] || 
+               messages.generic[currentLang];
+    }
+
+    // Categorize error type
+    categorizeError(error) {
+        const message = error.message || error.toString();
+        
+        if (message.includes('fetch') || message.includes('network') || message.includes('HTTP')) {
+            return 'network';
+        }
+        if (message.includes('JSON') || message.includes('data')) {
+            return 'data';
+        }
+        return 'generic';
+    }
+
+    // Show toast notification
+    showToast(message, level = 'error') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${level}`;
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">${this.getIcon(level)}</span>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
             </div>
         `;
+        
+        // Add styles if not already present
+        this.ensureToastStyles();
+        
+        // Add to DOM
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container';
+            document.body.appendChild(container);
+        }
+        
+        container.appendChild(toast);
+        
+        // Auto-hide
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.remove();
+            }
+        }, this.config.autoHideDelay);
+    }
+
+    // Show modal error
+    showModal(message, options) {
+        const modal = document.createElement('div');
+        modal.className = 'error-modal-overlay';
+        modal.innerHTML = `
+            <div class="error-modal">
+                <div class="error-modal-header">
+                    <h3>⚠️ Error</h3>
+                    <button class="error-modal-close">×</button>
+                </div>
+                <div class="error-modal-body">
+                    <p>${message}</p>
+                </div>
+                <div class="error-modal-footer">
+                    ${options.showRetry !== false ? '<button class="btn retry-btn">Reintentar</button>' : ''}
+                    <button class="btn btn-outline close-btn">Cerrar</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Event listeners
+        modal.querySelector('.error-modal-close').onclick = () => modal.remove();
+        modal.querySelector('.close-btn').onclick = () => modal.remove();
+        if (options.showRetry !== false) {
+            modal.querySelector('.retry-btn').onclick = () => {
+                modal.remove();
+                if (options.retryCallback) options.retryCallback();
+            };
+        }
+        
+        // Close on outside click
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.remove();
+        };
+    }
+
+    // Show inline error
+    showInline(message, container) {
+        if (typeof container === 'string') {
+            container = document.querySelector(container);
+        }
+        if (container) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <p>${message}</p>
+                    <button onclick="location.reload()" class="retry-btn">Reintentar</button>
+                </div>
+            `;
+        }
+    }
+
+    // Get icon for error level
+    getIcon(level) {
+        const icons = {
+            error: '❌',
+            warning: '⚠️',
+            info: 'ℹ️',
+            success: '✅'
+        };
+        return icons[level] || icons.error;
+    }
+
+    // Ensure toast styles are loaded
+    ensureToastStyles() {
+        if (document.getElementById('toast-styles')) return;
+        
+        const style = document.createElement('style');
+        style.id = 'toast-styles';
+        style.textContent = `
+            .toast-container {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .toast {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                border-left: 4px solid #e74c3c;
+                min-width: 300px;
+                animation: slideIn 0.3s ease;
+            }
+            
+            .toast-warning { border-left-color: #f39c12; }
+            .toast-info { border-left-color: #3498db; }
+            .toast-success { border-left-color: #2ecc71; }
+            
+            .toast-content {
+                display: flex;
+                align-items: center;
+                padding: 15px;
+                gap: 10px;
+            }
+            
+            .toast-icon {
+                font-size: 1.2em;
+                flex-shrink: 0;
+            }
+            
+            .toast-message {
+                flex: 1;
+                color: #333;
+            }
+            
+            .toast-close {
+                background: none;
+                border: none;
+                font-size: 1.5em;
+                cursor: pointer;
+                color: #999;
+                padding: 0;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .toast-close:hover {
+                color: #333;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            .error-modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            }
+            
+            .error-modal {
+                background: white;
+                border-radius: 10px;
+                max-width: 500px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            .error-modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .error-modal-header h3 {
+                margin: 0;
+                color: #e74c3c;
+            }
+            
+            .error-modal-close {
+                background: none;
+                border: none;
+                font-size: 1.5em;
+                cursor: pointer;
+                padding: 5px;
+                border-radius: 50%;
+            }
+            
+            .error-modal-body {
+                padding: 20px;
+            }
+            
+            .error-modal-footer {
+                padding: 20px;
+                border-top: 1px solid #eee;
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+
+    // Format error information for programmatic use
+    formatErrorInfo(error, options) {
+        return {
+            timestamp: new Date().toISOString(),
+            module: options.module,
+            context: options.context,
+            message: error.message || error,
+            stack: error.stack,
+            userMessage: this.getUserMessage(error, options)
+        };
+    }
+}
+
+// Legacy showError function for backward compatibility
+function showError(container, message = 'エラーが発生しました') {
+    window.errorHandler.showInline(message, container);
+}
+
+// Unified Cart Manager
+class CartManager {
+    constructor() {
+        this.cart = [];
+        this.storageKey = 'cart';
+        this.eventListeners = new Map();
+        this.init();
+    }
+
+    // Initialize cart manager
+    init() {
+        this.loadCart();
+        this.setupEventListeners();
+        this.updateDisplay();
+    }
+
+    // Load cart from localStorage
+    loadCart() {
+        try {
+            const stored = localStorage.getItem(this.storageKey);
+            this.cart = stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            window.utils.handleError(error, {
+                module: 'cart',
+                context: 'loadCart',
+                showUser: false
+            });
+            this.cart = [];
+        }
+    }
+
+    // Save cart to localStorage
+    saveCart() {
+        try {
+            localStorage.setItem(this.storageKey, JSON.stringify(this.cart));
+            this.dispatchEvent('cartUpdated', {
+                itemCount: this.getTotalItems(),
+                totalPrice: this.getTotalPrice(),
+                items: [...this.cart]
+            });
+        } catch (error) {
+            window.utils.handleError(error, {
+                module: 'cart',
+                context: 'saveCart',
+                showUser: false
+            });
+        }
+    }
+
+    // Add item to cart
+    addItem(productId, quantity = 1, productData = null) {
+        const existingItem = this.cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            // If product data not provided, try to find it from global products
+            if (!productData) {
+                productData = this.findProductData(productId);
+            }
+            
+            if (productData) {
+                this.cart.push({
+                    id: productId,
+                    name: productData.name,
+                    price: productData.price,
+                    image: productData.image,
+                    quantity: quantity
+                });
+            } else {
+                // Fallback: add with minimal data
+                this.cart.push({
+                    id: productId,
+                    name: `Product ${productId}`,
+                    price: 0,
+                    image: null,
+                    quantity: quantity
+                });
+            }
+        }
+
+        this.saveCart();
+        this.updateDisplay();
+        this.showAddFeedback(productId);
+
+        return this.cart;
+    }
+
+    // Remove item from cart
+    removeItem(productId) {
+        this.cart = this.cart.filter(item => item.id !== productId);
+        this.saveCart();
+        this.updateDisplay();
+        return this.cart;
+    }
+
+    // Update item quantity
+    updateQuantity(productId, quantity) {
+        const item = this.cart.find(item => item.id === productId);
+        if (item) {
+            if (quantity <= 0) {
+                this.removeItem(productId);
+            } else {
+                item.quantity = quantity;
+                this.saveCart();
+                this.updateDisplay();
+            }
+        }
+        return this.cart;
+    }
+
+    // Clear cart
+    clearCart() {
+        this.cart = [];
+        this.saveCart();
+        this.updateDisplay();
+        return this.cart;
+    }
+
+    // Get total items count
+    getTotalItems() {
+        return this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    // Get total price
+    getTotalPrice() {
+        return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    // Get cart contents
+    getCart() {
+        return [...this.cart];
+    }
+
+    // Find product data from various sources
+    findProductData(productId) {
+        // Try to find from global products array
+        if (window.products && window.products.length > 0) {
+            return window.products.find(p => p.id === productId);
+        }
+
+        // Try from productManager if available
+        if (window.productManager && window.productManager.products) {
+            return window.productManager.products.find(p => p.id === productId);
+        }
+
+        // Try from app instance if available
+        if (window.app && window.app.products) {
+            return window.app.products.find(p => p.id === productId);
+        }
+
+        return null;
+    }
+
+    // Update cart display in UI
+    updateDisplay() {
+        const totalItems = this.getTotalItems();
+        
+        // Update cart count badges
+        const cartCounts = document.querySelectorAll('.cart-count');
+        cartCounts.forEach(element => {
+            element.textContent = totalItems;
+            element.style.display = totalItems > 0 ? 'flex' : 'none';
+        });
+
+        // Update cart buttons
+        const cartBtns = document.querySelectorAll('.cart-btn');
+        cartBtns.forEach(btn => {
+            btn.setAttribute('aria-label', `Carrito: ${totalItems} artículos`);
+        });
+    }
+
+    // Show feedback when adding to cart
+    showAddFeedback(productId) {
+        const button = document.querySelector(`[data-product-id="${productId}"].add-to-cart`);
+        if (button) {
+            const originalHTML = button.innerHTML;
+            const originalDisabled = button.disabled;
+            
+            button.innerHTML = `
+                <span class="es-text">¡Agregado!</span>
+                <span class="ja-text">追加済み！</span>
+                <i class="fas fa-check" aria-hidden="true"></i>
+            `;
+            button.disabled = true;
+            button.classList.add('success');
+            
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.disabled = originalDisabled;
+                button.classList.remove('success');
+            }, 1500);
+        }
+    }
+
+    // Setup global event listeners
+    setupEventListeners() {
+        // Handle add to cart button clicks globally
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.add-to-cart')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const button = e.target.closest('.add-to-cart');
+                const productId = button.getAttribute('data-product-id');
+                
+                if (productId) {
+                    this.addItem(productId);
+                }
+            }
+        });
+
+        // Handle cart button clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.cart-btn')) {
+                e.preventDefault();
+                this.showCartModal();
+            }
+        });
+    }
+
+    // Show cart modal/sidebar
+    showCartModal() {
+        // For now, just log - can be extended to show actual modal
+        console.log('Cart contents:', this.cart);
+        console.log('Total items:', this.getTotalItems());
+        console.log('Total price:', this.getTotalPrice());
+        
+        // Future: Show actual cart modal/sidebar
+        // this.renderCartModal();
+    }
+
+    // Dispatch custom events
+    dispatchEvent(eventName, detail) {
+        const event = new CustomEvent(eventName, { detail });
+        document.dispatchEvent(event);
+    }
+
+    // Add event listener for cart events
+    addEventListener(eventName, callback) {
+        if (!this.eventListeners.has(eventName)) {
+            this.eventListeners.set(eventName, []);
+        }
+        this.eventListeners.get(eventName).push(callback);
+        
+        document.addEventListener(eventName, callback);
+    }
+
+    // Remove event listener
+    removeEventListener(eventName, callback) {
+        document.removeEventListener(eventName, callback);
+        
+        if (this.eventListeners.has(eventName)) {
+            const listeners = this.eventListeners.get(eventName);
+            const index = listeners.indexOf(callback);
+            if (index > -1) {
+                listeners.splice(index, 1);
+            }
+        }
     }
 }
 
 // グローバルオブジェクトとして公開
 const dataLoaderInstance = new DataLoader();
+const errorHandlerInstance = new ErrorHandler();
+const cartManagerInstance = new CartManager();
+
+// Configure error handling for different modules
+errorHandlerInstance.configureModule('main', { 
+    enableUserNotifications: false, // Disabled as per comments in original code
+    defaultDisplayMethod: 'console' 
+});
+
+errorHandlerInstance.configureModule('products', { 
+    enableUserNotifications: false,
+    defaultDisplayMethod: 'console' 
+});
+
+errorHandlerInstance.configureModule('admin', { 
+    enableUserNotifications: true,
+    defaultDisplayMethod: 'toast' 
+});
+
 window.utils = {
     dataLoader: dataLoaderInstance,
+    errorHandler: errorHandlerInstance,
+    cartManager: cartManagerInstance,
     fetchData,
     filterProducts,
     sortProducts,
@@ -660,12 +1303,42 @@ window.utils = {
     showLoading,
     hideLoading,
     showError,
+    // Utility functions for error handling
+    handleError: function(error, options = {}) {
+        return errorHandlerInstance.handle(error, options);
+    },
+    // Utility functions for cart management
+    addToCart: function(productId, quantity = 1, productData = null) {
+        return cartManagerInstance.addItem(productId, quantity, productData);
+    },
+    removeFromCart: function(productId) {
+        return cartManagerInstance.removeItem(productId);
+    },
+    updateCartQuantity: function(productId, quantity) {
+        return cartManagerInstance.updateQuantity(productId, quantity);
+    },
+    clearCart: function() {
+        return cartManagerInstance.clearCart();
+    },
+    getCart: function() {
+        return cartManagerInstance.getCart();
+    },
+    getTotalItems: function() {
+        return cartManagerInstance.getTotalItems();
+    },
+    getTotalPrice: function() {
+        return cartManagerInstance.getTotalPrice();
+    },
     // ローカルストレージ管理
     saveToLocalStorage: function(key, data) {
         try {
             localStorage.setItem(key, JSON.stringify(data));
         } catch (error) {
-            console.warn('Failed to save to localStorage:', error);
+            this.handleError(error, { 
+                module: 'localStorage', 
+                context: 'save',
+                showUser: false 
+            });
         }
     },
 
@@ -675,11 +1348,19 @@ window.utils = {
             if (stored === null) return defaultValue;
             return JSON.parse(stored);
         } catch (error) {
-            console.warn('Failed to load from localStorage:', error);
+            this.handleError(error, { 
+                module: 'localStorage', 
+                context: 'load',
+                showUser: false 
+            });
             return defaultValue;
         }
     },
 };
+
+// Make error handler and cart manager globally available
+window.errorHandler = errorHandlerInstance;
+window.cartManager = cartManagerInstance;
 
 // 初期化
 document.addEventListener('DOMContentLoaded', () => {
@@ -689,37 +1370,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-console.log('Utilities.js loaded successfully');// Components.js - 再利用可能なUIコンポーネント
+// Components.js - 再利用可能なUIコンポーネント
 
-// 商品カードコンポーネント
-function createProductCardComponent(product, relativePath = '') {
-    const imagePath = relativePath + product.image;
-    const formattedPrice = new Intl.NumberFormat('es-MX', {
-        style: 'currency',
-        currency: 'MXN'
-    }).format(product.price);
+// Unified product card component with configurable options
+function createProductCardComponent(product, options = {}) {
+    const config = {
+        relativePath: options.relativePath || '',
+        isMobile: options.isMobile || window.innerWidth <= 768,
+        showTags: options.showTags !== false,
+        showAddToCart: options.showAddToCart !== false,
+        showFeaturedBadge: options.showFeaturedBadge !== false,
+        maxTags: options.maxTags || 3,
+        imageHeight: options.imageHeight || (options.isMobile ? '180px' : '200px'),
+        placeholderEmoji: options.placeholderEmoji || '🎌',
+        currency: options.currency || 'MXN',
+        locale: options.locale || 'es-MX',
+        buttonText: options.buttonText || {
+            es: 'Agregar',
+            ja: '追加'
+        },
+        featuredText: options.featuredText || {
+            es: 'Destacado',
+            ja: '注目'
+        },
+        ...options
+    };
+
+    const imagePath = config.relativePath + product.image;
+    
+    // Format price with proper currency
+    const formattedPrice = typeof product.price === 'number' ? 
+        new Intl.NumberFormat(config.locale, {
+            style: 'currency',
+            currency: config.currency
+        }).format(product.price) : 
+        `$${product.price.toLocaleString()}`;
+
+    // Create image element with responsive height and error handling
+    const imageElement = product.image ? 
+        `<img src="${imagePath}" 
+             alt="${product.name}" 
+             class="product-image" 
+             style="height: ${config.imageHeight}; object-fit: cover;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+             loading="lazy">
+         <div class="product-placeholder" style="display: none; height: ${config.imageHeight};">${config.placeholderEmoji}</div>` :
+        `<div class="product-placeholder" style="height: ${config.imageHeight};">${config.placeholderEmoji}</div>`;
+
+    // Featured badge with multilingual support
+    const featuredBadge = config.showFeaturedBadge && product.featured ? 
+        `<div class="featured-badge">
+            <span class="es-text">${config.featuredText.es}</span>
+            <span class="ja-text">${config.featuredText.ja}</span>
+         </div>` : '';
+
+    // Tags with configurable limit
+    const tagsHTML = config.showTags && product.tags ? 
+        product.tags.slice(0, config.maxTags).map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+
+    // Add to cart button with multilingual support
+    const addToCartButton = config.showAddToCart ? 
+        `<button class="btn-primary add-to-cart" 
+                data-product-id="${product.id}"
+                aria-label="${product.name}をカートに追加">
+            <span class="es-text">${config.buttonText.es}</span>
+            <span class="ja-text">${config.buttonText.ja}</span>
+            <i class="fas fa-plus" aria-hidden="true"></i>
+        </button>` : '';
 
     return `
         <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-container">
-                <img src="${imagePath}" 
-                     alt="${product.name}" 
-                     class="product-image"
-                     loading="lazy"
-                     onerror="this.onerror=null; this.style.opacity='0.5'; this.alt='画像を読み込めませんでした'"
-                ${product.featured ? '<span class="featured-badge">Destacado</span>' : ''}
+            <div class="product-image-container" style="height: ${config.imageHeight};">
+                ${imageElement}
+                ${featuredBadge}
             </div>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
-                <div class="product-tags">
-                    ${product.tags ? product.tags.map(tag => `<span class="tag">#${tag}</span>`).join('') : ''}
-                </div>
+                <div class="product-tags">${tagsHTML}</div>
                 <div class="product-footer">
                     <span class="price">${formattedPrice}</span>
-                    <button class="btn-primary add-to-cart" data-product-id="${product.id}">
-                        Agregar al Carrito
-                    </button>
+                    ${addToCartButton}
                 </div>
             </div>
         </div>
@@ -916,4 +1647,3 @@ window.createErrorComponent = createErrorComponent;
 window.createEmptyStateComponent = createEmptyStateComponent;
 window.createModalComponent = createModalComponent;
 
-console.log('Components.js loaded successfully');

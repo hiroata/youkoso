@@ -20,8 +20,6 @@ const productsElements = {
 document.addEventListener('DOMContentLoaded', function() {
     if (!window.location.pathname.includes('products.html')) return;
     
-    console.log('Products page initialized');
-    
     // Initialize DOM elements
     initializeProductsElements();
     
@@ -45,24 +43,20 @@ function initializeProductsElements() {
     productsElements.pagination = document.getElementById('pagination');
 }
 
-// Load products data
+// Load products data using unified DataLoader
 async function loadProductsData() {
     try {
-        const response = await fetch('data/data.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        allProducts = data.products || [];
+        allProducts = await window.utils.dataLoader.loadData('products');
         filteredProducts = [...allProducts];
         
-        // Display products
         displayProducts();
         updateResultsCount();
         
     } catch (error) {
-        console.error('Error loading products:', error);
+        window.utils.handleError(error, {
+            module: 'products',
+            context: 'loadProductsData'
+        });
         showProductsError();
     }
 }
@@ -86,25 +80,19 @@ function initializeFilters() {
     }
 }
 
-// Handle filters change
+// Handle filters change using unified utilities
 function handleFilters() {
     const category = productsElements.categoryFilter?.value || 'all';
     const sort = productsElements.sortFilter?.value || 'featured';
     const search = productsElements.searchInput?.value.toLowerCase().trim() || '';
     
-    // Filter products
-    filteredProducts = allProducts.filter(product => {
-        // Category filter
-        const matchesCategory = category === 'all' || product.category === category;
-        
-        // Search filter
-        const matchesSearch = search === '' || 
-            product.name.toLowerCase().includes(search) ||
-            product.description.toLowerCase().includes(search) ||
-            (product.tags && product.tags.some(tag => tag.toLowerCase().includes(search)));
-        
-        return matchesCategory && matchesSearch;
-    });
+    // Apply filters using unified utility
+    const filters = {
+        category: category === 'all' ? null : category,
+        search: search || null
+    };
+    
+    filteredProducts = window.utils.filterProducts(allProducts, filters);
     
     // Sort products
     sortProducts(sort);
@@ -120,27 +108,9 @@ function handleFilters() {
     updateUrl(category, sort, search);
 }
 
-// Sort products
+// Sort products using unified utility
 function sortProducts(sortBy) {
-    switch (sortBy) {
-        case 'price-low':
-            filteredProducts.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-high':
-            filteredProducts.sort((a, b) => b.price - a.price);
-            break;
-        case 'name':
-            filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        case 'featured':
-        default:
-            filteredProducts.sort((a, b) => {
-                if (a.featured && !b.featured) return -1;
-                if (!a.featured && b.featured) return 1;
-                return 0;
-            });
-            break;
-    }
+    filteredProducts = window.utils.sortProducts(filteredProducts, sortBy);
 }
 
 // Display products
@@ -161,16 +131,7 @@ function displayProducts() {
     const productsHTML = paginatedProducts.map(product => createProductCard(product)).join('');
     productsElements.productsGrid.innerHTML = productsHTML;
     
-    // Add event listeners for add to cart buttons
-    const addToCartButtons = productsElements.productsGrid.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            if (window.Youkoso && window.Youkoso.addToCart) {
-                window.Youkoso.addToCart(productId);
-            }
-        });
-    });
+    // Cart buttons are now handled globally by CartManager
     
     // Update pagination
     updatePagination();
@@ -184,44 +145,11 @@ function displayProducts() {
 }
 
 // Create product card HTML (reuse from main.js with slight modifications)
+// Use unified product card component from core.js
 function createProductCard(product) {
-    const imageElement = product.image ? 
-        `<img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-         <div class="product-placeholder" style="display: none;">🎌</div>` :
-        `<div class="product-placeholder">🎌</div>`;
-    
-    const featuredBadge = product.featured ? 
-        `<div class="featured-badge">
-            <span class="es-text">Destacado</span>
-            <span class="ja-text">注目</span>
-         </div>` : '';
-    
-    const tagsHTML = product.tags ? 
-        product.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
-    
-    const price = typeof product.price === 'number' ? 
-        `$${product.price.toLocaleString()}` : product.price;
-    
-    return `
-        <div class="product-card">
-            <div class="product-image-container">
-                ${imageElement}
-                ${featuredBadge}
-            </div>
-            <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-tags">${tagsHTML}</div>
-                <div class="product-footer">
-                    <span class="price">${price}</span>
-                    <button class="add-to-cart" data-product-id="${product.id}">
-                        <span class="es-text">Agregar</span>
-                        <span class="ja-text">追加</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
+    return window.createProductCardComponent(product, {
+        maxTags: null // Show all tags in products page
+    });
 }
 
 // Show no products message
@@ -248,12 +176,14 @@ function showNoProductsMessage() {
     }
 }
 
-// Show products error (無効化)
+// Show products error using unified error handler
 function showProductsError() {
-    // エラー表示は無効化、コンソールのみに出力
-    console.error('Products loading error');
-    // ポップアップ通知を完全に無効化
-    return;
+    if (productsElements.productsGrid) {
+        productsElements.productsGrid.innerHTML = window.createEmptyStateComponent(
+            'No se pudieron cargar los productos',
+            'Por favor, recarga la página'
+        );
+    }
 }
 
 // Update results count

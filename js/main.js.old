@@ -4,7 +4,6 @@
 let currentLanguage = 'es';
 let currentTheme = 'light';
 let products = [];
-let cart = [];
 let isMobile = window.innerWidth <= 768;
 
 // DOM Elements
@@ -21,7 +20,6 @@ const elements = {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Youkoso Website initialized');
     
     // Initialize DOM elements
     initializeElements();
@@ -176,7 +174,7 @@ function initializeElements() {
     elements.mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     elements.mobileMenu = document.querySelector('.mobile-menu');
     elements.cartCount = document.querySelector('.cart-count');
-    elements.featuredProductsGrid = document.getElementById('featured-products');
+    elements.featuredProductsGrid = document.getElementById('featured-products-grid');
     elements.notificationsContainer = document.getElementById('notifications');
 }
 
@@ -185,7 +183,6 @@ function loadSettings() {
     try {
         const savedLanguage = localStorage.getItem('language');
         const savedTheme = localStorage.getItem('theme');
-        const savedCart = localStorage.getItem('cart');
         
         if (savedLanguage && ['es', 'en', 'ja'].includes(savedLanguage)) {
             currentLanguage = savedLanguage;
@@ -195,11 +192,6 @@ function loadSettings() {
         if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
             currentTheme = savedTheme;
             updateTheme(currentTheme);
-        }
-        
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
-            updateCartDisplay();
         }
     } catch (error) {
         console.warn('Error loading settings:', error);
@@ -211,7 +203,6 @@ function saveSettings() {
     try {
         localStorage.setItem('language', currentLanguage);
         localStorage.setItem('theme', currentTheme);
-        localStorage.setItem('cart', JSON.stringify(cart));
     } catch (error) {
         console.warn('Error saving settings:', error);
     }
@@ -228,7 +219,6 @@ function initializeLanguageToggle() {
                 currentLanguage = lang;
                 updateLanguage(lang);
                 saveSettings();
-                // 通知を削除 - うざいので表示しない
             }
         });
     });
@@ -264,8 +254,6 @@ function initializeThemeToggle() {
         currentTheme = currentTheme === 'light' ? 'dark' : 'light';
         updateTheme(currentTheme);
         saveSettings();
-        
-        // 通知を削除 - うざいので表示しない
     });
 }
 
@@ -343,92 +331,22 @@ function closeMobileMenu() {
     elements.mobileMenu.setAttribute('aria-hidden', 'true');
 }
 
-// Cart functionality
+// Cart functionality - now uses unified CartManager
 function initializeCart() {
-    updateCartDisplay();
-    
-    // Cart button click handler
-    const cartBtn = document.querySelector('.cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', function() {
-            showCartModal();
-        });
-    }
+    // Cart is now automatically handled by the unified CartManager
+    // No additional setup needed as it's handled globally
 }
 
-// Update cart display
-function updateCartDisplay() {
-    if (elements.cartCount) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        elements.cartCount.textContent = totalItems;
-        elements.cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
-    }
-}
-
-// Add item to cart
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            quantity: 1
-        });
-    }
-    
-    updateCartDisplay();
-    saveSettings();
-    
-    // Enhanced button feedback
-    const button = document.querySelector(`[data-product-id="${productId}"].add-to-cart`);
-    if (button) {
-        const originalText = button.innerHTML;
-        button.innerHTML = `
-            <span class="es-text">¡Agregado!</span>
-            <span class="ja-text">追加済み！</span>
-            <i class="fas fa-check" aria-hidden="true"></i>
-        `;
-        button.disabled = true;
-        
-        setTimeout(() => {
-            button.innerHTML = originalText;
-            button.disabled = false;
-        }, 1500);
-    }
-    
-    // ポップアップ通知を削除 - うざいので表示しない
-}
-
-// Show cart modal (placeholder)
-function showCartModal() {
-    // ポップアップ通知を削除 - うざいので表示しない
-    console.log('Cart functionality coming soon');
-}
-
-// Load products from JSON
+// Load products using unified DataLoader
 async function loadProducts() {
     try {
-        const response = await fetch('data/data.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        products = data.products || [];
-        
-        // Display featured products
+        products = await window.utils.dataLoader.loadData('products');
         displayFeaturedProducts();
-        
     } catch (error) {
-        console.error('Error loading products:', error);
+        window.utils.handleError(error, {
+            module: 'main',
+            context: 'loadProducts'
+        });
         showProductsError();
     }
 }
@@ -447,71 +365,25 @@ function displayFeaturedProducts() {
     const productsHTML = featuredProducts.map(product => createProductCard(product)).join('');
     elements.featuredProductsGrid.innerHTML = productsHTML;
     
-    // Add click handlers for add to cart buttons
-    const addToCartButtons = elements.featuredProductsGrid.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            addToCart(productId);
-        });
+    // Cart buttons are now handled globally by CartManager
+}
+
+// Use unified product card component
+function createProductCard(product) {
+    return window.createProductCardComponent(product, {
+        isMobile: isMobile,
+        maxTags: 3
     });
 }
 
-// Enhanced product card creation with better mobile support
-function createProductCard(product) {
-    const imageHeight = isMobile ? '180px' : '200px';
-    
-    const imageElement = product.image ? 
-        `<img src="${product.image}" 
-             alt="${product.name}" 
-             class="product-image" 
-             style="height: ${imageHeight}; object-fit: cover;"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-             loading="lazy">
-         <div class="product-placeholder" style="display: none; height: ${imageHeight};">🎌</div>` :
-        `<div class="product-placeholder" style="height: ${imageHeight};">🎌</div>`;
-    
-    const featuredBadge = product.featured ? 
-        `<div class="featured-badge">
-            <span class="es-text">Destacado</span>
-            <span class="ja-text">注目</span>
-         </div>` : '';
-    
-    const tagsHTML = product.tags ? 
-        product.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('') : '';
-    
-    const price = typeof product.price === 'number' ? 
-        `$${product.price.toLocaleString()}` : product.price;
-    
-    return `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-container" style="height: ${imageHeight};">
-                ${imageElement}
-                ${featuredBadge}
-            </div>
-            <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-tags">${tagsHTML}</div>
-                <div class="product-footer">
-                    <span class="price">${price}</span>
-                    <button class="add-to-cart" 
-                            data-product-id="${product.id}"
-                            aria-label="${product.name}をカートに追加">
-                        <span class="es-text">Agregar</span>
-                        <span class="ja-text">追加</span>
-                        <i class="fas fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Show products error (無効化)
+// Show products error using unified error handler
 function showProductsError() {
-    // エラー表示は無効化、コンソールのみに出力
-    console.error('Featured products loading error');
+    if (elements.featuredProductsGrid) {
+        elements.featuredProductsGrid.innerHTML = window.createEmptyStateComponent(
+            'No se pudieron cargar los productos destacados',
+            'Por favor, recarga la página'
+        );
+    }
 }
 
 // Enhanced scroll effects with performance optimization
