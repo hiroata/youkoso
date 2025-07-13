@@ -5,7 +5,7 @@
       "name": "Figura Demon Slayer - Tanjiro Kamado",
       "category": "figuras",
       "price": 1299,
-      "image": "assets/images/products/nezuko.jpg",
+      "image": "assets/images/products/tanjiro.jpg",
       "description": "Figura de alta calidad de Tanjiro Kamado del popular anime Demon Slayer. Perfecta para coleccionistas.",
       "featured": true,
       "tags": ["anime", "demon-slayer", "figura"]
@@ -15,7 +15,7 @@
       "name": "Figura My Hero Academia - All Might",
       "category": "figuras",
       "price": 1499,
-      "image": "assets/images/products/allmight.jpg",
+      "image": "assets/images/products/myhero.jpg",
       "description": "Figura del símbolo de la paz All Might de My Hero Academia en su forma musculosa.",
       "featured": true,
       "tags": ["anime", "my-hero-academia", "figura"]
