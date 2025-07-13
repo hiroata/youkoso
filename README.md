@@ -4,6 +4,8 @@
 [![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fyoukoso-3d911.web.app)](https://youkoso-3d911.web.app)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+> 🔥 **Firebase Hosting Auto-Deploy Ready** - 自動デプロイ設定完了！
+
 ## 📖 Descripción
 
 **Youkoso** (ようこそ - "Bienvenido" en japonés) es una tienda en línea especializada en productos japoneses auténticos en México. Ofrecemos una amplia selección de artículos de anime, manga, figuras, peluches y productos culturales japoneses.
