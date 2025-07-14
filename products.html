@@ -704,104 +704,46 @@
         <div class="floating-element">💖</div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <!-- Logo -->
-                <div class="logo">
-                    <h1>Youkoso</h1>
-                </div>
-
-                <!-- Navigation -->
-                <nav class="nav">
-                    <ul class="nav-list">
-                        <li><a href="index.html" class="nav-link">Inicio</a></li>
-                        <li><a href="products.html" class="nav-link active">Productos</a></li>
-                        <li><a href="blog.html" class="nav-link">Blog</a></li>
-                        <li><a href="about.html" class="nav-link">Nosotros</a></li>
-                        <li><a href="contact.html" class="nav-link">Contacto</a></li>
-                    </ul>
-                </nav>
-
-                <!-- Header Actions -->
-                <div class="header-actions">
-                    <!-- Language Toggle -->
-                    <div class="language-toggle">
-                        <button class="lang-btn active" data-lang="es">ES</button>
-                        <button class="lang-btn" data-lang="en">EN</button>
-                        <button class="lang-btn" data-lang="ja">日本語</button>
-                    </div>
-
-                    <!-- Theme Toggle -->
-                    <button class="theme-toggle" aria-label="Cambiar tema">
-                        <i class="fas fa-moon"></i>
-                    </button>
-
-                    <!-- Cart -->
-                    <div class="cart">
-                        <button class="cart-btn" aria-label="Carrito de compras">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count">0</span>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle" aria-label="Menú móvil">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div class="mobile-menu">
-                <ul class="mobile-nav-list">
-                    <li><a href="index.html" class="mobile-nav-link">Inicio</a></li>
-                    <li><a href="products.html" class="mobile-nav-link">Productos</a></li>
-                    <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
-                    <li><a href="about.html" class="mobile-nav-link">Nosotros</a></li>
-                    <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
 
     <!-- Main Content -->
     <main class="main">
-        <!-- Page Header -->
-        <section class="page-header modern-header">
-            <div class="page-header-background">
-                <div class="hero-pattern"></div>
-            </div>
+
+        <!-- Products Grid -->
+        <section class="products-section">
             <div class="container">
-                <div class="page-header-content">
-                    <div class="header-text">
-                        <h1 class="page-title">
-                            <span class="es-text">Nuestros Productos</span>
-                            <span class="ja-text">私たちの商品</span>
-                        </h1>
-                        <p class="page-description">
-                            <span class="es-text">Descubre nuestra colección completa de productos japoneses auténticos</span>
-                            <span class="ja-text">本格的な日本製品の完全なコレクションをご覧ください</span>
-                        </p>
+                <div class="products-results">
+                    <div class="results-header">
+                        <div class="results-info">
+                            <span id="results-count" class="results-count">
+                                <span class="es-text">Cargando productos kawaii...</span>
+                                <span class="ja-text">カワイイ商品を読み込み中...</span>
+                            </span>
+                        </div>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid" aria-label="Vista de cuadrícula">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list" aria-label="Vista de lista">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="header-stats">
-                        <div class="stat-item">
-                            <span class="stat-number" id="total-products">20+</span>
-                            <span class="stat-label">
-                                <span class="es-text">Productos</span>
-                                <span class="ja-text">商品</span>
-                            </span>
+
+                    <div class="products-grid" id="products-grid">
+                        <!-- Products will be loaded here by JavaScript -->
+                        <div class="loading-placeholder">
+                            <div class="loading-spinner"></div>
+                            <p>
+                                <span class="es-text">Cargando productos kawaii...</span>
+                                <span class="ja-text">カワイイ商品を読み込み中...</span>
+                            </p>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">4</span>
-                            <span class="stat-label">
-                                <span class="es-text">Categorías</span>
-                                <span class="ja-text">カテゴリー</span>
-                            </span>
-                        </div>
+                    </div>
+
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination will be generated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -881,192 +823,40 @@
                             </select>
                         </div>
 
-                        <div class="filter-group search-group">
-                            <label class="filter-label">
-                                <i class="fas fa-search"></i>
-                                <span class="es-text">Buscar</span>
-                                <span class="ja-text">検索</span>
-                            </label>
-                            <div class="search-wrapper">
-                                <input type="text" id="search-input" class="search-input modern-input" 
-                                       placeholder="Buscar productos kawaii..."
-                                       data-placeholder-es="Buscar productos kawaii..."
-                                       data-placeholder-ja="カワイイ商品を検索...">
-                                <button class="search-btn" aria-label="Buscar">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="search-clear" id="clear-search" style="display: none;">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Products Grid -->
-        <section class="products-section">
+        <!-- Search Section at Bottom -->
+        <section class="search-section-bottom" style="background: #f8f9fa; padding: 40px 0; margin-top: 40px;">
             <div class="container">
-                <div class="products-results">
-                    <div class="results-header">
-                        <div class="results-info">
-                            <span id="results-count" class="results-count">
-                                <span class="es-text">Cargando productos kawaii...</span>
-                                <span class="ja-text">カワイイ商品を読み込み中...</span>
-                            </span>
-                        </div>
-                        <div class="view-toggle">
-                            <button class="view-btn active" data-view="grid" aria-label="Vista de cuadrícula">
-                                <i class="fas fa-th"></i>
-                            </button>
-                            <button class="view-btn" data-view="list" aria-label="Vista de lista">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="products-grid" id="products-grid">
-                        <!-- Products will be loaded here by JavaScript -->
-                        <div class="loading-placeholder">
-                            <div class="loading-spinner"></div>
-                            <p>
-                                <span class="es-text">Cargando productos kawaii...</span>
-                                <span class="ja-text">カワイイ商品を読み込み中...</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="pagination" id="pagination">
-                        <!-- Pagination will be generated by JavaScript -->
+                <div class="search-wrapper-bottom" style="max-width: 600px; margin: 0 auto; text-align: center;">
+                    <label class="filter-label" style="display: block; margin-bottom: 20px; font-size: 1.5rem; color: #333;">
+                        <i class="fas fa-search"></i>
+                        <span class="es-text">Buscar Productos</span>
+                        <span class="ja-text">商品を検索</span>
+                    </label>
+                    <div class="search-wrapper" style="display: flex; gap: 10px;">
+                        <input type="text" id="search-input" class="search-input modern-input" 
+                               placeholder="Buscar productos kawaii..."
+                               data-placeholder-es="Buscar productos kawaii..."
+                               data-placeholder-ja="カワイイ商品を検索..."
+                               style="flex: 1; padding: 15px 20px; font-size: 1.1rem; border: 2px solid #ddd; border-radius: 25px;">
+                        <button class="search-btn" aria-label="Buscar" style="padding: 15px 25px; background: var(--primary-color); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1rem;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="search-clear" id="clear-search" style="display: none; padding: 15px 25px; background: #e74c3c; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1rem;">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3 class="footer-title">Youkoso</h3>
-                    <p class="footer-description">
-                        <span class="es-text">Tu tienda de confianza para productos japoneses auténticos.</span>
-                        <span class="ja-text">本格的な日本製品の信頼できる店舗。</span>
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Enlaces Rápidos</span>
-                        <span class="ja-text">クイックリンク</span>
-                    </h4>
-                    <ul class="footer-links">
-                        <li><a href="products.html" class="footer-link">
-                            <span class="es-text">Productos</span>
-                            <span class="ja-text">商品</span>
-                        </a></li>
-                        <li><a href="blog.html" class="footer-link">
-                            <span class="es-text">Blog</span>
-                            <span class="ja-text">ブログ</span>
-                        </a></li>
-                        <li><a href="about.html" class="footer-link">
-                            <span class="es-text">Nosotros</span>
-                            <span class="ja-text">私たちについて</span>
-                        </a></li>
-                        <li><a href="contact.html" class="footer-link">
-                            <span class="es-text">Contacto</span>
-                            <span class="ja-text">お問い合わせ</span>
-                        </a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Categorías</span>
-                        <span class="ja-text">カテゴリー</span>
-                    </h4>
-                    <ul class="footer-links">
-                        <li><a href="products.html?category=figuras" class="footer-link">
-                            <span class="es-text">Figuras</span>
-                            <span class="ja-text">フィギュア</span>
-                        </a></li>
-                        <li><a href="products.html?category=peluches" class="footer-link">
-                            <span class="es-text">Peluches</span>
-                            <span class="ja-text">ぬいぐるみ</span>
-                        </a></li>
-                        <li><a href="products.html?category=manga" class="footer-link">
-                            <span class="es-text">Manga</span>
-                            <span class="ja-text">マンガ</span>
-                        </a></li>
-                        <li><a href="products.html?category=ropa" class="footer-link">
-                            <span class="es-text">Ropa</span>
-                            <span class="ja-text">服</span>
-                        </a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">
-                        <span class="es-text">Contacto</span>
-                        <span class="ja-text">お問い合わせ</span>
-                    </h4>
-                    <div class="contact-info">
-                        <p class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>info@youkoso.com</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+52 (55) 1234-5678</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Ciudad de México, México</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <p class="copyright">
-                        <span class="es-text">&copy; 2024 Youkoso Todos los derechos reservados.</span>
-                        <span class="ja-text">&copy; 2024 Youkoso すべての権利を保有しています。</span>
-                    </p>
-                    <div class="footer-bottom-links">
-                        <a href="#" class="footer-bottom-link">
-                            <span class="es-text">Política de Privacidad</span>
-                            <span class="ja-text">プライバシーポリシー</span>
-                        </a>
-                        <a href="#" class="footer-bottom-link">
-                            <span class="es-text">Términos de Servicio</span>
-                            <span class="ja-text">利用規約</span>
-                        </a>
-                        <a href="admin.html" class="footer-bottom-link">
-                            <span class="es-text">Administrador</span>
-                            <span class="ja-text">管理者ログイン</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
     <!-- Notification Container -->
     <div id="notifications" class="notifications-container"></div>

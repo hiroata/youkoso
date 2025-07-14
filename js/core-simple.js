@@ -2,6 +2,105 @@
 
 // Global utilities
 const utils = {
+    // Header and Footer loading
+    async loadHeaderFooter() {
+        console.log('loadHeaderFooter called');
+        try {
+            // Load header
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            console.log('Header placeholder:', headerPlaceholder);
+            
+            const headerResponse = await fetch('components/header.html');
+            console.log('Header response status:', headerResponse.status);
+            
+            if (headerResponse.ok) {
+                const headerHTML = await headerResponse.text();
+                console.log('Header HTML loaded, length:', headerHTML.length);
+                
+                if (headerPlaceholder) {
+                    headerPlaceholder.innerHTML = headerHTML;
+                    console.log('Header HTML inserted');
+                    
+                    // Set active navigation link based on current page
+                    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                    const navLinks = headerPlaceholder.querySelectorAll('.nav-link');
+                    navLinks.forEach(link => {
+                        const linkHref = link.getAttribute('href');
+                        if (linkHref === currentPage) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            } else {
+                console.error('Failed to load header:', headerResponse.status);
+            }
+            
+            // Load footer
+            const footerResponse = await fetch('components/footer.html');
+            if (footerResponse.ok) {
+                const footerHTML = await footerResponse.text();
+                const footerPlaceholder = document.getElementById('footer-placeholder');
+                if (footerPlaceholder) {
+                    footerPlaceholder.innerHTML = footerHTML;
+                }
+            } else {
+                console.error('Failed to load footer:', footerResponse.status);
+            }
+            
+            // Re-initialize event listeners after loading header/footer
+            this.initializeHeaderEvents();
+            
+        } catch (error) {
+            console.error('Error loading header/footer:', error);
+        }
+    },
+    
+    // Initialize header-specific event listeners
+    initializeHeaderEvents() {
+        // Language buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.setLanguage(btn.dataset.lang);
+            });
+        });
+        
+        // Theme toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
+        
+        // Mobile menu
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+            });
+            
+            // Close mobile menu on link click
+            const mobileLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                });
+            });
+        }
+        
+        // Cart button
+        const cartBtn = document.querySelector('.cart-btn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                cart.toggleCart();
+            });
+        }
+    },
     // Language management
     currentLanguage: 'es',
     
@@ -456,41 +555,20 @@ const utils = {
 };
 
 // Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOMContentLoaded fired - core-simple.js');
+    
+    // Load header and footer first
+    await utils.loadHeaderFooter();
+    
     // Initialize language and theme
     utils.initLanguage();
     utils.initTheme();
     utils.cart.updateDisplay();
     
-    // Language buttons
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => utils.setLanguage(btn.dataset.lang));
-    });
-    
-    // Theme toggle
-    const themeToggle = document.querySelector('.theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => utils.toggleTheme());
-    }
-    
-    // Mobile menu
-    const mobileToggle = document.querySelector('.mobile-menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (mobileToggle && mobileMenu) {
-        mobileToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            mobileToggle.classList.toggle('active');
-        });
-        
-        // Close on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                mobileToggle.classList.remove('active');
-            });
-        });
-    }
+    // The event listeners for language buttons, theme toggle, and mobile menu
+    // are now handled in the initializeHeaderEvents function which is called
+    // automatically after loading the header
     
     // Header scroll effect
     const header = document.querySelector('.header');
