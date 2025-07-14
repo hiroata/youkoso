@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:;">
     <title>Blog - Youkoso</title>
-    <link rel="stylesheet" href="css/style-simple.css">
+    <link rel="stylesheet" href="css/style-simple.css?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -790,47 +791,8 @@
 
     <!-- Main Content -->
     <main class="main">
-        <!-- Hero Section -->
-        <section class="blog-hero">
-            <div class="container">
-                <h1>
-                    <span class="es-text">Blog Cultural Japón</span>
-                    <span class="ja-text">日本文化ブログ</span>
-                </h1>
-                <p class="hero-subtitle">
-                    <span class="es-text">✨ Descubre el mundo súper kawaii de Japón: anime, manga, tradiciones y cultura pop ✨</span>
-                    <span class="ja-text">✨ 日本の超カワイイ世界を発見：アニメ、マンガ、伝統と大衆文化 ✨</span>
-                </p>
-            </div>
-        </section>
-
-        <!-- Search Section -->
-        <section class="blog-search">
-            <div class="container">
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="Buscar artículos..." id="blogSearch">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- Filters Section -->
-        <section class="blog-filters">
-            <div class="container">
-                <div class="filter-chips">
-                    <a href="#" class="filter-chip active" data-category="all">Todos</a>
-                    <a href="#" class="filter-chip" data-category="anime">Anime</a>
-                    <a href="#" class="filter-chip" data-category="manga">Manga</a>
-                    <a href="#" class="filter-chip" data-category="cultura">Cultura</a>
-                    <a href="#" class="filter-chip" data-category="gaming">Gaming</a>
-                    <a href="#" class="filter-chip" data-category="gastronomia">Gastronomía</a>
-                    <a href="#" class="filter-chip" data-category="tradiciones">Tradiciones</a>
-                </div>
-            </div>
-        </section>
-
         <!-- Main Content -->
-        <section class="main-content">
+        <section class="main-content" style="padding-top: 40px;">
             <div class="container">
                 <div class="content-grid">
                     <!-- Blog Grid -->
@@ -1090,7 +1052,7 @@
     <div id="footer-placeholder"></div>
 
     <!-- Scripts -->
-    <script src="js/core-simple.js"></script>
+    <script src="js/core-simple.js?v=2"></script>
     <script>
         // パーティクルアニメーションの初期化
         function initParticles() {

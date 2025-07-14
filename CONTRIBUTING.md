@@ -1,352 +1,146 @@
-# Guía de Contribución 🤝
+# Contributing to Youkoso 🤝
 
-¡Gracias por tu interés en contribuir a **Youkoso**! Esta guía te ayudará a entender cómo puedes contribuir al proyecto de manera efectiva.
+## 🎯 プロジェクト概要
 
-## 📋 Tabla de Contenidos
+Youkosoは**完全機能実装済み**の日本製品オンラインストアです。現在は安定運用フェーズに入っており、メンテナンスと最適化に注力しています。
 
-- [Tipos de Contribución](#tipos-de-contribución)
-- [Configuración del Entorno](#configuración-del-entorno)
-- [Flujo de Trabajo](#flujo-de-trabajo)
-- [Estándares de Código](#estándares-de-código)
-- [Reportar Bugs](#reportar-bugs)
-- [Sugerir Funcionalidades](#sugerir-funcionalidades)
-- [Pull Requests](#pull-requests)
+## ✅ 完了済み機能
 
-## 🎯 Tipos de Contribución
+- ヘッダー・フッター共通化システム
+- モダンデザイン統一（kawaii → professional）
+- PWA、SEO、レスポンシブ対応
+- 動的製品カタログ（80+ items）
+- 自動デプロイ（Firebase Hosting）
 
-Puedes contribuir de varias maneras:
+## 🛠️ 開発環境セットアップ
 
-- **🐛 Reporte de bugs**: Ayúdanos a identificar y corregir errores
-- **💡 Nuevas funcionalidades**: Propón o implementa nuevas características
-- **📝 Documentación**: Mejora o traduce la documentación
-- **🎨 Diseño**: Mejoras en UI/UX
-- **🚀 Performance**: Optimizaciones de rendimiento
-- **🌐 Traducción**: Añadir soporte para nuevos idiomas
-- **✅ Testing**: Añadir o mejorar pruebas
+### 必要ツール
+```bash
+# ローカルサーバー（いずれか1つ）
+python3 -m http.server 8000
+npx live-server
+# または VSCode Live Server 拡張機能
+```
 
-## 🛠️ Configuración del Entorno
+### プロジェクト構造理解
+```
+youkoso/
+├── components/           # 共通コンポーネント
+├── css/style-simple.css  # 統一スタイル
+├── js/core-simple.js     # コア機能
+├── data/data.json        # 製品データ
+└── firebase.json         # デプロイ設定
+```
 
-### Prerrequisitos
+## 📝 コントリビューション可能領域
 
-- Git
-- Node.js (v16 o superior)
-- Navegador web moderno
-- Editor de código (recomendado: VS Code)
-- Firebase CLI (opcional)
+### 🎨 **UI/UX改善**
+- アニメーション追加
+- ユーザビリティ向上
+- アクセシビリティ強化
 
-### Configuración
+### ⚡ **パフォーマンス最適化**
+- Lighthouse スコア向上
+- 画像最適化
+- キャッシュ戦略改善
 
-1. **Fork del repositorio**
-   - Ve a [https://github.com/hiroata/youkoso](https://github.com/hiroata/youkoso)
-   - Haz clic en "Fork" en la esquina superior derecha
+### 🔧 **機能拡張**
+- ユーザー認証システム
+- 決済システム統合
+- 検索機能強化
 
-2. **Clona tu fork**
-   ```bash
-   git clone https://github.com/TU_USUARIO/youkoso.git
-   cd youkoso
-   ```
-
-3. **Configura el remote upstream**
-   ```bash
-   git remote add upstream https://github.com/hiroata/youkoso.git
-   ```
-
-4. **Inicia un servidor local**
-
-   ```bash
-   # Instalar dependencias
-   npm install
-   
-   # Servidor de desarrollo (recomendado)
-   npm run dev              # Puerto 3000
-   
-   # Servidor Firebase local
-   npm run firebase:serve   # Puerto 5000
-   
-   # Alternativa simple
-   python -m http.server 8000
-   ```
-
-5. **Archivos clave para desarrollo**
-   - **CSS**: `css/style-simple.css` (sistema de diseño)
-   - **JS Principal**: `js/core.js` (APIs y funciones principales)
-   - **Datos**: `data/data.json` (productos), `data/blogs.json`
-   - **Documentación**: `PROJECT_STATUS.md`, `DESIGN_SYSTEM.md`
-
-## 🔄 Flujo de Trabajo
-
-### Para cada contribución:
-
-1. **Sincroniza con upstream**
-   ```bash
-   git checkout main
-   git pull upstream main
-   ```
-
-2. **Crea una nueva rama**
-   ```bash
-   git checkout -b feature/nombre-descriptivo
-   # o
-   git checkout -b fix/descripcion-del-bug
-   ```
-
-3. **Realiza tus cambios**
-   - Edita los archivos necesarios
-   - Prueba tus cambios localmente
-   - Sigue los [estándares de código](#estándares-de-código)
-
-4. **Commit tus cambios**
-   ```bash
-   git add .
-   git commit -m "Descripción clara de los cambios"
-   ```
-
-5. **Push a tu fork**
-   ```bash
-   git push origin feature/nombre-descriptivo
-   ```
-
-6. **Crea un Pull Request**
-   - Ve a tu fork en GitHub
-   - Haz clic en "New Pull Request"
-   - Rellena la plantilla del PR
-
-## 📏 Estándares de Código
+## 📋 コーディング規約
 
 ### HTML
-- Usar indentación de 4 espacios
-- Elementos HTML5 semánticos
-- Atributos en orden: `class`, `id`, otros
-- Alt text para todas las imágenes
-
-```html
-<article class="product-card" id="product-123">
-    <img src="image.jpg" alt="Descripción del producto" loading="lazy">
-    <h3>Título del Producto</h3>
-</article>
-```
+- セマンティックタグ使用
+- アクセシビリティ属性必須
+- 多言語対応（es-text, ja-text クラス）
 
 ### CSS
-- **Archivo principal**: `css/style-simple.css` (NO usar `style.css`)
-- **Variables CSS**: Usar siempre las variables del sistema de diseño
-- **Metodología**: BEM para nombres de clases
-- **Orden**: layout, visual, typography
-
-```css
-.product-card {
-    /* Layout */
-    display: flex;
-    flex-direction: column;
-    
-    /* Visual */
-    background-color: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    
-    /* Typography */
-    font-family: 'Inter', sans-serif;
-}
-```
-
-**Variables principales disponibles**:
-```css
-/* Colores */
---primary-color: #2c3e50;
---accent-color: #3498db;
---text-color: #2c3e50;
---bg-color: #ffffff;
---card-bg: #ffffff;
-
-/* Espaciado */
---spacing-sm: 0.5rem;
---spacing-md: 1rem;
---spacing-lg: 1.5rem;
-
-/* Efectos */
---radius: 8px;
---shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
---transition: all 0.3s ease;
-```
+- CSS変数活用（:root で定義済み）
+- レスポンシブファースト
+- コンポーネント指向
 
 ### JavaScript
-- Usar ES6+ features
-- Funciones descriptivas
-- Comentarios para lógica compleja
-- Manejo de errores apropiado
+- ES6+ 標準
+- 非同期処理（async/await）
+- エラーハンドリング必須
 
-```javascript
-/**
- * Filtra productos por categoría
- * @param {Array} products - Array de productos
- * @param {string} category - Categoría a filtrar
- * @returns {Array} Productos filtrados
- */
-function filterProductsByCategory(products, category) {
-    try {
-        return products.filter(product => 
-            product.category.toLowerCase() === category.toLowerCase()
-        );
-    } catch (error) {
-        console.error('Error al filtrar productos:', error);
-        return [];
-    }
-}
+## 🔄 コントリビューション手順
+
+### 1. フォーク & クローン
+```bash
+git clone https://github.com/your-username/youkoso.git
+cd youkoso
 ```
 
-## 🐛 Reportar Bugs
-
-Antes de reportar un bug:
-
-1. **Verifica** que no esté ya reportado en [Issues](https://github.com/hiroata/youkoso/issues)
-2. **Reproduce** el bug en la última versión
-3. **Reúne información** sobre el entorno (navegador, OS, etc.)
-
-### Template para reporte de bugs:
-
-```markdown
-**Descripción del Bug**
-Descripción clara y concisa del problema.
-
-**Pasos para Reproducir**
-1. Ve a '...'
-2. Haz clic en '....'
-3. Desplázate hacia '....'
-4. Ver error
-
-**Comportamiento Esperado**
-Lo que esperabas que pasara.
-
-**Screenshots**
-Si aplica, añade screenshots.
-
-**Información del Entorno:**
-- OS: [e.g. Windows 10]
-- Navegador: [e.g. Chrome 91.0]
-- Versión: [e.g. 1.2.3]
+### 2. ブランチ作成
+```bash
+git checkout -b feature/your-feature-name
 ```
 
-## 💡 Sugerir Funcionalidades
+### 3. 開発 & テスト
+- ローカルでの動作確認
+- 複数ブラウザでのテスト
+- レスポンシブ確認
 
-Para proponer nuevas funcionalidades:
-
-1. **Busca** si ya existe una propuesta similar
-2. **Describe** claramente la funcionalidad
-3. **Explica** por qué sería útil
-4. **Proporciona** mockups o ejemplos si es posible
-
-## 📬 Pull Requests
-
-### Antes de enviar un PR:
-
-- ✅ Los cambios funcionan correctamente
-- ✅ El código sigue los estándares establecidos
-- ✅ Se han probado en diferentes navegadores
-- ✅ La documentación está actualizada si es necesario
-- ✅ Los commits tienen mensajes descriptivos
-
-### Template de PR:
-
-```markdown
-## Descripción
-Breve descripción de los cambios realizados.
-
-## Tipo de Cambio
-- [ ] Bug fix
-- [ ] Nueva funcionalidad
-- [ ] Cambio breaking
-- [ ] Documentación
-
-## ¿Cómo se ha probado?
-Describe las pruebas realizadas.
-
-## Checklist:
-- [ ] Mi código sigue los estándares del proyecto
-- [ ] He realizado una auto-revisión de mi código
-- [ ] He comentado mi código, especialmente en áreas difíciles
-- [ ] He realizado cambios correspondientes en la documentación
-- [ ] Mis cambios no generan nuevas advertencias
-- [ ] He probado que mi fix es efectivo o mi funcionalidad trabaja
+### 4. コミット
+```bash
+git add .
+git commit -m "feat: your descriptive message"
 ```
 
-## 🔍 Revisión de Código
+### 5. プルリクエスト
+- 明確な説明
+- スクリーンショット添付
+- 変更理由の記載
 
-Los mantenedores revisarán tu PR y pueden:
-- **Aprobar** y hacer merge
-- **Solicitar cambios** con comentarios específicos
-- **Rechazar** si no se alinea con los objetivos del proyecto
+## 🔍 テスト要項
 
-## 🏷️ Convenciones de Commits
+### 必須チェック項目
+- [ ] ヘッダー・フッターが全ページで表示
+- [ ] レスポンシブデザイン動作
+- [ ] JavaScript エラーなし
+- [ ] キャッシュバスティング確認（CSS?v=3）
 
-Usa el formato [Conventional Commits](https://www.conventionalcommits.org/):
+### ブラウザ対応
+- Chrome/Edge (最新)
+- Firefox (最新)
+- Safari (最新)
+- モバイルブラウザ
 
-```
-tipo(alcance): descripción
+## 🚨 セキュリティ
 
-[cuerpo opcional]
+### 報告方法
+セキュリティ脆弱性を発見した場合：
+- **公開Issue禁止**
+- プライベート報告推奨
+- 責任ある開示原則
 
-[footer opcional]
-```
+### セキュリティ実装済み
+- Content Security Policy
+- XSS/CSRF 保護
+- セキュリティヘッダー
+- HTTPS 強制
 
-**Tipos:**
-- `feat`: Nueva funcionalidad
-- `fix`: Corrección de bug
-- `docs`: Cambios en documentación
-- `style`: Cambios de formato, espacios, etc.
-- `refactor`: Cambios de código que no corrigen bugs ni añaden funcionalidades
-- `perf`: Cambios que mejoran el rendimiento
-- `test`: Añadir o corregir tests
-- `chore`: Cambios en herramientas, configuración, etc.
+## 📞 サポート
 
-**Ejemplos:**
-```
-feat(products): añadir filtro por precio
-fix(cart): corregir cálculo de total
-docs(readme): actualizar instrucciones de instalación
-```
+### 質問・相談
+- **GitHub Issues**: バグ報告・機能要求
+- **GitHub Discussions**: 技術的相談
+- **Code Review**: プルリクエストでフィードバック
 
-## 🎉 Reconocimiento
+### ドキュメント
+- `README.md`: プロジェクト概要
+- `DEVELOPMENT.md`: 技術詳細
+- `CONTRIBUTING.md`: このファイル
 
-Todos los contribuidores serán reconocidos en:
-- README.md del proyecto
-- Página "Acerca de" del sitio web
-- Releases notes cuando aplique
+## 🎉 コントリビューター
 
-## 📚 Documentación del Proyecto
-
-Antes de contribuir, revisa la documentación actualizada:
-
-- **[PROJECT_STATUS.md](PROJECT_STATUS.md)**: Estado completo del proyecto
-- **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)**: Guía del sistema de diseño
-- **[README.md](README.md)**: Información general y setup
-- **[SECURITY.md](SECURITY.md)**: Políticas de seguridad
-
-## 🚀 Estado Actual del Proyecto
-
-### ✅ **Completado (Evitar modificar sin consultar)**
-- Sistema de diseño unificado (`css/style-simple.css`)
-- Funcionalidad e-commerce básica (productos, carrito, navegación)
-- PWA implementada y deploy automático
-- Blog con 5 artículos culturales
-- Estructura de archivos optimizada
-
-### 🎯 **Áreas de Expansión Recomendadas**
-- **Backend**: Implementar Firestore, autenticación
-- **Pagos**: Integrar pasarela de pagos (Stripe/PayPal)
-- **Admin Panel**: Expandir funcionalidades CRUD
-- **Funcionalidades**: Reviews, wishlist, analytics
-
-## 📞 ¿Necesitas Ayuda?
-
-- **GitHub Issues**: Para bugs y nuevas funcionalidades
-- **Email**: [contacto@youkoso.mx](mailto:contacto@youkoso.mx)
-- **Documentación**: Consulta los archivos `.md` del proyecto
-
-## 📄 Código de Conducta
-
-Este proyecto se adhiere al [Contributor Covenant](https://www.contributor-covenant.org/). Al participar, te comprometes a mantener un ambiente acogedor y respetuoso para todos.
+このプロジェクトに貢献してくださったすべての方に感謝します！
 
 ---
 
-**Estado**: ✅ Proyecto funcional completo - Listo para expansión avanzada
-
-¡Gracias por contribuir a **Youkoso**! 🎌✨
+**プロジェクト状況**: ✅ 完全機能・本番稼働中  
+**フェーズ**: 安定運用・最適化  
+**最終更新**: 2025年1月14日

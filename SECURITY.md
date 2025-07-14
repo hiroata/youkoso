@@ -1,193 +1,58 @@
-# Política de Seguridad 🔒
+# Security Policy 🔒
 
-## Versiones Soportadas
+## サポート対象バージョン
 
-Mantenemos parches de seguridad para las siguientes versiones del proyecto:
+| Version | Supported |
+|---------|-----------|
+| 1.x.x   | ✅ Yes    |
+| < 1.0   | ❌ No     |
 
-| Versión | Soportada          |
-| ------- | ------------------ |
-| 1.x.x   | ✅ Sí             |
-| < 1.0   | ❌ No              |
+## セキュリティ脆弱性の報告
 
-## Reportar una Vulnerabilidad
+### 報告方法
+セキュリティ脆弱性を発見した場合：
+- **GitHub Security Advisory** を使用してプライベート報告
+- **公開Issue作成は禁止** - 責任ある開示にご協力ください
 
-El equipo de **Youkoso** toma muy en serio los problemas de seguridad. Agradecemos tus esfuerzos por divulgar responsablemente tus hallazgos y haremos todo lo posible por reconocer tus contribuciones.
+### 実装済みセキュリティ対策
 
-### Cómo Reportar
-
-Para reportar un problema de seguridad, utiliza la función de GitHub Security Advisory ["Reportar una Vulnerabilidad"](https://github.com/hiroata/youkoso/security/advisories/new).
-
-### Información a Incluir
-
-Por favor incluye la siguiente información en tu reporte:
-
-- **Tipo de problema** (ej. XSS, inyección SQL, etc.)
-- **Rutas completas** de los archivos de código relacionados con la manifestación del problema
-- **Ubicación del código fuente afectado** (tag/branch/commit o URL directa)
-- **Configuración especial requerida** para reproducir el problema
-- **Instrucciones paso a paso** para reproducir el problema
-- **Prueba de concepto o código de explotación** (si es posible)
-- **Impacto del problema**, incluyendo cómo un atacante podría explotar el problema
-
-### Qué Esperar
-
-- **Confirmación**: Reconoceremos la recepción de tu reporte de vulnerabilidad en 48 horas.
-- **Investigación**: Investigaremos y validaremos el problema en 5 días hábiles.
-- **Actualizaciones**: Proporcionaremos actualizaciones regulares sobre nuestro progreso.
-- **Resolución**: Buscamos resolver problemas críticos en 30 días.
-
-## Medidas de Seguridad Implementadas
-
-Este proyecto implementa varias medidas de seguridad:
-
-### Seguridad del Frontend
-- **Content Security Policy (CSP)** configurada en Firebase Hosting
-- **Validación de entrada** en todos los inputs del usuario
-- **Sanitización de salida** para prevenir ataques XSS
-- **HTTPS obligatorio** en producción vía Firebase Hosting
-- **Headers de seguridad** configurados en `firebase.json`
-
-### Gestión de Datos
-- **Almacenamiento local seguro** (localStorage para carrito)
-- **No almacenamiento** de información sensible en frontend
-- **Validación de datos** antes del procesamiento
-- **Manejo seguro** de APIs externas (Unsplash)
-
-### Infraestructura
-- **Firebase Hosting** con CDN global y protecciones DDoS
-- **Deploy automático** sin exposición de credenciales
-- **GitHub Secrets** para información sensible
-- **Monitoreo** de dependencias con alertas de seguridad
-
-## Alcance de la Política
-
-Esta política de seguridad aplica a:
-
-- El sitio web principal de **Youkoso** y la aplicación
-- Toda la infraestructura relacionada y procesos de deploy
-- Integraciones y dependencias de terceros
-
-### Fuera del Alcance
-
-Los siguientes elementos se consideran fuera del alcance de esta política:
-
-- Vulnerabilidades teóricas sin prueba de concepto
-- Problemas en servicios de terceros que no controlamos
-- Ataques de ingeniería social
-- Ataques físicos
-- Problemas que requieren acceso físico a servidores
-
-## Mejores Prácticas de Seguridad para Contribuidores
-
-Al contribuir a este proyecto, sigue estas pautas de seguridad:
-
-### Seguridad del Código
-
-- **Valida todas las entradas** de usuarios y fuentes externas
-- **Sanitiza las salidas** para prevenir ataques XSS
-- **Usa HTTPS** para todas las llamadas a APIs externas
-- **No hagas commit de secretos** como API keys o contraseñas
-- **Usa variables de entorno** para configuración sensible
-
-### Gestión de Dependencias
-
-- **Mantén las dependencias actualizadas** a las últimas versiones seguras
-- **Revisa las dependencias** antes de añadir nuevas
-- **Usa herramientas de escaneo** para identificar vulnerabilidades
-- **Elimina dependencias no utilizadas** para reducir la superficie de ataque
-
-### Protección de Datos
-
-- **Minimiza la recolección de datos** solo a lo necesario
-- **Maneja los datos de usuario** según las leyes de privacidad (GDPR, CCPA, etc.)
-- **Usa almacenamiento seguro** para cualquier información sensible
-- **Implementa controles de acceso** apropiados
-
-## Headers de Seguridad
-
-Este proyecto implementa los siguientes headers de seguridad en Firebase Hosting:
-
-```json
-{
-  "headers": [
-    {
-      "source": "**",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ]
-}
+#### Content Security Policy
+```html
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data: https:;
+">
 ```
 
-## Tecnologías de Seguridad
+#### セキュリティヘッダー
+- **X-Frame-Options**: DENY
+- **X-Content-Type-Options**: nosniff  
+- **X-XSS-Protection**: 1; mode=block
+- **Referrer-Policy**: strict-origin-when-cross-origin
 
-### Implementadas
-- ✅ **Firebase Hosting**: SSL automático, CDN global, protección DDoS
-- ✅ **GitHub Actions**: Deploy seguro sin exposición de credenciales
-- ✅ **Content Security Policy**: Prevención de XSS
-- ✅ **Input Validation**: Validación en formularios
-- ✅ **Dependency Updates**: Monitoreo automático de dependencias
+#### HTTPS強制
+- Firebase Hosting による自動HTTPS
+- HTTP → HTTPS リダイレクト
+- HSTS（HTTP Strict Transport Security）
 
-### Recomendadas para el Futuro
-- 🔄 **Firestore Security Rules**: Cuando se implemente backend
-- 🔄 **Firebase Auth**: Para autenticación de usuarios
-- 🔄 **Rate Limiting**: Para prevenir abuse de APIs
-- 🔄 **Web Application Firewall**: Para protección adicional
+### 脆弱性対応プロセス
 
-## Política de Divulgación
+1. **報告受理** - 24時間以内に確認
+2. **影響評価** - 72時間以内に初期評価
+3. **修正開発** - 重要度に応じて1-7日
+4. **リリース** - 自動デプロイメント
+5. **開示** - 修正後に詳細公開
 
-- **Divulgación coordinada**: Preferimos la divulgación coordinada con investigadores de seguridad
-- **Divulgación pública**: Los problemas se divulgarán públicamente después de ser resueltos
-- **Crédito**: Daremos crédito a los investigadores que reporten vulnerabilidades responsablemente
-- **Bug bounty**: Actualmente no tenemos un programa formal de bug bounty, pero apreciamos la divulgación responsable
+### 責任ある開示
 
-## Contacto
-
-Para preguntas relacionadas con seguridad que no sean vulnerabilidades, puedes contactarnos en:
-
-- **Email**: [security@youkoso.mx](mailto:security@youkoso.mx)
-- **GitHub**: Abre un issue con la etiqueta `security`
-
-## Marco Legal
-
-Al enviar un reporte de vulnerabilidad, aceptas que:
-
-- No accederás ni modificarás datos de usuario sin permiso explícito
-- No realizarás pruebas que puedan dañar nuestros sistemas o usuarios
-- Cumplirás con todas las leyes y regulaciones aplicables
-- No divulgarás públicamente la vulnerabilidad antes de que hayamos tenido la oportunidad de abordarla
-
-## Actualizaciones de Seguridad
-
-- **Dependencias**: Revisión mensual y actualización de dependencias
-- **Política**: Esta política se revisa y actualiza trimestralmente
-- **Monitoreo**: Monitoreo continuo de alertas de seguridad
-- **Respuesta**: Plan de respuesta a incidentes documentado
+セキュリティ研究者の皆様へ：
+- **プライベート報告を推奨**
+- 修正前の公開開示はご遠慮ください
+- 貢献者として適切にクレジット
 
 ---
 
-## Estado Actual de Seguridad
-
-> ✅ **Nivel de Seguridad**: BUENO
-> 
-> Proyecto con medidas de seguridad básicas implementadas, hosting seguro, y buenas prácticas de desarrollo. Apropiado para aplicación e-commerce básica.
-
----
-
-¡Gracias por ayudar a mantener **Youkoso** y nuestros usuarios seguros! 🔒
+**最終更新**: 2025年1月14日  
+**セキュリティ担当**: Development Team

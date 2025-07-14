@@ -108,9 +108,18 @@ function setupFilters() {
 
 // Apply filters
 function applyFilters() {
-    const category = document.getElementById('category-filter')?.value || 'all';
+    // Check URL parameters first
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCategory = urlParams.get('category');
+    
+    const category = document.getElementById('category-filter')?.value || urlCategory || 'all';
     const sort = document.getElementById('sort-filter')?.value || 'name';
     const search = document.getElementById('search-input')?.value.toLowerCase() || '';
+    
+    // If URL has category parameter, update the select
+    if (urlCategory && document.getElementById('category-filter')) {
+        document.getElementById('category-filter').value = urlCategory;
+    }
     
     // Filter products
     filteredProducts = allProducts.filter(product => {
@@ -399,6 +408,18 @@ if (window.location.pathname.includes('products.html') || document.getElementByI
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('products-grid')) {
+        // Check for category parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        
+        if (category) {
+            // Set the category filter
+            const categoryCheckbox = document.querySelector(`input[value="${category}"]`);
+            if (categoryCheckbox) {
+                categoryCheckbox.checked = true;
+            }
+        }
+        
         loadProducts();
     }
 });

@@ -1,327 +1,169 @@
-# Youkoso - Tienda de Productos Japoneses 🎌
+# Youkoso - 日本製品オンラインストア 🎌
 
-[![Deploy to Firebase](https://github.com/hiroata/youkoso/actions/workflows/firebase-hosting-deploy.yml/badge.svg)](https://github.com/hiroata/youkoso/actions/workflows/firebase-hosting-deploy.yml)
 [![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fyoukoso-3d911.web.app)](https://youkoso-3d911.web.app)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> ✅ **Proyecto Completamente Funcional** - Diseño unificado, PWA implementada, deploy automático activo
-> 🎨 **Transformación de Diseño Completa** - De kawaii/poppy a moderno profesional
+> ✅ **プロジェクト完全完了** - モダンデザイン、PWA、自動デプロイ、ヘッダー・フッター共通化
+> 🎨 **デザイン完全統一** - プロフェッショナルなモダンデザインに統一済み
 
-## 📖 Descripción
+## 📖 概要
 
-**Youkoso** (ようこそ - "Bienvenido" en japonés) es una tienda en línea especializada en productos japoneses auténticos en México. El proyecto ha completado recientemente una **transformación completa de diseño** hacia un enfoque moderno y profesional, manteniendo la esencia cultural japonesa.
+**Youkoso**（ようこそ）は、メキシコ向けの本格的な日本製品オンラインストアです。最近、kawaii/poppyスタイルからモダンでプロフェッショナルなデザインに完全移行し、ヘッダー・フッターの共通化も完了しました。
 
-### 🌟 Características Implementadas
+## 🌟 実装済み機能
 
-- ✅ **Diseño Moderno Unificado**: Sistema de diseño profesional implementado
-- ✅ **Catálogo Dinámico**: 80+ productos con imágenes automáticas de Unsplash API
-- ✅ **E-commerce Funcional**: Carrito, detalles de producto, navegación completa
-- ✅ **Blog Cultural**: 5 artículos sobre cultura japonesa y mexicana
-- ✅ **PWA Completa**: Instalable, offline support, service worker
-- ✅ **SEO Avanzado**: Meta tags, JSON-LD, sitemap, robots.txt
-- ✅ **Responsive Design**: Mobile-first, optimizado para todos los dispositivos
-- ✅ **Deploy Automático**: CI/CD con GitHub Actions y Firebase Hosting
+### ✅ **コア機能**
+- **ヘッダー・フッター共通化**: 全ページで統一されたレイアウト
+- **動的カタログ**: 80+ 製品、自動画像生成システム
+- **Eコマース機能**: カート、製品詳細、完全なナビゲーション
+- **文化ブログ**: 日本文化に関する5記事
+- **PWA対応**: インストール可能、オフライン対応
 
-## 🛠️ Stack Tecnológico
+### ✅ **技術実装**
+- **レスポンシブデザイン**: モバイルファースト
+- **SEO最適化**: メタタグ、JSON-LD、サイトマップ
+- **自動デプロイ**: GitHub Actions + Firebase Hosting
+- **キャッシュ最適化**: Service Worker、バージョン管理
 
-### Frontend
-- **HTML5**: Semántico, accesible, optimizado para SEO
-- **CSS3**: Sistema de variables, Grid, Flexbox, animaciones suaves
-- **JavaScript**: ES6+, módulos, APIs modernas (Fetch, localStorage)
-- **PWA**: Service Worker, Web App Manifest, offline support
+## 🛠️ 技術スタック
 
-### Diseño & UX
-- **Sistema de Diseño**: Variables CSS, componentes estandarizados
-- **Tipografía**: Inter (principal), Noto Sans JP (japonés)
-- **Colores**: Paleta azul profesional (#2c3e50, #3498db)
-- **Responsive**: Mobile-first, breakpoints optimizados
+### フロントエンド
+```
+HTML5    - セマンティック、アクセシブル
+CSS3     - CSS変数、Grid、Flexbox、アニメーション
+JS ES6+  - モジュール、Fetch API、localStorage
+PWA      - Service Worker、Web App Manifest
+```
 
-### Infraestructura
-- **Hosting**: Firebase Hosting con CDN global
-- **CI/CD**: GitHub Actions con deploy automático
-- **APIs**: Unsplash (imágenes dinámicas), Google Fonts
-- **Performance**: Lazy loading, optimización de assets
+### インフラ
+```
+Firebase Hosting  - グローバルCDN
+GitHub Actions   - CI/CD自動デプロイ
+Unsplash API     - 動的画像生成
+```
 
-## 📂 Estructura del Proyecto
+## 📂 プロジェクト構造
 
-```text
+```
 youkoso/
-├── 📄 Páginas Principales
-│   ├── index.html              ✅ Landing con hero moderno
-│   ├── products.html           ✅ Grid responsivo de productos
-│   ├── product-detail.html     ✅ Detalles con carrito
-│   ├── blog.html              ✅ Lista de artículos
-│   ├── blog1-5.html           ✅ Artículos individuales
-│   ├── about.html             ✅ Información de empresa
-│   ├── contact.html           ✅ Formulario mejorado
-│   ├── admin.html             ✅ Panel administrativo
-│   └── offline.html           ✅ Página PWA offline
+├── 📄 主要ページ
+│   ├── index.html              # ランディングページ
+│   ├── products.html           # 製品一覧
+│   ├── product-detail.html     # 製品詳細
+│   ├── blog.html               # ブログ一覧
+│   ├── contact.html            # お問い合わせ
+│   └── admin.html              # 管理画面
 │
-├── 🎨 Estilos y Assets
+├── 🧩 共通コンポーネント
+│   └── components/
+│       ├── header.html         # 共通ヘッダー
+│       └── footer.html         # 共通フッター
+│
+├── 🎨 スタイル・スクリプト
 │   ├── css/
-│   │   ├── style-simple.css   ✅ Sistema de diseño principal
-│   │   └── style.css          ❌ Legacy (no usar)
-│   ├── assets/images/
-│   │   ├── products/          ✅ 80+ imágenes de productos
-│   │   ├── blog/             ✅ Imágenes de artículos
-│   │   ├── team/             ✅ Equipo de empresa
-│   │   └── ui/               ✅ Elementos de interfaz
+│   │   └── style-simple.css    # 統一スタイル
+│   └── js/
+│       ├── core-simple.js      # コア機能
+│       ├── main-simple.js      # ホームページ
+│       └── products-simple.js  # 製品ページ
 │
-├── ⚡ JavaScript Moderno
-│   ├── js/
-│   │   ├── core.js           ✅ API y funciones principales
-│   │   ├── main.js           ✅ Lógica de navegación
-│   │   ├── products.js       ✅ Catálogo y carrito
-│   │   ├── blog.js           ✅ Funcionalidad blog
-│   │   ├── contact-enhanced.js ✅ Formulario avanzado
-│   │   ├── admin.js          ✅ Panel administrativo
-│   │   ├── features.js       ✅ Funciones adicionales
-│   │   └── image-downloader.js ✅ Descarga de imágenes
+├── 📊 データ
+│   ├── data/data.json          # 製品データ
+│   └── data/blogs.json         # ブログデータ
 │
-├── 📊 Datos y Contenido
-│   ├── data/
-│   │   ├── data.json         ✅ Base de datos productos
-│   │   ├── blogs.json        ✅ Contenido del blog
-│   │   └── translations.json ✅ Soporte multiidioma
-│
-├── 📱 PWA y Config
-│   ├── manifest.json         ✅ PWA manifest
-│   ├── sw.js                 ✅ Service Worker
-│   ├── firebase.json         ✅ Configuración hosting
-│   ├── package.json          ✅ Scripts y dependencias
-│   ├── robots.txt            ✅ SEO crawler
-│   └── sitemap.xml           ✅ Mapa del sitio
-│
-├── 📚 Documentación
-│   ├── README.md             ✅ Este archivo
-│   ├── PROJECT_STATUS.md     ✅ Estado actual completo
-│   ├── DESIGN_SYSTEM.md      ✅ Sistema de diseño
-│   ├── CONTRIBUTING.md       ✅ Guía de contribución
-│   ├── SECURITY.md           ✅ Políticas de seguridad
-│   └── GITHUB_SECRETS_SETUP.md ✅ Config Firebase
-│
-└── 🚀 CI/CD
-    └── .github/workflows/
-        └── firebase-hosting-deploy.yml ✅ Deploy automático
+└── ⚙️ 設定
+    ├── firebase.json           # Firebase設定
+    ├── manifest.json           # PWA設定
+    └── sw.js                   # Service Worker
 ```
 
-## 🚀 Inicio Rápido
+## 🎨 デザインシステム
 
-### Prerrequisitos
+### 色彩設計
+```css
+/* メインカラー */
+--primary-color: #2c3e50      /* ダークブルー */
+--accent-color: #3498db       /* ブライトブルー */
 
-- Navegador web moderno
-- Node.js (v16 o superior)
-- Firebase CLI (opcional para desarrollo local)
+/* テキスト */
+--text-color: #2c3e50         /* メインテキスト */
+--text-light: #7f8c8d         /* セカンダリテキスト */
 
-### Instalación
+/* 背景 */
+--bg-color: #ffffff           /* メイン背景 */
+--bg-light: #f8f9fa           /* セカンダリ背景 */
+```
 
-1. **Clona el repositorio**
+### タイポグラフィ
+```css
+/* フォント */
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
-   ```bash
-   git clone https://github.com/hiroata/youkoso.git
-   cd youkoso
-   ```
+/* 日本語フォント */
+font-family: 'Noto Sans JP', 'Inter', sans-serif
+```
 
-2. **Instala las dependencias**
+## 🔧 最近の重要な更新
 
-   ```bash
-   npm install
-   ```
+### ヘッダー・フッター共通化 (2025-01-14)
+- 全HTMLページでヘッダー・フッターを共通コンポーネント化
+- `components/header.html` と `components/footer.html` を作成
+- JavaScript動的読み込みで保守性向上
+- ナビゲーションのアクティブクラス自動設定
 
-3. **Inicia un servidor local**
+### キャッシュバスティング強化
+- CSS/JSファイルにバージョンパラメータ追加
+- `style-simple.css?v=3` でキャッシュ問題解決
+- レスポンシブレイアウト修正（PC/モバイル）
 
-   ```bash
-   # Con npm script
-   npm run dev
-   
-   # Con Firebase CLI (recomendado)
-   npm run firebase:serve
-   
-   # Con Python
-   python -m http.server 8000
-   ```
+### CSS最適化
+- 重複定義削除、Flexレイアウト強化
+- `!important` 追加で確実なレイアウト
+- レスポンシブ干渉防止
 
-4. **Abre en el navegador**
+## 🚀 デプロイ & セットアップ
 
-   ```text
-   http://localhost:3000    # npm run dev
-   http://localhost:5000    # firebase serve
-   http://localhost:8000    # python server
-   ```
-
-## 📱 PWA (Progressive Web App)
-
-El sitio funciona como una PWA con las siguientes características:
-
-- **Instalable**: Se puede instalar como una app en dispositivos móviles
-- **Offline**: Funcionalidad básica disponible sin conexión
-- **Responsive**: Optimizado para todos los tamaños de pantalla
-- **Fast**: Carga rápida con Service Worker
-
-## 🔧 Desarrollo
-
-### Scripts Disponibles
-
+### ローカル開発
 ```bash
-npm run dev              # Servidor de desarrollo (puerto 3000)
-npm run start            # Servidor de producción (puerto 8080)
-npm run firebase:serve   # Servidor Firebase local
-npm run firebase:deploy  # Deploy manual a Firebase
+# ローカルサーバー起動
+python3 -m http.server 8000
+# または
+npx live-server
 ```
 
-### Configuración de Variables
+### 本番環境
+- **URL**: https://youkoso-3d911.web.app
+- **自動デプロイ**: main ブランチへのpush時
+- **CDN**: Firebase Hosting グローバル配信
 
-Para el deploy en Firebase, asegúrate de tener configuradas las siguientes variables en GitHub Secrets:
+## 📱 PWA機能
 
-```env
-FIREBASE_SERVICE_ACCOUNT_YOUKOSO_3D911=tu_service_account_json
-```
+- **インストール可能**: ホーム画面に追加
+- **オフライン対応**: Service Worker でキャッシュ
+- **レスポンシブ**: 全デバイス対応
+- **高速読み込み**: 最適化済みアセット
 
-## � Firebase Hosting
+## 🎯 パフォーマンス
 
-Este proyecto está desplegado en Firebase Hosting, que ofrece:
+- **Lighthouse スコア**: 90+ (全項目)
+- **画像最適化**: 遅延読み込み、WebP対応
+- **コード分割**: ページ別最適化
+- **キャッシュ戦略**: 効率的なリソース管理
 
-### Características de Firebase Hosting
+## 🔐 セキュリティ
 
-- **CDN Global**: Entrega rápida de contenido en todo el mundo
-- **SSL Automático**: HTTPS habilitado por defecto
-- **Dominio Personalizado**: Soporte para dominios custom
-- **Cache Inteligente**: Optimización automática de assets
-- **Headers de Seguridad**: Configuración avanzada de seguridad
-- **Rollback Rápido**: Capacidad de revertir deployments
-- **Preview Channels**: URLs de preview para testing
+- **CSP**: Content Security Policy実装
+- **HTTPS**: 全通信暗号化
+- **セキュリティヘッダー**: 包括的な保護
 
-### Configuración del Proyecto
+## 📞 サポート
 
-```json
-{
-  "hosting": {
-    "public": ".",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "headers": [
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "X-Frame-Options", 
-            "value": "DENY"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-## �🚀 Deploy
-
-### Deploy Automático
-
-El proyecto se despliega automáticamente en Firebase Hosting mediante GitHub Actions:
-
-- **Push a `main`**: Deploy a producción
-- **Pull Request**: Preview del deploy (opcional)
-
-### Deploy Manual
-
-```bash
-# Instalar Firebase CLI
-npm install -g firebase-tools
-
-# Login a Firebase
-firebase login
-
-# Deploy
-npm run firebase:deploy
-# o
-firebase deploy
-```
-
-## 🎯 Estado del Proyecto: COMPLETADO
-
-### ✅ Transformación de Diseño (100% Completa)
-
-| Antes (Kawaii/Poppy) | Después (Moderno) |
-|---------------------|-------------------|
-| ❌ Rosa vibrante #e91e63 | ✅ Azul profesional #2c3e50 |
-| ❌ Fuente Fredoka juguetona | ✅ Inter legible y moderna |
-| ❌ Emojis excesivos | ✅ Iconos profesionales |
-| ❌ Gradientes complejos | ✅ Fondos limpios |
-| ❌ Componentes inconsistentes | ✅ Sistema estandarizado |
-
-### 🛒 E-commerce Funcional
-
-- ✅ **Catálogo**: 80+ productos con grid responsivo
-- ✅ **Imágenes**: API de Unsplash para imágenes dinámicas
-- ✅ **Navegación**: Detalle de productos con localStorage
-- ✅ **Carrito**: Sistema funcional con persistencia local
-- ✅ **Filtros**: Por categoría y búsqueda
-- ✅ **Responsive**: Optimizado mobile-first
-
-### 📝 Content Management
-
-- ✅ **Blog**: 5 artículos culturales (México-Japón)
-- ✅ **SEO**: Meta tags, JSON-LD, Open Graph completo
-- ✅ **Navegación**: Breadcrumbs, paginación
-- ✅ **Multiidioma**: Soporte español/japonés básico
-
-### 🚀 Performance & PWA
-
-- ✅ **Lighthouse Score**: 90+ en todas las métricas
-- ✅ **PWA**: Instalable, offline support, service worker
-- ✅ **Loading**: Lazy loading, imágenes optimizadas
-- ✅ **CDN**: Firebase Hosting con CDN global
-- ✅ **HTTPS**: SSL automático de Firebase
-
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crea tu rama de feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -m 'Añadir nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
-
-## 📚 Documentación Adicional
-
-- **[PROJECT_STATUS.md](PROJECT_STATUS.md)**: Estado completo del proyecto para desarrolladores
-- **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)**: Sistema de diseño y componentes
-- **[CONTRIBUTING.md](CONTRIBUTING.md)**: Guía para contribuir al proyecto
-- **[SECURITY.md](SECURITY.md)**: Políticas de seguridad
-
-## 🚀 Próximos Pasos Recomendados
-
-### 🎯 Prioridad Alta
-1. **Backend**: Implementar base de datos real (Firestore)
-2. **Pagos**: Integrar pasarela de pagos (Stripe/PayPal)
-3. **Auth**: Sistema de usuarios y autenticación
-
-### 🎯 Prioridad Media
-1. **Admin**: Expandir panel administrativo (CRUD completo)
-2. **Analytics**: Dashboard de métricas y ventas
-3. **Reviews**: Sistema de reseñas de productos
-
-## 📞 Contacto & Enlaces
-
-- **🌐 Website**: [youkoso-3d911.web.app](https://youkoso-3d911.web.app)
-- **📱 GitHub**: [github.com/hiroata/youkoso](https://github.com/hiroata/youkoso)
-- **🔥 Firebase**: [Firebase Console](https://console.firebase.google.com/project/youkoso-3d911)
-- **📧 Email**: [contacto@youkoso.mx](mailto:contacto@youkoso.mx)
-
-## 🏆 Estado Actual
-
-> **✅ PROYECTO COMPLETAMENTE FUNCIONAL**
-> 
-> Sistema de diseño moderno implementado, e-commerce funcional, PWA activa, deploy automático configurado. **Listo para desarrollo de funcionalidades avanzadas.**
+- **バグ報告**: GitHub Issues
+- **機能要求**: GitHub Discussions
+- **技術的質問**: コードコメント参照
 
 ---
 
-**¡ようこそ (Youkoso) - Bienvenidos a la cultura japonesa en México!** 🇯🇵🇲🇽
+**最終更新**: 2025年1月14日
+**ステータス**: ✅ 本番稼働中、完全機能
+**次期バージョン**: 安定運用フェーズ

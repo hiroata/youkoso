@@ -38,12 +38,21 @@ const utils = {
             }
             
             // Load footer
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+            console.log('Footer placeholder:', footerPlaceholder);
+            
             const footerResponse = await fetch('components/footer.html');
+            console.log('Footer response status:', footerResponse.status);
+            
             if (footerResponse.ok) {
                 const footerHTML = await footerResponse.text();
-                const footerPlaceholder = document.getElementById('footer-placeholder');
+                console.log('Footer HTML loaded, length:', footerHTML.length);
+                
                 if (footerPlaceholder) {
                     footerPlaceholder.innerHTML = footerHTML;
+                    console.log('Footer HTML inserted');
+                } else {
+                    console.error('Footer placeholder not found!');
                 }
             } else {
                 console.error('Failed to load footer:', footerResponse.status);
@@ -156,10 +165,13 @@ const utils = {
     
     // Load JSON data
     async loadData(type) {
+        console.log(`Loading data type: ${type}`);
         try {
             const response = await fetch('data/data.json');
+            console.log(`Data fetch status: ${response.status}`);
             if (!response.ok) throw new Error(`Failed to load data: ${response.status}`);
             const data = await response.json();
+            console.log(`Data loaded, types available:`, Object.keys(data));
             return data[type] || [];
         } catch (error) {
             console.error(`Error loading ${type}:`, error);
