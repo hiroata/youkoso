@@ -1,23 +1,9 @@
-/* 管理者ログインリンクを控えめに表示 */
+/* 管理者ログインリンクの表示確認 */
 
-/* PC表示時 - 他のリンクと同じスタイルを維持 */
-@media (min-width: 769px) {
-    .footer-bottom-link[href="admin.html"] {
-        /* 他のフッターリンクと同じスタイルを継承 */
-        opacity: 0.8;
-        font-size: 0.875rem;
-    }
-    
-    .footer-bottom-link[href="admin.html"]:hover {
-        opacity: 1;
-    }
-}
-
-/* モバイル表示時も控えめに */
-@media (max-width: 768px) {
-    .footer-bottom-link[href="admin.html"] {
-        /* 他のフッターリンクと同じスタイルを継承 */
-        opacity: 0.8;
-        font-size: 0.875rem;
-    }
+/* フッターボトムリンクが正しく表示されるように */
+.footer-bottom-link[href="admin.html"] {
+    /* 他のフッターリンクと同じスタイルを継承 */
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
