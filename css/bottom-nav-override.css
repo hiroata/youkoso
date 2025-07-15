@@ -1,0 +1,20 @@
+/* ボトムナビゲーションを非表示 */
+.bottom-navigation {
+    display: none !important;
+}
+
+/* 念のため関連要素も非表示 */
+.bottom-nav-item {
+    display: none !important;
+}
+
+/* ボトムナビゲーション用のパディングも削除 */
+body.has-bottom-nav {
+    padding-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 0 !important;
+    }
+}

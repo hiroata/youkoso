@@ -1,0 +1,203 @@
+/* 商品ページを完全にシックなデザインにオーバーライド */
+
+/* 背景色を統一 */
+body {
+    background: #ffffff !important;
+}
+
+/* カラフルな商品カードの背景を削除 */
+.product-card {
+    background: #ffffff !important;
+    border: 1px solid #e9ecef !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.2s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+    border-color: #dee2e6 !important;
+}
+
+/* 商品画像エリアの背景色を統一 */
+.product-image {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+/* カテゴリーバッジを控えめに */
+.product-category {
+    background: #f8f9fa !important;
+    color: #6c757d !important;
+    border: 1px solid #e9ecef !important;
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* 価格表示を黒に */
+.product-price {
+    color: #212529 !important;
+    font-weight: 600 !important;
+}
+
+/* カートボタンをシンプルに */
+.btn-primary,
+.add-to-cart {
+    background: #212529 !important;
+    border: 1px solid #212529 !important;
+    color: white !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    padding: 0.5rem 1.5rem !important;
+}
+
+.btn-primary:hover,
+.add-to-cart:hover {
+    background: #000000 !important;
+    border-color: #000000 !important;
+    transform: none !important;
+}
+
+/* 絵文字やアイコンの装飾を削除 */
+.product-card::before,
+.product-card::after,
+.product-image::before,
+.product-image::after,
+.sparkle,
+.floating-element {
+    display: none !important;
+}
+
+/* ページヘッダーをよりシンプルに */
+.page-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 2rem 0 !important;
+}
+
+.page-title {
+    color: #212529 !important;
+    font-size: 1.75rem !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.page-subtitle {
+    color: #6c757d !important;
+    font-size: 1rem !important;
+}
+
+/* フィルターセクションをミニマルに */
+.filters-section {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 1.5rem 0 !important;
+}
+
+.filters-wrapper {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.filters-wrapper::before {
+    display: none !important;
+}
+
+.filter-select {
+    background: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px !important;
+}
+
+.filter-select:focus {
+    border-color: #212529 !important;
+    box-shadow: 0 0 0 2px rgba(33, 37, 41, 0.1) !important;
+}
+
+/* 検索セクションをシンプルに */
+.search-section {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 1.5rem 0 !important;
+}
+
+.search-input {
+    background: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 4px !important;
+}
+
+.search-input:focus {
+    border-color: #212529 !important;
+    box-shadow: 0 0 0 2px rgba(33, 37, 41, 0.1) !important;
+}
+
+/* すべてのアニメーションを無効化 */
+* {
+    animation: none !important;
+    transition-duration: 0.2s !important;
+}
+
+/* グラデーション背景を単色に */
+[style*="background: linear-gradient"],
+[style*="background-image: linear-gradient"] {
+    background: #ffffff !important;
+}
+
+/* カラフルなテキストを黒に */
+.gradient-text,
+[style*="background-clip: text"] {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    color: #212529 !important;
+}
+
+/* ページネーションをシンプルに */
+.pagination-btn {
+    background: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+}
+
+.pagination-btn:hover {
+    background: #f8f9fa !important;
+    border-color: #212529 !important;
+}
+
+.pagination-current {
+    background: #212529 !important;
+    border: 1px solid #212529 !important;
+    color: #ffffff !important;
+}
+
+/* グリッド表示ボタン */
+.view-toggle button {
+    background: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    color: #6c757d !important;
+}
+
+.view-toggle button.active {
+    background: #212529 !important;
+    border-color: #212529 !important;
+    color: #ffffff !important;
+}
+
+/* 通知をシンプルに */
+.notification {
+    background: #212529 !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}

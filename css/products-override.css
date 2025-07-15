@@ -1,0 +1,84 @@
+/* 商品ページのシンプルでシックなスタイルオーバーライド */
+
+/* 不要なアニメーションを削除 */
+@keyframes sparkle-product,
+@keyframes shop-sparkle,
+@keyframes float-sparkle,
+@keyframes filter-spin,
+@keyframes bounce-shop,
+@keyframes bounce-cart,
+@keyframes rainbow-flow {
+    display: none !important;
+}
+
+/* 絵文字の装飾を非表示 */
+.floating-element,
+.floating-elements,
+.sparkle,
+.shop-sparkle,
+.page-title::after,
+.product-card::before,
+.product-card::after {
+    display: none !important;
+}
+
+/* アニメーションを無効化 */
+* {
+    animation: none !important;
+}
+
+/* 商品カードをシンプルに */
+.product-card {
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* フィルターセクションをシンプルに */
+.filters-section {
+    background: #f8f9fa !important;
+}
+
+.filter-select {
+    border: 1px solid #e5e7eb !important;
+    background: white !important;
+}
+
+/* 検索エリアをシンプルに */
+.search-section {
+    background: white !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+/* ボタンをシンプルに */
+.btn-primary {
+    background: var(--primary-color) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.btn-primary:hover {
+    background: #1a252f !important;
+    transform: translateY(-1px) !important;
+}
+
+/* グラデーションテキストを単色に */
+.gradient-text,
+[class*="gradient-"] {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: currentColor !important;
+    color: var(--primary-color) !important;
+}
+
+/* レインボーボーダーを削除 */
+[class*="rainbow"] {
+    border-image: none !important;
+    border-color: #e5e7eb !important;
+}
