@@ -75,13 +75,6 @@ const utils = {
             });
         });
         
-        // Theme toggle
-        const themeToggle = document.querySelector('.theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                this.toggleTheme();
-            });
-        }
         
         // Mobile menu
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -113,8 +106,6 @@ const utils = {
     // Language management
     currentLanguage: 'es',
     
-    // Theme management
-    currentTheme: 'light',
     
     // Initialize language from localStorage or default
     initLanguage() {
@@ -141,27 +132,7 @@ const utils = {
         }
     },
     
-    // Initialize theme from localStorage or default
-    initTheme() {
-        const saved = localStorage.getItem('theme');
-        if (saved && ['light', 'dark'].includes(saved)) {
-            this.currentTheme = saved;
-            document.documentElement.setAttribute('data-theme', saved);
-        }
-    },
     
-    // Toggle theme
-    toggleTheme() {
-        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', this.currentTheme);
-        localStorage.setItem('theme', this.currentTheme);
-        
-        // Update icon
-        const icon = document.querySelector('.theme-toggle i');
-        if (icon) {
-            icon.className = this.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-        }
-    },
     
     // Load JSON data
     async loadData(type) {
@@ -575,7 +546,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Initialize language and theme
     utils.initLanguage();
-    utils.initTheme();
     utils.cart.updateDisplay();
     
     // The event listeners for language buttons, theme toggle, and mobile menu
