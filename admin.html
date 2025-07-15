@@ -176,6 +176,63 @@
             margin-top: 0.5rem;
         }
         
+        .divider-text {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #95a5a6;
+        }
+        
+        .divider-text::before,
+        .divider-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #ecf0f1;
+        }
+        
+        .divider-text::before {
+            left: 0;
+        }
+        
+        .divider-text::after {
+            right: 0;
+        }
+        
+        .google-btn {
+            background: #4285f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        
+        .google-btn:hover {
+            background: #357ae8;
+        }
+        
+        .google-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .reset-link {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .reset-link:hover {
+            text-decoration: underline;
+        }
+        
         .admin-title {
             text-align: center;
             color: var(--text);
@@ -785,11 +842,11 @@
             <form id="loginForm" class="admin-form">
                 <div class="form-group">
                     <label for="adminId">
-                        <span class="es-text">ID de Usuario</span>
-                        <span class="ja-text">ユーザーID</span>
-                        <span class="en-text">User ID</span>
+                        <span class="es-text">Correo Electrónico</span>
+                        <span class="ja-text">メールアドレス</span>
+                        <span class="en-text">Email Address</span>
                     </label>
-                    <input type="text" id="adminId" required>
+                    <input type="email" id="adminId" required placeholder="admin@youkoso.com">
                 </div>
                 <div class="form-group">
                     <label for="adminPass">
@@ -797,13 +854,36 @@
                         <span class="ja-text">パスワード</span>
                         <span class="en-text">Password</span>
                     </label>
-                    <input type="password" id="adminPass" required>
+                    <input type="password" id="adminPass" required placeholder="••••••••">
                 </div>
                 <button type="submit" class="admin-btn">
                     <span class="es-text">Iniciar Sesión</span>
                     <span class="ja-text">ログイン</span>
                     <span class="en-text">Login</span>
                 </button>
+                
+                <!-- Googleログインボタン -->
+                <div class="divider-text">
+                    <span class="es-text">o</span>
+                    <span class="ja-text">または</span>
+                    <span class="en-text">or</span>
+                </div>
+                <button type="button" id="google-login-btn" class="admin-btn google-btn">
+                    <i class="fab fa-google"></i>
+                    <span class="es-text">Iniciar con Google</span>
+                    <span class="ja-text">Googleでログイン</span>
+                    <span class="en-text">Login with Google</span>
+                </button>
+                
+                <!-- パスワードリセットリンク -->
+                <div class="form-footer">
+                    <a href="#" id="reset-password-link" class="reset-link">
+                        <span class="es-text">¿Olvidaste tu contraseña?</span>
+                        <span class="ja-text">パスワードを忘れた方</span>
+                        <span class="en-text">Forgot password?</span>
+                    </a>
+                </div>
+                
                 <div id="errorMessage" class="error-message" style="display: none;"></div>
             </form>
         </div>
@@ -1227,6 +1307,25 @@
     </div>
 
     <script src="js/core-simple.js?v=2"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase認証スクリプトをインポート
+        import './js/firebase-auth.js';
+    </script>
+    
+    <!-- 既存の管理者スクリプト（Firebase認証後に更新される） -->
     <script src="js/admin.js"></script>
+    
+    <!-- Firebase設定ヘルパー -->
+    <script>
+        // 開発環境用：最初の管理者アカウントを作成
+        // コンソールで実行: createFirstAdmin('admin@youkoso.com', 'password123', '管理者')
+        
+        // 現在のログイン情報（移行期間中の参考）
+        console.info('=== 移行情報 ===');
+        console.info('旧ログイン: ID=admin, Password=japan2024');
+        console.info('新規管理者作成: createFirstAdmin("admin@youkoso.com", "新パスワード", "管理者名")');
+    </script>
 </body>
 </html>

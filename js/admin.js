@@ -1,7 +1,8 @@
 // ===== ADMIN MANAGEMENT SYSTEM =====
 
-// Admin credentials (loaded from .env in real implementation)
-const ADMIN_CREDENTIALS = {
+// Admin credentials (Firebase認証に移行)
+// 旧認証情報（参考用）
+const LEGACY_CREDENTIALS = {
     id: 'admin',
     pass: 'japan2024'
 };

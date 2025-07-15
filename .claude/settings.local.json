@@ -19,7 +19,11 @@
       "Bash(do echo -e \"\\n$file:\")",
       "Bash(mkdir:*)",
       "Bash(for:*)",
-      "Bash(do echo \"=== $file ===\")"
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(do)",
+      "Bash(if grep -q \"core-simple.js\" \"$file\")",
+      "Bash(then)",
+      "Bash(fi)"
     ],
     "deny": []
   }
