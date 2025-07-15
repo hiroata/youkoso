@@ -171,6 +171,10 @@
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style-simple.css?v=3">
+    <!-- ヒーローセクション無効化CSS -->
+    <link rel="stylesheet" href="css/hero-override.css?v=1">
+    <!-- アクセシビリティ機能無効化CSS -->
+    <link rel="stylesheet" href="css/accessibility-override.css?v=1">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="css/style-simple.css?v=3" as="style">
@@ -433,9 +437,11 @@
     <script src="js/link-checker.js?v=1"></script>
     <script src="js/search-enhanced.js?v=1"></script>
     <script src="js/filter-enhanced.js?v=1"></script>
-    <script src="js/accessibility.js?v=1"></script>
+    <!-- アクセシビリティ機能無効化 -->
+    <!-- <script src="js/accessibility.js?v=1"></script> -->
     <script src="js/mobile-enhanced.js?v=1"></script>
-    <script src="js/hero-enhanced.js?v=1"></script>
+    <!-- ヒーローセクション削除 -->
+    <script src="js/remove-hero.js?v=1"></script>
     
     <!-- Service Worker Registration -->
     <script>

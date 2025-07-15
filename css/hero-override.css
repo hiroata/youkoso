@@ -1,0 +1,30 @@
+/* ヒーローセクションを非表示にするオーバーライドCSS */
+
+/* ヒーローセクション全体を非表示 */
+.hero-enhanced,
+.hero-modern,
+.hero,
+.hero-section,
+.hero-wrapper,
+[class*="hero-"] {
+    display: none !important;
+}
+
+/* 浮遊要素も非表示 */
+.floating-elements,
+.floating-icon,
+.floating-background {
+    display: none !important;
+}
+
+/* メインコンテンツの余白調整 */
+main:first-child,
+.main:first-child {
+    padding-top: 1rem !important;
+}
+
+/* カテゴリーセクションを最初のセクションとして表示 */
+.categories {
+    margin-top: 0 !important;
+    padding-top: 2rem !important;
+}

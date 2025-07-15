@@ -1,0 +1,39 @@
+/* アクセシビリティ機能を非表示にするオーバーライドCSS */
+
+/* アクセシビリティコントロールパネル全体を非表示 */
+.accessibility-controls,
+.accessibility-menu,
+.accessibility-toggle,
+#accessibility-toggle,
+#accessibility-menu {
+    display: none !important;
+}
+
+/* スクリーンリーダー関連の要素も非表示 */
+.sr-only,
+#live-region,
+.skip-link {
+    display: none !important;
+}
+
+/* キーボードヘルプモーダルも非表示 */
+.keyboard-help-modal {
+    display: none !important;
+}
+
+/* フォーカスのアウトライン強調も元に戻す */
+*:focus {
+    outline: revert !important;
+    outline-offset: revert !important;
+}
+
+/* フォントサイズクラスも無効化 */
+.font-large,
+.font-xlarge {
+    font-size: inherit !important;
+}
+
+/* ハイコントラストモードも無効化 */
+.high-contrast {
+    filter: none !important;
+}

@@ -8,10 +8,19 @@ class HeroEnhancer {
     }
 
     init() {
-        this.createHeroSection();
+        // ヒーローセクションを削除
+        this.removeExistingHero();
+        // ヒーローセクションを無効化
+        // this.createHeroSection();
         this.addMicroInteractions();
         this.setupScrollAnimations();
-        this.startFloatingElements();
+        // this.startFloatingElements();
+    }
+
+    // 既存のヒーローセクションを削除
+    removeExistingHero() {
+        const existingHeros = document.querySelectorAll('.hero-enhanced, .hero-modern, .hero');
+        existingHeros.forEach(hero => hero.remove());
     }
 
     // ヒーローセクションを作成
