@@ -189,7 +189,7 @@ async function handleLogin(event) {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     // Check credentials
-    if (adminId === ADMIN_CREDENTIALS.id && adminPass === ADMIN_CREDENTIALS.pass) {
+    if (adminId === LEGACY_CREDENTIALS.id && adminPass === LEGACY_CREDENTIALS.pass) {
         // Store authentication state
         const authData = {
             authenticated: true,

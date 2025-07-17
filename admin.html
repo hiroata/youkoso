@@ -842,11 +842,11 @@
             <form id="loginForm" class="admin-form">
                 <div class="form-group">
                     <label for="adminId">
-                        <span class="es-text">Correo Electrónico</span>
-                        <span class="ja-text">メールアドレス</span>
-                        <span class="en-text">Email Address</span>
+                        <span class="es-text">ID de Administrador</span>
+                        <span class="ja-text">管理者ID</span>
+                        <span class="en-text">Admin ID</span>
                     </label>
-                    <input type="email" id="adminId" required placeholder="admin@youkoso.com">
+                    <input type="text" id="adminId" required placeholder="admin">
                 </div>
                 <div class="form-group">
                     <label for="adminPass">
@@ -862,7 +862,8 @@
                     <span class="en-text">Login</span>
                 </button>
                 
-                <!-- Googleログインボタン -->
+                <!-- Firebase認証UI - 一時的に非表示 -->
+                <!--
                 <div class="divider-text">
                     <span class="es-text">o</span>
                     <span class="ja-text">または</span>
@@ -875,7 +876,6 @@
                     <span class="en-text">Login with Google</span>
                 </button>
                 
-                <!-- パスワードリセットリンク -->
                 <div class="form-footer">
                     <a href="#" id="reset-password-link" class="reset-link">
                         <span class="es-text">¿Olvidaste tu contraseña?</span>
@@ -883,6 +883,7 @@
                         <span class="en-text">Forgot password?</span>
                     </a>
                 </div>
+                -->
                 
                 <div id="errorMessage" class="error-message" style="display: none;"></div>
             </form>
@@ -1308,24 +1309,24 @@
 
     <script src="js/core-simple.js?v=2"></script>
     
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK - 一時的に無効化 -->
+    <!--
     <script type="module">
         // Firebase認証スクリプトをインポート
         import './js/firebase-auth.js';
     </script>
+    -->
     
     <!-- 既存の管理者スクリプト（Firebase認証後に更新される） -->
     <script src="js/admin.js"></script>
     
-    <!-- Firebase設定ヘルパー -->
+    <!-- 管理者ログイン情報 -->
     <script>
-        // 開発環境用：最初の管理者アカウントを作成
-        // コンソールで実行: createFirstAdmin('admin@youkoso.com', 'password123', '管理者')
-        
-        // 現在のログイン情報（移行期間中の参考）
-        console.info('=== 移行情報 ===');
-        console.info('旧ログイン: ID=admin, Password=japan2024');
-        console.info('新規管理者作成: createFirstAdmin("admin@youkoso.com", "新パスワード", "管理者名")');
+        // 現在のログイン情報
+        console.info('=== ログイン情報 ===');
+        console.info('管理者ID: admin');
+        console.info('パスワード: japan2024');
+        console.info('Firebase認証は一時的に無効化されています');
     </script>
 </body>
 </html>

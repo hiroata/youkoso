@@ -30,12 +30,12 @@
 
 ```javascript
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",              // 実際のAPIキーに置換
-    authDomain: "youkoso-store.firebaseapp.com",
-    projectId: "youkoso-store",
-    storageBucket: "youkoso-store.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID", // 実際のIDに置換
-    appId: "YOUR_APP_ID"                 // 実際のIDに置換
+    apiKey: "AIzaSyC_REPLACE_WITH_ACTUAL_API_KEY",        // 実際のAPIキーに置換
+    authDomain: "youkoso-3d911.firebaseapp.com",
+    projectId: "youkoso-3d911",
+    storageBucket: "youkoso-3d911.appspot.com",
+    messagingSenderId: "REPLACE_WITH_ACTUAL_SENDER_ID",   // 実際のIDに置換
+    appId: "REPLACE_WITH_ACTUAL_APP_ID"                   // 実際のIDに置換
 };
 ```
 
@@ -82,14 +82,16 @@ service cloud.firestore {
 
 ## 🔐 ログイン情報
 
-### 旧システム（レガシー）
+### 現在のシステム（レガシー認証）
 - **ID**: admin
 - **パスワード**: japan2024
+- **状態**: ✅ 動作中
 
-### 新システム（Firebase）
+### 将来のシステム（Firebase認証）
 - **メール**: admin@youkoso.com（または任意のメール）
 - **パスワード**: 設定時に指定したパスワード
 - **Googleログイン**: 有効
+- **状態**: ⏳ 設定待ち（実際のAPIキーが必要）
 
 ## 🚀 追加機能
 

@@ -22,14 +22,14 @@ import {
     getDocs
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// Firebase設定
+// Firebase設定 - 実際の値に置き換える必要があります
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "youkoso-store.firebaseapp.com",
-    projectId: "youkoso-store",
-    storageBucket: "youkoso-store.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyC_REPLACE_WITH_ACTUAL_API_KEY",
+    authDomain: "youkoso-3d911.firebaseapp.com",
+    projectId: "youkoso-3d911",
+    storageBucket: "youkoso-3d911.appspot.com",
+    messagingSenderId: "REPLACE_WITH_ACTUAL_SENDER_ID",
+    appId: "REPLACE_WITH_ACTUAL_APP_ID"
 };
 
 // Firebase初期化
@@ -250,8 +250,8 @@ class FirebaseAuthManager {
 
     // 管理画面表示
     showAdminDashboard() {
-        const loginSection = document.getElementById('login-section');
-        const adminDashboard = document.getElementById('admin-dashboard');
+        const loginSection = document.getElementById('loginSection');
+        const adminDashboard = document.getElementById('managementSection');
         
         if (loginSection) loginSection.style.display = 'none';
         if (adminDashboard) adminDashboard.style.display = 'block';
@@ -268,10 +268,10 @@ class FirebaseAuthManager {
 
     // ログインフォーム表示
     showLoginForm() {
-        const loginSection = document.getElementById('login-section');
-        const adminDashboard = document.getElementById('admin-dashboard');
+        const loginSection = document.getElementById('loginSection');
+        const adminDashboard = document.getElementById('managementSection');
         
-        if (loginSection) loginSection.style.display = 'block';
+        if (loginSection) loginSection.style.display = 'flex';
         if (adminDashboard) adminDashboard.style.display = 'none';
     }
 
@@ -324,13 +324,13 @@ window.firebaseAuth = new FirebaseAuthManager();
 
 // 管理者ログインフォーム処理
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
+    const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('login-id').value;
-            const password = document.getElementById('login-pass').value;
+            const email = document.getElementById('adminId').value;
+            const password = document.getElementById('adminPass').value;
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             
             // ローディング状態
@@ -345,7 +345,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.textContent = 'ログイン成功！';
             } else {
                 // エラー表示
-                alert(result.error);
+                const errorMessage = document.getElementById('errorMessage');
+                if (errorMessage) {
+                    errorMessage.textContent = result.error;
+                    errorMessage.style.display = 'block';
+                }
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'ログイン';
             }
