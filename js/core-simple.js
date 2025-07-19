@@ -138,10 +138,23 @@ const utils = {
     async loadData(type) {
         // console.log(`Loading data type: ${type}`);
         try {
-            const response = await fetch('data/data.json');
+            // Determine which file to load based on type
+            let filePath = 'data/data.json';
+            if (type === 'blogs') {
+                filePath = 'data/blogs.json';
+            }
+            
+            const response = await fetch(filePath);
             // console.log(`Data fetch status: ${response.status}`);
             if (!response.ok) throw new Error(`Failed to load data: ${response.status}`);
             const data = await response.json();
+            
+            // For blogs.json, the data is directly the array
+            if (type === 'blogs') {
+                return data;
+            }
+            
+            // For data.json, extract the specific type
             // console.log(`Data loaded, types available:`, Object.keys(data));
             return data[type] || [];
         } catch (error) {
@@ -563,6 +576,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // Export for use in other files
 window.utils = utils;
+
+// Add dataLoader property for backward compatibility
+window.utils.dataLoader = {
+    loadData: utils.loadData.bind(utils)
+};
 
 // ===== IMAGE CACHE MANAGEMENT UTILITIES =====
 
