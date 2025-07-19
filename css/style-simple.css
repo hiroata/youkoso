@@ -1224,7 +1224,7 @@ section {
         flex-basis: 100%;
         justify-content: center;
         margin-top: 0.5rem;
-        display: none; /* Hide on very small screens */
+        display: flex; /* Show on mobile screens */
     }
     
     .header-actions {

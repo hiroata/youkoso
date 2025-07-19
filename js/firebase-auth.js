@@ -23,13 +23,18 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // Firebase設定 - 実際の値に置き換える必要があります
+// 重要: 以下の手順でFirebase設定を完了してください：
+// 1. Firebase Console (https://console.firebase.google.com) にアクセス
+// 2. プロジェクト「youkoso-3d911」を選択
+// 3. プロジェクト設定 > 全般 > マイアプリ > Firebase SDK snippet から設定値をコピー
+// 4. 下記のプレースホルダーを実際の値で置き換える
 const firebaseConfig = {
-    apiKey: "AIzaSyC_REPLACE_WITH_ACTUAL_API_KEY",
+    apiKey: "AIzaSyC_REPLACE_WITH_ACTUAL_API_KEY", // ← Firebase Consoleから取得した値に置き換え
     authDomain: "youkoso-3d911.firebaseapp.com",
     projectId: "youkoso-3d911",
     storageBucket: "youkoso-3d911.appspot.com",
-    messagingSenderId: "REPLACE_WITH_ACTUAL_SENDER_ID",
-    appId: "REPLACE_WITH_ACTUAL_APP_ID"
+    messagingSenderId: "REPLACE_WITH_ACTUAL_SENDER_ID", // ← Firebase Consoleから取得した値に置き換え
+    appId: "REPLACE_WITH_ACTUAL_APP_ID" // ← Firebase Consoleから取得した値に置き換え
 };
 
 // Firebase初期化

@@ -27,7 +27,7 @@ class ContactFormManager {
         this.submitButton = this.form?.querySelector('button[type="submit"]');
 
         if (!this.form) {
-            console.warn('Contact form not found');
+            // console.warn('Contact form not found');
             return;
         }
     }
@@ -103,7 +103,7 @@ class ContactFormManager {
         if (!this.validateField('message')) isValid = false;
 
         if (!isValid) {
-            console.warn('Contact form validation failed');
+            // console.warn('Contact form validation failed');
         }
 
         return isValid;
@@ -234,7 +234,7 @@ class ContactFormManager {
             await new Promise(resolve => setTimeout(resolve, 2000));
 
             // Success - コンソールログのみ
-            console.log('Contact form submitted successfully');
+            // console.log('Contact form submitted successfully');
             this.form.reset();
             this.clearAllErrors();
 

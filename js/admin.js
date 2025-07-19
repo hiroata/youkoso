@@ -17,7 +17,7 @@ let editingBlogId = null;
 
 // Initialize admin interface
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Admin interface initialized');
+    // console.log('Admin interface initialized');
     
     // Check if already authenticated
     checkAuthentication();
@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add debug function for manual testing
     window.debugTab = function() {
-        console.log('=== TAB DEBUG INFO ===');
-        console.log('Tab buttons:', document.querySelectorAll('.tab-btn'));
-        console.log('Tab contents:', document.querySelectorAll('.tab-content'));
-        console.log('isAuthenticated:', isAuthenticated);
-        console.log('Current language:', currentLanguage);
+        // console.log('=== TAB DEBUG INFO ===');
+        // console.log('Tab buttons:', document.querySelectorAll('.tab-btn'));
+        // console.log('Tab contents:', document.querySelectorAll('.tab-content'));
+        // console.log('isAuthenticated:', isAuthenticated);
+        // console.log('Current language:', currentLanguage);
     };
 });
 
@@ -62,7 +62,7 @@ function checkAuthentication() {
                 return;
             }
         } catch (error) {
-            console.warn('Invalid auth data');
+            // console.warn('Invalid auth data');
         }
     }
     
@@ -204,7 +204,7 @@ async function handleLogin(event) {
         await loadProducts();
         await loadBlogs();
         
-        console.log('Login successful');
+        // console.log('Login successful');
     } else {
         // Show error
         const errorMessages = {
@@ -236,7 +236,7 @@ function handleLogout() {
     isAuthenticated = false;
     showLoginInterface();
     
-    console.log('Logged out successfully');
+    // console.log('Logged out successfully');
 }
 
 // Show login interface
@@ -382,7 +382,7 @@ async function handleProductSubmit(event) {
         resetProductForm();
         displayProductsList();
         
-        console.log('Product saved successfully');
+        // console.log('Product saved successfully');
         
     } catch (error) {
         console.error('Error saving product:', error);
@@ -493,7 +493,7 @@ function deleteProduct(productId) {
         // Refresh list
         displayProductsList();
         
-        console.log('Product deleted successfully');
+        // console.log('Product deleted successfully');
     }
 }
 
@@ -512,7 +512,7 @@ async function saveProductsToJSON() {
         // Simulate server save delay
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        console.log('Products saved to backup storage');
+        // console.log('Products saved to backup storage');
         
     } catch (error) {
         console.error('Error saving products:', error);
@@ -754,7 +754,7 @@ async function handleBlogSubmit(event) {
         resetBlogForm();
         displayBlogsList();
         
-        console.log('Blog saved successfully');
+        // console.log('Blog saved successfully');
         
     } catch (error) {
         console.error('Error saving blog:', error);
@@ -877,7 +877,7 @@ function deleteBlog(blogId) {
         // Refresh list
         displayBlogsList();
         
-        console.log('Blog deleted successfully');
+        // console.log('Blog deleted successfully');
     }
 }
 
@@ -894,7 +894,7 @@ async function saveBlogsToJSON() {
         // Simulate server save delay
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        console.log('Blogs saved to backup storage');
+        // console.log('Blogs saved to backup storage');
         
     } catch (error) {
         console.error('Error saving blogs:', error);
@@ -913,7 +913,7 @@ window.addEventListener('beforeunload', function() {
 document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'hidden' && isAuthenticated) {
         // Keep session but could add additional security here
-        console.log('Admin session maintained');
+        // console.log('Admin session maintained');
     }
 });
 
@@ -974,7 +974,7 @@ function handleProductImageUpload(event) {
             ja: '画像が正しく選択されました',
             en: 'Image selected successfully'
         };
-        console.log('Image selected successfully');
+        // console.log('Image selected successfully');
     } else {
         const errorTexts = {
             es: 'Por favor selecciona un archivo de imagen válido',
@@ -1056,7 +1056,7 @@ function handleBlogImageUpload(event) {
             ja: '画像が正しく選択されました',
             en: 'Image selected successfully'
         };
-        console.log('Image selected successfully');
+        // console.log('Image selected successfully');
     } else {
         const errorTexts = {
             es: 'Por favor selecciona un archivo de imagen válido',
@@ -1114,7 +1114,7 @@ function clearBlogImage() {
 
 // Switch between tabs
 function switchTab(tabName) {
-    console.log('Switching to tab:', tabName);
+    // console.log('Switching to tab:', tabName);
     
     // Validate tab name
     if (!tabName || !['products', 'blogs'].includes(tabName)) {
@@ -1125,37 +1125,37 @@ function switchTab(tabName) {
     try {
         // Update tab buttons
         const tabButtons = document.querySelectorAll('.tab-btn');
-        console.log('Found tab buttons:', tabButtons.length);
+        // console.log('Found tab buttons:', tabButtons.length);
         
         tabButtons.forEach((button, index) => {
             const isActive = button.dataset.tab === tabName;
             button.classList.toggle('active', isActive);
-            console.log(`Button ${index} (${button.dataset.tab}): ${isActive ? 'active' : 'inactive'}`);
+            // console.log(`Button ${index} (${button.dataset.tab}): ${isActive ? 'active' : 'inactive'}`);
         });
         
         // Update tab content
         const tabContents = document.querySelectorAll('.tab-content');
-        console.log('Found tab contents:', tabContents.length);
+        // console.log('Found tab contents:', tabContents.length);
         
         tabContents.forEach(content => {
             content.classList.remove('active');
         });
         
         const targetContent = document.getElementById(`${tabName}Tab`);
-        console.log('Target content element:', targetContent);
+        // console.log('Target content element:', targetContent);
         
         if (targetContent) {
             targetContent.classList.add('active');
             targetContent.style.display = 'block';
             targetContent.style.visibility = 'visible';
             targetContent.style.opacity = '1';
-            console.log('Tab switched successfully to:', tabName);
+            // console.log('Tab switched successfully to:', tabName);
             
             // Verify visibility
             setTimeout(() => {
                 const computedStyle = window.getComputedStyle(targetContent);
-                console.log('Final display style:', computedStyle.display);
-                console.log('Final visibility style:', computedStyle.visibility);
+                // console.log('Final display style:', computedStyle.display);
+                // console.log('Final visibility style:', computedStyle.visibility);
             }, 50);
         } else {
             console.error('Could not find tab content for:', tabName);
@@ -1164,10 +1164,10 @@ function switchTab(tabName) {
         
         // Load data based on tab
         if (tabName === 'blogs' && blogs.length === 0) {
-            console.log('Loading blogs data...');
+            // console.log('Loading blogs data...');
             loadBlogs();
         } else if (tabName === 'products' && products.length === 0) {
-            console.log('Loading products data...');
+            // console.log('Loading products data...');
             loadProducts();
         }
         
@@ -1187,21 +1187,21 @@ window.switchTab = switchTab;
 
 // Debug function to check tab state
 window.debugTab = function() {
-    console.log('=== TAB DEBUG INFO ===');
-    console.log('Tab buttons found:', document.querySelectorAll('.tab-btn').length);
-    console.log('Tab contents found:', document.querySelectorAll('.tab-content').length);
-    console.log('Products tab exists:', !!document.getElementById('productsTab'));
-    console.log('Blogs tab exists:', !!document.getElementById('blogsTab'));
-    console.log('Current language:', currentLanguage);
-    console.log('Is authenticated:', isAuthenticated);
+    // console.log('=== TAB DEBUG INFO ===');
+    // console.log('Tab buttons found:', document.querySelectorAll('.tab-btn').length);
+    // console.log('Tab contents found:', document.querySelectorAll('.tab-content').length);
+    // console.log('Products tab exists:', !!document.getElementById('productsTab'));
+    // console.log('Blogs tab exists:', !!document.getElementById('blogsTab'));
+    // console.log('Current language:', currentLanguage);
+    // console.log('Is authenticated:', isAuthenticated);
     
     // Try to click blogs tab directly
     const blogsBtn = document.querySelector('[data-tab="blogs"]');
     if (blogsBtn) {
-        console.log('Blogs button found, attempting direct click...');
+        // console.log('Blogs button found, attempting direct click...');
         blogsBtn.click();
     } else {
-        console.log('Blogs button NOT found!');
+        // console.log('Blogs button NOT found!');
     }
 };
 

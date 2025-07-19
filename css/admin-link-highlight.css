@@ -17,16 +17,7 @@
     opacity: 1 !important;
 }
 
-/* 管理者リンクを目立たせるデバッグ用スタイル（一時的） */
-.footer-bottom-link[href="admin.html"] {
-    background-color: rgba(231, 76, 60, 0.1) !important;
-    padding: 5px 10px !important;
-    border-radius: 4px !important;
-    margin: 0 5px !important;
-}
-
-/* ホバー時のスタイル */
+/* ホバー時のスタイル - 控えめに */
 .footer-bottom-link[href="admin.html"]:hover {
-    background-color: rgba(231, 76, 60, 0.2) !important;
-    color: #e74c3c !important;
+    text-decoration: underline !important;
 }

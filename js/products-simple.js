@@ -204,11 +204,11 @@ function updateResultsCount() {
 
 // Load product images asynchronously
 async function loadProductImages(products) {
-    console.log(`Starting to load images for ${products.length} products...`);
+    // console.log(`Starting to load images for ${products.length} products...`);
     
     // キャッシュ統計を表示
     const cacheKeys = Object.keys(localStorage).filter(key => key.startsWith('img_'));
-    console.log(`📊 Current cache: ${cacheKeys.length} images cached`);
+    // console.log(`📊 Current cache: ${cacheKeys.length} images cached`);
     
     let cacheHits = 0;
     let cacheMisses = 0;
@@ -231,7 +231,7 @@ async function loadProductImages(products) {
             
             // Show progress in console with cache status
             const cacheStatus = isCached ? '🟢 cached' : '🔄 fetching';
-            console.log(`[${i+1}/${products.length}] ${cacheStatus} - ${product.name}`);
+            // console.log(`[${i+1}/${products.length}] ${cacheStatus} - ${product.name}`);
             
             if (isCached) {
                 cacheHits++;
@@ -244,7 +244,7 @@ async function loadProductImages(products) {
             
             // Set up event handlers
             imgElement.onerror = function() {
-                console.warn(`❌ Image failed to load for ${product.name}`);
+                // console.warn(`❌ Image failed to load for ${product.name}`);
                 errors++;
                 this.src = utils.createPlaceholderImage(product);
                 this.classList.remove('loading');
@@ -253,12 +253,12 @@ async function loadProductImages(products) {
                 // Remove bad cache entry if exists
                 if (localStorage.getItem(cacheKey)) {
                     localStorage.removeItem(cacheKey);
-                    console.log(`🗑️ Removed bad cache for ${product.name}`);
+                    // console.log(`🗑️ Removed bad cache for ${product.name}`);
                 }
             };
             
             imgElement.onload = function() {
-                console.log(`✅ Image loaded successfully for ${product.name}`);
+                // console.log(`✅ Image loaded successfully for ${product.name}`);
                 this.classList.remove('loading');
                 this.classList.add('loaded');
             };
@@ -284,17 +284,17 @@ async function loadProductImages(products) {
     }
     
     // 統計を表示
-    console.group(`🎉 Image loading completed for ${products.length} products`);
-    console.log(`Cache hits: ${cacheHits} (${((cacheHits/products.length)*100).toFixed(1)}%)`);
-    console.log(`Cache misses: ${cacheMisses} (${((cacheMisses/products.length)*100).toFixed(1)}%)`);
+    // console.group(`🎉 Image loading completed for ${products.length} products`);
+    // console.log(`Cache hits: ${cacheHits} (${((cacheHits/products.length)*100).toFixed(1)}%)`);
+    // console.log(`Cache misses: ${cacheMisses} (${((cacheMisses/products.length)*100).toFixed(1)}%)`);
     if (errors > 0) {
-        console.warn(`Errors: ${errors} (${((errors/products.length)*100).toFixed(1)}%)`);
+        // console.warn(`Errors: ${errors} (${((errors/products.length)*100).toFixed(1)}%)`);
     }
-    console.groupEnd();
+    // console.groupEnd();
     
     // パフォーマンス改善のヒントを表示
     if (cacheMisses > cacheHits) {
-        console.log('💡 ヒント: fetchAllProductImages() を実行してキャッシュを事前に構築すると、ページの読み込みが高速化されます');
+        // console.log('💡 ヒント: fetchAllProductImages() を実行してキャッシュを事前に構築すると、ページの読み込みが高速化されます');
     }
 }
 
@@ -314,33 +314,33 @@ window.fetchAllProductImages = window.fetchAllProductImages || async function() 
 window.checkProductImageCache = function() {
     const imageCacheKeys = Object.keys(localStorage).filter(key => key.startsWith('img_'));
     
-    console.group('🖼️ 商品画像キャッシュ状況（詳細）');
+    // console.group('🖼️ 商品画像キャッシュ状況（詳細）');
     
     if (imageCacheKeys.length === 0) {
-        console.log('キャッシュは空です');
-        console.log('💡 fetchAllProductImages() を実行して画像をキャッシュしましょう');
-        console.groupEnd();
+        // console.log('キャッシュは空です');
+        // console.log('💡 fetchAllProductImages() を実行して画像をキャッシュしましょう');
+        // console.groupEnd();
         return { count: 0, products: [] };
     }
     
     const productIds = imageCacheKeys.map(key => key.replace('img_', ''));
     
-    console.log(`キャッシュされた商品数: ${productIds.length}`);
+    // console.log(`キャッシュされた商品数: ${productIds.length}`);
     
     // 現在表示されている商品との照合
     if (typeof allProducts !== 'undefined' && allProducts.length > 0) {
         const cachedProducts = allProducts.filter(p => productIds.includes(p.id));
         const uncachedProducts = allProducts.filter(p => !productIds.includes(p.id));
         
-        console.log(`全商品数: ${allProducts.length}`);
-        console.log(`キャッシュ済み: ${cachedProducts.length} (${((cachedProducts.length/allProducts.length)*100).toFixed(1)}%)`);
-        console.log(`未キャッシュ: ${uncachedProducts.length} (${((uncachedProducts.length/allProducts.length)*100).toFixed(1)}%)`);
+        // console.log(`全商品数: ${allProducts.length}`);
+        // console.log(`キャッシュ済み: ${cachedProducts.length} (${((cachedProducts.length/allProducts.length)*100).toFixed(1)}%)`);
+        // console.log(`未キャッシュ: ${uncachedProducts.length} (${((uncachedProducts.length/allProducts.length)*100).toFixed(1)}%)`);
         
         if (uncachedProducts.length > 0) {
-            console.log('未キャッシュ商品:', uncachedProducts.map(p => p.name));
+            // console.log('未キャッシュ商品:', uncachedProducts.map(p => p.name));
         }
         
-        console.groupEnd();
+        // console.groupEnd();
         return {
             count: imageCacheKeys.length,
             total: allProducts.length,
@@ -349,8 +349,8 @@ window.checkProductImageCache = function() {
             coverage: (cachedProducts.length/allProducts.length)*100
         };
     } else {
-        console.log('商品データが読み込まれていません');
-        console.groupEnd();
+        // console.log('商品データが読み込まれていません');
+        // console.groupEnd();
         return { count: imageCacheKeys.length, products: productIds };
     }
 };
@@ -360,14 +360,14 @@ window.reloadVisibleImages = async function() {
     const visibleProductCards = document.querySelectorAll('.product-card');
     const productIds = Array.from(visibleProductCards).map(card => card.dataset.productId);
     
-    console.log(`表示中の ${productIds.length} 商品の画像を再読み込みします...`);
+    // console.log(`表示中の ${productIds.length} 商品の画像を再読み込みします...`);
     
     // 該当する商品のキャッシュを削除
     productIds.forEach(id => {
         const cacheKey = `img_${id}`;
         if (localStorage.getItem(cacheKey)) {
             localStorage.removeItem(cacheKey);
-            console.log(`🗑️ ${id} のキャッシュを削除`);
+            // console.log(`🗑️ ${id} のキャッシュを削除`);
         }
     });
     
@@ -375,13 +375,13 @@ window.reloadVisibleImages = async function() {
     if (typeof allProducts !== 'undefined') {
         const visibleProducts = allProducts.filter(p => productIds.includes(p.id));
         await loadProductImages(visibleProducts);
-        console.log('✅ 表示中の商品画像の再読み込みが完了しました');
+        // console.log('✅ 表示中の商品画像の再読み込みが完了しました');
     }
 };
 
 // 商品ページ専用ヘルプ
 window.showProductImageHelp = function() {
-    console.log(`
+    // console.log(`
 🖼️ 商品画像管理コマンド（商品ページ専用）
 
 基本操作:
@@ -397,12 +397,12 @@ window.showProductImageHelp = function() {
 > checkProductImageCache()    // 商品キャッシュ状況をチェック
 > reloadVisibleImages()       // 表示中の画像を再読み込み
 > fetchAllProductImages()     // 全画像をキャッシュ（時間がかかります）
-    `);
+    // `);
 };
 
 // 商品ページでの自動ヘルプ表示
 if (window.location.pathname.includes('products.html') || document.getElementById('products-grid')) {
-    console.log('🖼️ 商品画像管理ツールが利用可能です。showProductImageHelp() でヘルプを表示できます。');
+    // console.log('🖼️ 商品画像管理ツールが利用可能です。showProductImageHelp() でヘルプを表示できます。');
 }
 
 // Initialize on page load

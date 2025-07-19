@@ -4,22 +4,22 @@
 const utils = {
     // Header and Footer loading
     async loadHeaderFooter() {
-        console.log('loadHeaderFooter called');
+        // console.log('loadHeaderFooter called');
         try {
             // Load header
             const headerPlaceholder = document.getElementById('header-placeholder');
-            console.log('Header placeholder:', headerPlaceholder);
+            // console.log('Header placeholder:', headerPlaceholder);
             
             const headerResponse = await fetch('components/header.html');
-            console.log('Header response status:', headerResponse.status);
+            // console.log('Header response status:', headerResponse.status);
             
             if (headerResponse.ok) {
                 const headerHTML = await headerResponse.text();
-                console.log('Header HTML loaded, length:', headerHTML.length);
+                // console.log('Header HTML loaded, length:', headerHTML.length);
                 
                 if (headerPlaceholder) {
                     headerPlaceholder.innerHTML = headerHTML;
-                    console.log('Header HTML inserted');
+                    // console.log('Header HTML inserted');
                     
                     // Set active navigation link based on current page
                     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -39,18 +39,18 @@ const utils = {
             
             // Load footer
             const footerPlaceholder = document.getElementById('footer-placeholder');
-            console.log('Footer placeholder:', footerPlaceholder);
+            // console.log('Footer placeholder:', footerPlaceholder);
             
             const footerResponse = await fetch('components/footer.html');
-            console.log('Footer response status:', footerResponse.status);
+            // console.log('Footer response status:', footerResponse.status);
             
             if (footerResponse.ok) {
                 const footerHTML = await footerResponse.text();
-                console.log('Footer HTML loaded, length:', footerHTML.length);
+                // console.log('Footer HTML loaded, length:', footerHTML.length);
                 
                 if (footerPlaceholder) {
                     footerPlaceholder.innerHTML = footerHTML;
-                    console.log('Footer HTML inserted');
+                    // console.log('Footer HTML inserted');
                 } else {
                     console.error('Footer placeholder not found!');
                 }
@@ -136,13 +136,13 @@ const utils = {
     
     // Load JSON data
     async loadData(type) {
-        console.log(`Loading data type: ${type}`);
+        // console.log(`Loading data type: ${type}`);
         try {
             const response = await fetch('data/data.json');
-            console.log(`Data fetch status: ${response.status}`);
+            // console.log(`Data fetch status: ${response.status}`);
             if (!response.ok) throw new Error(`Failed to load data: ${response.status}`);
             const data = await response.json();
-            console.log(`Data loaded, types available:`, Object.keys(data));
+            // console.log(`Data loaded, types available:`, Object.keys(data));
             return data[type] || [];
         } catch (error) {
             console.error(`Error loading ${type}:`, error);
@@ -161,7 +161,7 @@ const utils = {
     // Enhanced image fetching with anime/figure specific sources
     async fetchProductImage(product) {
         try {
-            console.log(`Fetching anime/figure image for: ${product.name}`);
+            // console.log(`Fetching anime/figure image for: ${product.name}`);
             
             // Try different image sources in order of preference
             const imageSources = [
@@ -177,17 +177,17 @@ const utils = {
                 try {
                     const imageUrl = await imageSources[i]();
                     if (imageUrl) {
-                        console.log(`✅ Created appropriate image for ${product.name} using method ${i + 1}`);
+                        // console.log(`✅ Created appropriate image for ${product.name} using method ${i + 1}`);
                         return imageUrl;
                     }
                 } catch (error) {
-                    console.warn(`❌ Method ${i + 1} failed for ${product.name}:`, error.message);
+                    // console.warn(`❌ Method ${i + 1} failed for ${product.name}:`, error.message);
                     continue;
                 }
             }
             
             // If all sources fail, return basic placeholder
-            console.warn(`Using basic placeholder for ${product.name}`);
+            // console.warn(`Using basic placeholder for ${product.name}`);
             return this.createPlaceholderImage(product);
             
         } catch (error) {
@@ -467,17 +467,17 @@ const utils = {
         
         // Return cached image if it's a valid external URL or canvas data
         if (cached && (cached.startsWith('https://via.placeholder.com') || cached.startsWith('data:image/')) && cached !== 'failed') {
-            console.log(`Using cached image for ${product.name}`);
+            // console.log(`Using cached image for ${product.name}`);
             return cached;
         }
         
         // If cached value is placeholder SVG or failed, clear it and try again
         if (cached && (cached.includes('data:image/svg+xml') || cached === 'failed')) {
-            console.log(`Clearing old cache for ${product.name}`);
+            // console.log(`Clearing old cache for ${product.name}`);
             localStorage.removeItem(cacheKey);
         }
         
-        console.log(`Fetching new image for ${product.name}...`);
+        // console.log(`Fetching new image for ${product.name}...`);
         
         // Try to fetch from our reliable sources
         try {
@@ -486,10 +486,10 @@ const utils = {
             // Cache if it's a real external URL or canvas data, not a basic SVG placeholder
             if (imageUrl && (imageUrl.startsWith('https://via.placeholder.com') || imageUrl.startsWith('data:image/png'))) {
                 localStorage.setItem(cacheKey, imageUrl);
-                console.log(`✅ Successfully created and cached anime-styled image for ${product.name}`);
+                // console.log(`✅ Successfully created and cached anime-styled image for ${product.name}`);
                 return imageUrl;
             } else {
-                console.warn(`Got basic SVG placeholder for ${product.name}`);
+                // console.warn(`Got basic SVG placeholder for ${product.name}`);
                 // Don't cache basic SVG placeholder
                 return imageUrl;
             }
@@ -539,7 +539,7 @@ const utils = {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('DOMContentLoaded fired - core-simple.js');
+    // console.log('DOMContentLoaded fired - core-simple.js');
     
     // Load header and footer first
     await utils.loadHeaderFooter();
@@ -568,17 +568,17 @@ window.utils = utils;
 
 // キャッシュをクリアしてページ再読み込み
 window.clearImageCache = function() {
-    console.log('画像キャッシュをクリアしています...');
+    // console.log('画像キャッシュをクリアしています...');
     
     // 画像キャッシュのキーをすべて取得
     const imageCacheKeys = Object.keys(localStorage).filter(key => key.startsWith('img_'));
     
-    console.log(`${imageCacheKeys.length}個のキャッシュエントリを削除中...`);
+    // console.log(`${imageCacheKeys.length}個のキャッシュエントリを削除中...`);
     
     // 画像キャッシュを削除
     imageCacheKeys.forEach(key => {
         localStorage.removeItem(key);
-        console.log(`削除済み: ${key}`);
+        // console.log(`削除済み: ${key}`);
     });
     
     // 成功メッセージを表示
@@ -594,7 +594,7 @@ window.clearImageCache = function() {
     
     // 3秒後にページをリロード
     setTimeout(() => {
-        console.log('ページを再読み込みしています...');
+        // console.log('ページを再読み込みしています...');
         location.reload();
     }, 3000);
 };
@@ -603,8 +603,8 @@ window.clearImageCache = function() {
 window.checkImageCache = function() {
     const imageCacheKeys = Object.keys(localStorage).filter(key => key.startsWith('img_'));
     
-    console.group('📊 画像キャッシュ状況');
-    console.log(`キャッシュエントリ数: ${imageCacheKeys.length}`);
+    // console.group('📊 画像キャッシュ状況');
+    // console.log(`キャッシュエントリ数: ${imageCacheKeys.length}`);
     
     let totalSize = 0;
     const cacheInfo = imageCacheKeys.map(key => {
@@ -624,14 +624,14 @@ window.checkImageCache = function() {
     // サイズ順でソート
     cacheInfo.sort((a, b) => b.size - a.size);
     
-    console.log(`総キャッシュサイズ: ${formatBytes(totalSize)}`);
-    console.log('キャッシュエントリ詳細:');
-    console.table(cacheInfo);
+    // console.log(`総キャッシュサイズ: ${formatBytes(totalSize)}`);
+    // console.log('キャッシュエントリ詳細:');
+    // console.table(cacheInfo);
     
     // ローカルストレージの使用率チェック
     checkLocalStorageUsage();
     
-    console.groupEnd();
+    // console.groupEnd();
     
     return {
         count: imageCacheKeys.length,
@@ -664,10 +664,10 @@ function checkLocalStorageUsage() {
         const estimatedBytes = totalSize * 2;
         const usagePercent = (estimatedBytes / (5 * 1024 * 1024)) * 100; // 5MBベース
         
-        console.log(`ローカルストレージ使用量: ${formatBytes(estimatedBytes)} (約${usagePercent.toFixed(1)}%)`);
+        // console.log(`ローカルストレージ使用量: ${formatBytes(estimatedBytes)} (約${usagePercent.toFixed(1)}%)`);
         
         if (usagePercent > 80) {
-            console.warn('⚠️ ローカルストレージの使用率が高くなっています');
+            // console.warn('⚠️ ローカルストレージの使用率が高くなっています');
         }
         
     } catch (error) {
@@ -682,9 +682,9 @@ window.clearProductImageCache = function(productId) {
     
     if (existed) {
         localStorage.removeItem(cacheKey);
-        console.log(`✓ 商品 ${productId} の画像キャッシュを削除しました`);
+        // console.log(`✓ 商品 ${productId} の画像キャッシュを削除しました`);
     } else {
-        console.log(`商品 ${productId} の画像キャッシュは存在しません`);
+        // console.log(`商品 ${productId} の画像キャッシュは存在しません`);
     }
     
     return existed;
@@ -746,7 +746,7 @@ function getCacheRecommendations(stats) {
 
 // 開発者用のヘルプメッセージ
 window.showImageCacheHelp = function() {
-    console.log(`
+    // console.log(`
 🖼️ 画像キャッシュ管理コマンド
 
 基本操作:
@@ -767,12 +767,12 @@ window.showImageCacheHelp = function() {
 > checkImageCache()         // 現在の状況をチェック
 > clearImageCache()         // 全キャッシュをクリア
 > fetchAllProductImages()   // 全画像を再取得
-    `);
+    // `);
 };
 
 // Quick test function for anime image system
 window.testAnimeImageSystem = async function() {
-    console.log('🎎 Testing anime-specific image system...');
+    // console.log('🎎 Testing anime-specific image system...');
     
     try {
         const products = await utils.loadData('products');
@@ -790,7 +790,7 @@ window.testAnimeImageSystem = async function() {
             const productInCategory = products.find(p => p.category === category);
             
             if (productInCategory) {
-                console.log(`\n🧪 Testing ${category} category with: ${productInCategory.name}`);
+                // console.log(`\n🧪 Testing ${category} category with: ${productInCategory.name}`);
                 
                 // Clear cache for clean test
                 const cacheKey = `img_${productInCategory.id}`;
@@ -800,26 +800,26 @@ window.testAnimeImageSystem = async function() {
                 const imageUrl = await utils.getProductImage(productInCategory);
                 
                 if (imageUrl.startsWith('data:image/png')) {
-                    console.log('✅ Canvas-based anime image created');
+                    // console.log('✅ Canvas-based anime image created');
                     testResults.push({ category, status: 'success', type: 'canvas' });
                 } else if (imageUrl.startsWith('https://')) {
-                    console.log('✅ External styled image created');
+                    // console.log('✅ External styled image created');
                     testResults.push({ category, status: 'success', type: 'external' });
                 } else {
-                    console.log('⚠️ Fallback SVG placeholder used');
+                    // console.log('⚠️ Fallback SVG placeholder used');
                     testResults.push({ category, status: 'fallback', type: 'svg' });
                 }
                 
                 // Test loading
                 const testImg = new Image();
-                testImg.onload = () => console.log(`✅ ${category} image loads successfully`);
-                testImg.onerror = () => console.log(`❌ ${category} image failed to load`);
+                testImg.onload = () => {}; // console.log(`✅ ${category} image loads successfully`);
+                testImg.onerror = () => {}; // console.log(`❌ ${category} image failed to load`);
                 testImg.src = imageUrl;
             }
         }
         
-        console.log('\n📊 Test Results Summary:');
-        console.table(testResults);
+        // console.log('\n📊 Test Results Summary:');
+        // console.table(testResults);
         
     } catch (error) {
         console.error('❌ Test failed:', error);
@@ -828,9 +828,9 @@ window.testAnimeImageSystem = async function() {
 
 // 自動的にヘルプを表示（開発環境の場合）
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    console.log('🎎 アニメ画像システム管理ツールが利用可能です。');
-    console.log('• testAnimeImageSystem() - アニメ画像システムをテスト');
-    console.log('• clearImageCache() - キャッシュをクリア');
-    console.log('• fetchAllProductImages() - 全商品の画像を生成');
-    console.log('• showImageCacheHelp() - 詳細ヘルプを表示');
+    // console.log('🎎 アニメ画像システム管理ツールが利用可能です。');
+    // console.log('• testAnimeImageSystem() - アニメ画像システムをテスト');
+    // console.log('• clearImageCache() - キャッシュをクリア');
+    // console.log('• fetchAllProductImages() - 全商品の画像を生成');
+    // console.log('• showImageCacheHelp() - 詳細ヘルプを表示');
 }
