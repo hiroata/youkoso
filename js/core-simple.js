@@ -764,7 +764,7 @@ function getCacheRecommendations(stats) {
 
 // 開発者用のヘルプメッセージ
 window.showImageCacheHelp = function() {
-    // console.log(`
+    /* console.log(`
 🖼️ 画像キャッシュ管理コマンド
 
 基本操作:
@@ -785,7 +785,7 @@ window.showImageCacheHelp = function() {
 > checkImageCache()         // 現在の状況をチェック
 > clearImageCache()         // 全キャッシュをクリア
 > fetchAllProductImages()   // 全画像を再取得
-    // `);
+    `); */
 };
 
 // Quick test function for anime image system
