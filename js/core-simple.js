@@ -149,9 +149,9 @@ const utils = {
             if (!response.ok) throw new Error(`Failed to load data: ${response.status}`);
             const data = await response.json();
             
-            // For blogs.json, the data is directly the array
+            // For blogs.json, extract the blogs array
             if (type === 'blogs') {
-                return data;
+                return data.blogs || [];
             }
             
             // For data.json, extract the specific type
