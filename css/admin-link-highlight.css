@@ -6,4 +6,27 @@
     display: inline-block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* 管理者リンクの親要素も確実に表示 */
+.footer-bottom-links {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* 管理者リンクを目立たせるデバッグ用スタイル（一時的） */
+.footer-bottom-link[href="admin.html"] {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    margin: 0 5px !important;
+}
+
+/* ホバー時のスタイル */
+.footer-bottom-link[href="admin.html"]:hover {
+    background-color: rgba(231, 76, 60, 0.2) !important;
+    color: #e74c3c !important;
 }
