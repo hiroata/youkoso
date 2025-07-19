@@ -1054,6 +1054,11 @@
                             <span class="en-text">Featured Product</span>
                         </label>
                     </div>
+                    <button type="button" onclick="previewProduct()" class="admin-btn" style="background: #9b59b6;">
+                        <span class="es-text">👁️ Vista previa</span>
+                        <span class="ja-text">👁️ プレビュー</span>
+                        <span class="en-text">👁️ Preview</span>
+                    </button>
                     <button type="submit" class="admin-btn">
                         <span class="es-text">💾 Guardar este producto</span>
                         <span class="ja-text">💾 この商品を保存</span>
@@ -1246,6 +1251,11 @@
                                 <span class="en-text">Published</span>
                             </label>
                         </div>
+                        <button type="button" onclick="previewBlog()" class="admin-btn" style="background: #9b59b6;">
+                            <span class="es-text">👁️ Vista previa</span>
+                            <span class="ja-text">👁️ プレビュー</span>
+                            <span class="en-text">👁️ Preview</span>
+                        </button>
                         <button type="submit" class="admin-btn">
                             <span class="es-text">💾 Guardar este artículo</span>
                             <span class="ja-text">💾 この記事を保存</span>
@@ -1328,5 +1338,24 @@
         console.info('パスワード: japan2024');
         console.info('Firebase認証は一時的に無効化されています');
     </script>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; overflow: auto;">
+        <div style="position: relative; background: white; margin: 20px auto; max-width: 1200px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #e0e0e0;">
+                <h2 style="margin: 0; color: #333;">
+                    <span class="es-text">Vista Previa</span>
+                    <span class="ja-text">プレビュー</span>
+                    <span class="en-text">Preview</span>
+                </h2>
+                <button onclick="closePreview()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="previewContent" style="padding: 20px;">
+                <!-- Preview content will be inserted here -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

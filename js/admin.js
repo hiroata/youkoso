@@ -1486,3 +1486,141 @@ function loadBlogsFromEmbeddedData() {
     
     displayBlogsList();
 }
+
+// Preview Functions
+function previewProduct() {
+    const form = document.getElementById('productForm');
+    const formData = new FormData(form);
+    
+    // Get form values
+    const product = {
+        id: formData.get('id') || 'preview',
+        name: formData.get('name') || 'Sin nombre',
+        description: formData.get('description') || 'Sin descripción',
+        price: parseFloat(formData.get('price')) || 0,
+        category: formData.get('category') || '',
+        tags: (formData.get('tags') || '').split(',').map(tag => tag.trim()).filter(tag => tag),
+        featured: formData.get('featured') === 'on',
+        image: document.getElementById('productImagePreview').src || 'assets/images/ui/no-image.png'
+    };
+    
+    // Create preview HTML
+    const previewHTML = `
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h3 style="color: #333; margin-bottom: 20px;">Vista previa del producto</h3>
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 30px;">
+                <div>
+                    <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                </div>
+                <div>
+                    <h2 style="color: #2c3e50; margin: 0 0 10px 0;">${product.name}</h2>
+                    <p style="font-size: 24px; color: #e74c3c; margin: 10px 0;">
+                        ${window.utils ? window.utils.formatPrice(product.price) : '$' + product.price.toFixed(2)}
+                    </p>
+                    <p style="color: #666; margin: 15px 0;">${product.description}</p>
+                    <div style="margin: 20px 0;">
+                        <strong>Categoría:</strong> ${product.category}<br>
+                        <strong>Tags:</strong> ${product.tags.join(', ') || 'Sin tags'}<br>
+                        <strong>Destacado:</strong> ${product.featured ? 'Sí' : 'No'}
+                    </div>
+                    <button class="admin-btn" style="background: #27ae60; margin-top: 20px;">
+                        <i class="fas fa-shopping-cart"></i> Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Show preview
+    document.getElementById('previewContent').innerHTML = previewHTML;
+    document.getElementById('previewModal').style.display = 'block';
+}
+
+function previewBlog() {
+    const form = document.getElementById('blogForm');
+    const formData = new FormData(form);
+    
+    // Get form values
+    const blog = {
+        title: formData.get('title') || 'Sin título',
+        excerpt: formData.get('excerpt') || 'Sin resumen',
+        content: formData.get('content') || 'Sin contenido',
+        author: formData.get('author') || 'Anónimo',
+        publishDate: formData.get('publishDate') || new Date().toISOString().split('T')[0],
+        tags: (formData.get('tags') || '').split(',').map(tag => tag.trim()).filter(tag => tag),
+        featured: formData.get('featured') === 'on',
+        published: formData.get('published') === 'on',
+        image: document.getElementById('blogImagePreview').src || 'assets/images/ui/no-image.png'
+    };
+    
+    // Format date
+    const date = new Date(blog.publishDate);
+    const formattedDate = date.toLocaleDateString('es-MX', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    // Convert markdown-style content to HTML
+    const contentHTML = blog.content
+        .replace(/## (.*?)$/gm, '<h2 style="color: #2c3e50; margin: 20px 0 10px 0;">$1</h2>')
+        .replace(/### (.*?)$/gm, '<h3 style="color: #34495e; margin: 15px 0 10px 0;">$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '</p><p style="color: #666; line-height: 1.6; margin: 15px 0;">')
+        .replace(/^/, '<p style="color: #666; line-height: 1.6; margin: 15px 0;">')
+        .replace(/$/, '</p>');
+    
+    // Create preview HTML
+    const previewHTML = `
+        <div style="max-width: 800px; margin: 0 auto;">
+            <article style="background: white;">
+                ${blog.featured ? '<div style="background: #f39c12; color: white; padding: 5px 15px; display: inline-block; border-radius: 4px; margin-bottom: 10px;">Destacado</div>' : ''}
+                ${!blog.published ? '<div style="background: #e74c3c; color: white; padding: 5px 15px; display: inline-block; border-radius: 4px; margin-bottom: 10px;">Borrador</div>' : ''}
+                
+                <h1 style="color: #2c3e50; margin: 20px 0;">${blog.title}</h1>
+                
+                <div style="color: #95a5a6; margin-bottom: 20px;">
+                    <i class="fas fa-user"></i> ${blog.author} | 
+                    <i class="fas fa-calendar"></i> ${formattedDate}
+                </div>
+                
+                <img src="${blog.image}" alt="${blog.title}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 20px;">
+                
+                <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #3498db; margin: 20px 0;">
+                    <p style="margin: 0; color: #666; font-style: italic;">${blog.excerpt}</p>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    ${contentHTML}
+                </div>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                    <strong>Tags:</strong> 
+                    ${blog.tags.map(tag => `<span style="background: #ecf0f1; padding: 5px 10px; border-radius: 4px; margin-right: 5px;">${tag}</span>`).join('') || 'Sin tags'}
+                </div>
+            </article>
+        </div>
+    `;
+    
+    // Show preview
+    document.getElementById('previewContent').innerHTML = previewHTML;
+    document.getElementById('previewModal').style.display = 'block';
+}
+
+function closePreview() {
+    document.getElementById('previewModal').style.display = 'none';
+}
+
+// Close preview on ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('previewModal').style.display === 'block') {
+        closePreview();
+    }
+});
+
+// Close preview on click outside
+document.getElementById('previewModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePreview();
+    }
+});
