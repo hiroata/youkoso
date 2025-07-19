@@ -550,6 +550,14 @@ const utils = {
     }
 };
 
+// Export for use in other files
+window.utils = utils;
+
+// Add dataLoader property for backward compatibility
+window.utils.dataLoader = {
+    loadData: utils.loadData.bind(utils)
+};
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', async function() {
     // console.log('DOMContentLoaded fired - core-simple.js');
@@ -573,14 +581,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 });
-
-// Export for use in other files
-window.utils = utils;
-
-// Add dataLoader property for backward compatibility
-window.utils.dataLoader = {
-    loadData: utils.loadData.bind(utils)
-};
 
 // ===== IMAGE CACHE MANAGEMENT UTILITIES =====
 
