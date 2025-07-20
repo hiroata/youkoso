@@ -262,6 +262,30 @@
             box-shadow: var(--shadow);
         }
         
+        /* Language toggle buttons */
+        .lang-btn {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover {
+            background: var(--border);
+            color: var(--card-bg);
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
         .management-title {
             color: var(--text);
             margin: 0;
@@ -512,6 +536,16 @@
         .image-btn i {
             font-size: 1rem;
             margin-right: 0.5rem;
+        }
+        
+        /* Language control */
+        [data-lang="es"] .ja-text,
+        [data-lang="es"] .en-text,
+        [data-lang="en"] .es-text,
+        [data-lang="en"] .ja-text,
+        [data-lang="ja"] .es-text,
+        [data-lang="ja"] .en-text {
+            display: none;
         }
         
         @media (max-width: 768px) {
@@ -898,12 +932,19 @@
                 <span class="ja-text">管理パネル</span>
                 <span class="en-text">Admin Panel</span>
             </h1>
-            <button id="logoutBtn" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="es-text">Cerrar Sesión</span>
-                <span class="ja-text">ログアウト</span>
-                <span class="en-text">Logout</span>
-            </button>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="language-toggle" style="display: flex; gap: 0.5rem;">
+                    <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
+                    <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                    <button class="lang-btn" data-lang="ja" aria-label="日本語">JP</button>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="es-text">Cerrar Sesión</span>
+                    <span class="ja-text">ログアウト</span>
+                    <span class="en-text">Logout</span>
+                </button>
+            </div>
         </div>
 
         <!-- Products Management Section -->
@@ -1365,6 +1406,84 @@
         console.info('管理者ID: admin');
         console.info('パスワード: japan2024');
         console.info('Firebase認証は一時的に無効化されています');
+        
+        // Language switching functionality for admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get saved language or default to Spanish
+            const savedLang = localStorage.getItem('adminLanguage') || 'es';
+            
+            // Set initial language
+            document.documentElement.setAttribute('data-lang', savedLang);
+            document.documentElement.lang = savedLang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === savedLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Add click listeners to language buttons
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Update language
+                    document.documentElement.setAttribute('data-lang', lang);
+                    document.documentElement.lang = lang;
+                    localStorage.setItem('adminLanguage', lang);
+                    
+                    // Update active button
+                    document.querySelectorAll('.lang-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update placeholders if needed
+                    updatePlaceholders(lang);
+                });
+            });
+        });
+        
+        function updatePlaceholders(lang) {
+            const placeholders = {
+                es: {
+                    adminUser: 'ID de Administrador',
+                    adminPass: '••••••••',
+                    productName: 'Escriba en cualquier idioma',
+                    productDescription: 'Descripción en cualquier idioma',
+                    blogTitle: 'Título en cualquier idioma',
+                    blogContent: 'Contenido en cualquier idioma'
+                },
+                en: {
+                    adminUser: 'Admin ID',
+                    adminPass: '••••••••',
+                    productName: 'Write in any language',
+                    productDescription: 'Description in any language',
+                    blogTitle: 'Title in any language',
+                    blogContent: 'Content in any language'
+                },
+                ja: {
+                    adminUser: '管理者ID',
+                    adminPass: '••••••••',
+                    productName: '任意の言語で入力',
+                    productDescription: '任意の言語で説明',
+                    blogTitle: '任意の言語でタイトル',
+                    blogContent: '任意の言語でコンテンツ'
+                }
+            };
+            
+            // Update input placeholders
+            const langPlaceholders = placeholders[lang];
+            for (const [id, placeholder] of Object.entries(langPlaceholders)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.placeholder = placeholder;
+                }
+            }
+        }
     </script>
 
     <!-- Preview Modal -->
