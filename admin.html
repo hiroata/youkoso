@@ -935,16 +935,26 @@
                         </h4>
                         <div class="product-form-grid">
                             <div class="form-group">
-                                <label for="productName">
-                                    <span class="es-text">Nombre</span>
+                                <label>
+                                    <span class="es-text">Nombre del Producto</span>
                                     <span class="ja-text">商品名</span>
-                                    <span class="en-text">Name</span>
+                                    <span class="en-text">Product Name</span>
                                 </label>
-                                <input type="text" id="productName" required>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <select id="productNameLang" style="width: 100px;">
+                                        <option value="es">Español</option>
+                                        <option value="en">English</option>
+                                        <option value="ja">日本語</option>
+                                    </select>
+                                    <input type="text" id="productName" placeholder="Escriba en cualquier idioma" required style="flex: 1;">
+                                    <button type="button" onclick="translateProductName()" class="admin-btn" style="background: #3498db; padding: 0.5rem 1rem;">
+                                        <i class="fas fa-language"></i> Traducir
+                                    </button>
+                                </div>
                                 <div class="help-text">
-                                    <span class="es-text">Nombre descriptivo del producto</span>
-                                    <span class="ja-text">商品の説明的な名前</span>
-                                    <span class="en-text">Descriptive product name</span>
+                                    <span class="es-text">Puede escribir en español, inglés o japonés</span>
+                                    <span class="ja-text">スペイン語、英語、日本語で入力可能</span>
+                                    <span class="en-text">You can write in Spanish, English or Japanese</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1017,12 +1027,6 @@
                                 <span class="ja-text">画像をアップロード</span>
                                 <span class="en-text">Upload image</span>
                             </button>
-                            <button type="button" class="admin-btn" style="background: #f39c12; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="previewProductImage()">
-                                <i class="fas fa-eye" style="font-size: 1.1rem;"></i>
-                                <span class="es-text">Actualizar vista previa</span>
-                                <span class="ja-text">プレビューを更新</span>
-                                <span class="en-text">Update preview</span>
-                            </button>
                             <button type="button" class="admin-btn" style="background: #95a5a6; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="clearProductImage()">
                                 <i class="fas fa-times" style="font-size: 1.1rem;"></i>
                                 <span class="es-text">Quitar imagen</span>
@@ -1031,12 +1035,22 @@
                             </button>
                         </div>
                     <div class="form-group">
-                        <label for="productDescription">
+                        <label>
                             <span class="es-text">Descripción</span>
                             <span class="ja-text">説明</span>
                             <span class="en-text">Description</span>
                         </label>
-                        <textarea id="productDescription" required></textarea>
+                        <div style="display: flex; align-items: flex-start; gap: 10px;">
+                            <select id="productDescLang" style="width: 100px;">
+                                <option value="es">Español</option>
+                                <option value="en">English</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                            <textarea id="productDescription" placeholder="Descripción en cualquier idioma" required style="flex: 1;"></textarea>
+                            <button type="button" onclick="translateProductDescription()" class="admin-btn" style="background: #3498db; padding: 0.5rem 1rem; align-self: flex-start;">
+                                <i class="fas fa-language"></i> Traducir
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="productTags">
@@ -1143,12 +1157,22 @@
                         <input type="hidden" id="blogId">
                         <div class="product-form-grid">
                             <div class="form-group">
-                                <label for="blogTitle">
+                                <label>
                                     <span class="es-text">Título</span>
                                     <span class="ja-text">タイトル</span>
                                     <span class="en-text">Title</span>
                                 </label>
-                                <input type="text" id="blogTitle" required>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <select id="blogTitleLang" style="width: 100px;">
+                                        <option value="es">Español</option>
+                                        <option value="en">English</option>
+                                        <option value="ja">日本語</option>
+                                    </select>
+                                    <input type="text" id="blogTitle" placeholder="Título en cualquier idioma" required style="flex: 1;">
+                                    <button type="button" onclick="translateBlogTitle()" class="admin-btn" style="background: #3498db; padding: 0.5rem 1rem;">
+                                        <i class="fas fa-language"></i> Traducir
+                                    </button>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="blogSlug">
@@ -1197,12 +1221,6 @@
                                     <span class="ja-text">画像をアップロード</span>
                                     <span class="en-text">Upload image</span>
                                 </button>
-                                <button type="button" class="admin-btn" style="background: #f39c12; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="previewBlogImage()">
-                                    <i class="fas fa-eye" style="font-size: 1.1rem;"></i>
-                                    <span class="es-text">Actualizar vista previa</span>
-                                    <span class="ja-text">プレビューを更新</span>
-                                    <span class="en-text">Update preview</span>
-                                </button>
                                 <button type="button" class="admin-btn" style="background: #95a5a6; margin-bottom: 0.75rem; width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 1rem; text-align: left; border-radius: 8px;" onclick="clearBlogImage()">
                                     <i class="fas fa-times" style="font-size: 1.1rem;"></i>
                                     <span class="es-text">Quitar imagen</span>
@@ -1220,12 +1238,22 @@
                             <textarea id="blogExcerpt" style="min-height: 60px;" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="blogContent">
+                            <label>
                                 <span class="es-text">Contenido (Markdown)</span>
                                 <span class="ja-text">コンテンツ (Markdown)</span>
                                 <span class="en-text">Content (Markdown)</span>
                             </label>
-                            <textarea id="blogContent" style="min-height: 300px;" required></textarea>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <select id="blogContentLang" style="width: 100px;">
+                                    <option value="es">Español</option>
+                                    <option value="en">English</option>
+                                    <option value="ja">日本語</option>
+                                </select>
+                                <textarea id="blogContent" placeholder="Contenido en cualquier idioma" style="min-height: 300px; flex: 1;" required></textarea>
+                                <button type="button" onclick="translateBlogContent()" class="admin-btn" style="background: #3498db; padding: 0.5rem 1rem; align-self: flex-start;">
+                                    <i class="fas fa-language"></i> Traducir
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="blogTags">

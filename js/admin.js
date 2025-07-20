@@ -985,46 +985,12 @@ function handleProductImageUpload(event) {
     }
 }
 
-function previewProductImage() {
-    const imagePath = document.getElementById('productImage').value.trim();
-    const imageDisplay = document.getElementById('productImageDisplay');
-    const placeholder = document.getElementById('productImagePlaceholder');
-    
-    if (imagePath) {
-        imageDisplay.src = imagePath;
-        imageDisplay.style.display = 'block';
-        placeholder.style.display = 'none';
-        
-        // Handle image load error
-        imageDisplay.onerror = function() {
-            this.style.display = 'none';
-            placeholder.style.display = 'flex';
-            placeholder.innerHTML = `
-                <div style="text-align: center; color: #e74c3c;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                    <span class="es-text">Error cargando imagen</span>
-                    <span class="ja-text">画像読み込みエラー</span>
-                    <span class="en-text">Image load error</span>
-                </div>
-            `;
-        };
-    } else {
-        imageDisplay.style.display = 'none';
-        placeholder.style.display = 'flex';
-        placeholder.innerHTML = `
-            <div style="text-align: center;">
-                <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                <span class="es-text">No hay imagen</span>
-                <span class="ja-text">画像なし</span>
-                <span class="en-text">No image</span>
-            </div>
-        `;
-    }
-}
 
 function clearProductImage() {
     document.getElementById('productImage').value = '';
-    previewProductImage();
+    document.getElementById('productImageFile').value = '';
+    document.getElementById('productImagePreview').src = 'assets/images/ui/no-image.png';
+    document.getElementById('productImagePreview').style.display = 'block';
 }
 
 // Blog image management
@@ -1067,46 +1033,12 @@ function handleBlogImageUpload(event) {
     }
 }
 
-function previewBlogImage() {
-    const imagePath = document.getElementById('blogImage').value.trim();
-    const imageDisplay = document.getElementById('blogImageDisplay');
-    const placeholder = document.getElementById('blogImagePlaceholder');
-    
-    if (imagePath) {
-        imageDisplay.src = imagePath;
-        imageDisplay.style.display = 'block';
-        placeholder.style.display = 'none';
-        
-        // Handle image load error
-        imageDisplay.onerror = function() {
-            this.style.display = 'none';
-            placeholder.style.display = 'flex';
-            placeholder.innerHTML = `
-                <div style="text-align: center; color: #e74c3c;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                    <span class="es-text">Error cargando imagen</span>
-                    <span class="ja-text">画像読み込みエラー</span>
-                    <span class="en-text">Image load error</span>
-                </div>
-            `;
-        };
-    } else {
-        imageDisplay.style.display = 'none';
-        placeholder.style.display = 'flex';
-        placeholder.innerHTML = `
-            <div style="text-align: center;">
-                <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                <span class="es-text">No hay imagen</span>
-                <span class="ja-text">画像なし</span>
-                <span class="en-text">No image</span>
-            </div>
-        `;
-    }
-}
 
 function clearBlogImage() {
     document.getElementById('blogImage').value = '';
-    previewBlogImage();
+    document.getElementById('blogImageFile').value = '';
+    document.getElementById('blogImagePreview').src = 'assets/images/ui/no-image.png';
+    document.getElementById('blogImagePreview').style.display = 'block';
 }
 
 // Tab navigation removed - using single page layout
@@ -1624,3 +1556,184 @@ document.getElementById('previewModal').addEventListener('click', function(e) {
         closePreview();
     }
 });
+
+// Translation Functions
+async function translateText(text, sourceLang, targetLang) {
+    // Note: This is a placeholder function. In production, you would use a real translation API
+    // like Google Translate API, DeepL API, or Microsoft Translator
+    
+    // For demonstration, we'll use a simple mock translation
+    const translations = {
+        'es_en': {
+            'Figura': 'Figure',
+            'Peluche': 'Plushie',
+            'Manga': 'Manga',
+            'Ropa': 'Clothing',
+            'anime': 'anime',
+            'japonés': 'Japanese',
+            'producto': 'product'
+        },
+        'es_ja': {
+            'Figura': 'フィギュア',
+            'Peluche': 'ぬいぐるみ',
+            'Manga': '漫画',
+            'Ropa': '服',
+            'anime': 'アニメ',
+            'japonés': '日本の',
+            'producto': '製品'
+        },
+        'en_es': {
+            'Figure': 'Figura',
+            'Plushie': 'Peluche',
+            'Manga': 'Manga',
+            'Clothing': 'Ropa',
+            'anime': 'anime',
+            'Japanese': 'japonés',
+            'product': 'producto'
+        },
+        'en_ja': {
+            'Figure': 'フィギュア',
+            'Plushie': 'ぬいぐるみ',
+            'Manga': '漫画',
+            'Clothing': '服',
+            'anime': 'アニメ',
+            'Japanese': '日本の',
+            'product': '製品'
+        },
+        'ja_es': {
+            'フィギュア': 'Figura',
+            'ぬいぐるみ': 'Peluche',
+            '漫画': 'Manga',
+            '服': 'Ropa',
+            'アニメ': 'anime',
+            '日本の': 'japonés',
+            '製品': 'producto'
+        },
+        'ja_en': {
+            'フィギュア': 'Figure',
+            'ぬいぐるみ': 'Plushie',
+            '漫画': 'Manga',
+            '服': 'Clothing',
+            'アニメ': 'anime',
+            '日本の': 'Japanese',
+            '製品': 'product'
+        }
+    };
+    
+    const key = `${sourceLang}_${targetLang}`;
+    let translatedText = text;
+    
+    // Simple word replacement for demo
+    if (translations[key]) {
+        Object.keys(translations[key]).forEach(word => {
+            const regex = new RegExp(word, 'gi');
+            translatedText = translatedText.replace(regex, translations[key][word]);
+        });
+    }
+    
+    // In a real implementation, you would call an API like:
+    // const response = await fetch(`https://translation-api.com/translate?text=${text}&from=${sourceLang}&to=${targetLang}`);
+    // const data = await response.json();
+    // return data.translatedText;
+    
+    return translatedText;
+}
+
+async function translateProductName() {
+    const nameInput = document.getElementById('productName');
+    const langSelect = document.getElementById('productNameLang');
+    const currentLang = langSelect.value;
+    
+    // Determine target languages
+    const targetLangs = ['es', 'en', 'ja'].filter(lang => lang !== currentLang);
+    
+    try {
+        // Show loading state
+        const originalText = nameInput.value;
+        if (!originalText.trim()) {
+            alert('Por favor, escriba algo para traducir');
+            return;
+        }
+        
+        // For demo purposes, we'll just show an alert
+        // In production, you would translate to all languages and store them
+        alert(`Traduciendo "${originalText}" de ${currentLang} a otros idiomas...\n\nNota: En producción, esto usaría una API de traducción real.`);
+        
+        // Example of what would happen with a real API:
+        // const translations = {};
+        // for (const targetLang of targetLangs) {
+        //     translations[targetLang] = await translateText(originalText, currentLang, targetLang);
+        // }
+        // Store translations in hidden fields or data attributes
+        
+    } catch (error) {
+        console.error('Translation error:', error);
+        alert('Error al traducir. Por favor, intente de nuevo.');
+    }
+}
+
+async function translateProductDescription() {
+    const descInput = document.getElementById('productDescription');
+    const langSelect = document.getElementById('productDescLang');
+    const currentLang = langSelect.value;
+    
+    const targetLangs = ['es', 'en', 'ja'].filter(lang => lang !== currentLang);
+    
+    try {
+        const originalText = descInput.value;
+        if (!originalText.trim()) {
+            alert('Por favor, escriba algo para traducir');
+            return;
+        }
+        
+        alert(`Traduciendo descripción de ${currentLang} a otros idiomas...\n\nNota: En producción, esto usaría una API de traducción real.`);
+        
+    } catch (error) {
+        console.error('Translation error:', error);
+        alert('Error al traducir. Por favor, intente de nuevo.');
+    }
+}
+
+async function translateBlogTitle() {
+    const titleInput = document.getElementById('blogTitle');
+    const langSelect = document.getElementById('blogTitleLang');
+    const currentLang = langSelect.value;
+    
+    const targetLangs = ['es', 'en', 'ja'].filter(lang => lang !== currentLang);
+    
+    try {
+        const originalText = titleInput.value;
+        if (!originalText.trim()) {
+            alert('Por favor, escriba algo para traducir');
+            return;
+        }
+        
+        alert(`Traduciendo título de ${currentLang} a otros idiomas...\n\nNota: En producción, esto usaría una API de traducción real.`);
+        
+    } catch (error) {
+        console.error('Translation error:', error);
+        alert('Error al traducir. Por favor, intente de nuevo.');
+    }
+}
+
+async function translateBlogContent() {
+    const contentInput = document.getElementById('blogContent');
+    const langSelect = document.getElementById('blogContentLang');
+    const currentLang = langSelect.value;
+    
+    const targetLangs = ['es', 'en', 'ja'].filter(lang => lang !== currentLang);
+    
+    try {
+        const originalText = contentInput.value;
+        if (!originalText.trim()) {
+            alert('Por favor, escriba algo para traducir');
+            return;
+        }
+        
+        alert(`Traduciendo contenido de ${currentLang} a otros idiomas...\n\nNota: En producción, esto usaría una API de traducción real.`);
+        
+    } catch (error) {
+        console.error('Translation error:', error);
+        alert('Error al traducir. Por favor, intente de nuevo.');
+    }
+}
