@@ -99,7 +99,7 @@ const utils = {
         const cartBtn = document.querySelector('.cart-btn');
         if (cartBtn) {
             cartBtn.addEventListener('click', () => {
-                cart.toggleCart();
+                utils.cart.toggleCart();
             });
         }
     },
@@ -138,6 +138,55 @@ const utils = {
     async loadData(type) {
         // console.log(`Loading data type: ${type}`);
         try {
+            // Special handling for products - check localStorage first
+            if (type === 'products') {
+                // Check localStorage for admin backup
+                const backupData = localStorage.getItem('adminProductsBackup');
+                if (backupData) {
+                    try {
+                        const parsed = JSON.parse(backupData);
+                        const localProducts = parsed.products || [];
+                        console.log(`Loading ${localProducts.length} products from localStorage`);
+                        
+                        // Also try to load from file to merge
+                        let fileProducts = [];
+                        try {
+                            const response = await fetch('data/data.json');
+                            if (response.ok) {
+                                const data = await response.json();
+                                fileProducts = data.products || [];
+                            }
+                        } catch (e) {
+                            console.warn('Could not load products from file:', e);
+                        }
+                        
+                        // Merge products, preferring localStorage for existing items
+                        const productMap = new Map();
+                        
+                        // Add file products first
+                        fileProducts.forEach(product => {
+                            productMap.set(product.id, product);
+                        });
+                        
+                        // Override with localStorage products (newer data)
+                        localProducts.forEach(product => {
+                            productMap.set(product.id, product);
+                        });
+                        
+                        // Convert back to array and sort
+                        const mergedProducts = Array.from(productMap.values());
+                        mergedProducts.sort((a, b) => a.id.localeCompare(b.id));
+                        
+                        return mergedProducts;
+                        
+                    } catch (e) {
+                        console.warn('Failed to parse localStorage backup:', e);
+                        // Fall through to normal loading
+                    }
+                }
+            }
+            
+            // Normal loading for other types or if localStorage fails
             // Determine which file to load based on type
             let filePath = 'data/data.json';
             if (type === 'blogs') {

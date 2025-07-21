@@ -18,7 +18,7 @@ class EnhancedSearch {
         this.createHeaderSearch();
         this.loadProducts();
         this.setupEventListeners();
-        this.updateSearchSuggestions();
+        // this.updateSearchSuggestions(); // Commented out - function doesn't exist yet
     }
 
     // ヘッダーに検索バーを追加

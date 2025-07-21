@@ -932,7 +932,16 @@
                 <span class="ja-text">管理パネル</span>
                 <span class="en-text">Admin Panel</span>
             </h1>
+            <button onclick="window.cacheManager.clearAllCaches().then(() => window.location.reload())" style="position: absolute; right: 140px; top: 80px; background: #f39c12; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                <i class="fas fa-sync"></i> Clear Cache
+            </button>
             <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="index.html" class="admin-btn" style="background: #3498db; text-decoration: none;">
+                    <i class="fas fa-home"></i>
+                    <span class="es-text">Inicio</span>
+                    <span class="ja-text">ホーム</span>
+                    <span class="en-text">Home</span>
+                </a>
                 <div class="language-toggle" style="display: flex; gap: 0.5rem;">
                     <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
                     <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
@@ -1038,6 +1047,12 @@
                             </div>
                             <div class="form-group">
                                 <input type="file" id="productImageFile" accept="image/*" style="display: none;" onchange="handleProductImageUpload(event)">
+                            <div id="uploadProgress" style="display: none; margin-top: 10px;">
+                                <div style="background: #e0e0e0; border-radius: 4px; height: 6px; overflow: hidden;">
+                                    <div id="uploadProgressBar" style="background: #4CAF50; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                                </div>
+                                <small id="uploadProgressText" style="color: #666; margin-top: 5px; display: block;">Uploading...</small>
+                            </div>
                                 <input type="hidden" id="productImage">
                             </div>
                     </div>
@@ -1050,7 +1065,7 @@
                         </h4>
                         
                         <div style="text-align: center; margin-bottom: 1.5rem; padding: 2rem; background: white; border-radius: 8px; border: 1px solid #ddd;">
-                            <img id="productImageDisplay" style="display: none; max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <img id="productImageDisplay" style="display: none; max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onerror="this.src='assets/images/ui/no-image.png'; console.error('Failed to load image:', this.src);">
                             <div id="productImagePlaceholder" style="width: 200px; height: 200px; border: 2px dashed #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 14px; background: #f8f9fa; margin: 0 auto;">
                                 <div style="text-align: center;">
                                     <i class="fas fa-image" style="font-size: 48px; margin-bottom: 8px; display: block; color: #ccc;"></i>
@@ -1074,6 +1089,20 @@
                                 <span class="ja-text">画像を削除</span>
                                 <span class="en-text">Remove image</span>
                             </button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <span class="es-text">Ruta de imagen</span>
+                                <span class="ja-text">画像パス</span>
+                                <span class="en-text">Image path</span>
+                            </label>
+                            <input type="text" id="productImagePath" placeholder="assets/images/products/example.jpg" onchange="updateProductImageFromPath()" oninput="updateProductImageFromPath()">
+                            <div class="help-text">
+                                <span class="es-text">Ruta relativa de la imagen</span>
+                                <span class="ja-text">画像の相対パス</span>
+                                <span class="en-text">Relative path to image</span>
+                            </div>
                         </div>
                     <div class="form-group">
                         <label>
@@ -1140,6 +1169,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>
+                                    <span class="es-text">Imagen</span>
+                                    <span class="ja-text">画像</span>
+                                    <span class="en-text">Image</span>
+                                </th>
                                 <th>
                                     <span class="es-text">Nombre</span>
                                     <span class="ja-text">名前</span>
@@ -1504,5 +1538,8 @@
             </div>
         </div>
     </div>
+    <script src="js/cache-manager.js"></script>
+    <script src="js/firebase-storage.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

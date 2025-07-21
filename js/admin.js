@@ -34,8 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
         loadBlogs();
     }
     
-    // Make switchTab function globally available
+    // Make functions globally available
     window.switchTab = switchTab;
+    window.editProduct = editProduct;
+    window.deleteProduct = deleteProduct;
+    window.editBlog = editBlog;
+    window.deleteBlog = deleteBlog;
     
     // Add debug function for manual testing
     window.debugTab = function() {
@@ -272,14 +276,58 @@ function showManagementInterface() {
 // Load products from data.json
 async function loadProducts() {
     try {
-        // Use unified DataLoader
-        products = await window.utils.dataLoader.loadData('products');
-        displayProductsList();
-    } catch (error) {
-        window.utils.handleError(error, {
-            module: 'admin',
-            context: 'loadProducts'
+        // First check localStorage backup
+        const backupData = localStorage.getItem('adminProductsBackup');
+        let localProducts = [];
+        
+        if (backupData) {
+            try {
+                const parsed = JSON.parse(backupData);
+                localProducts = parsed.products || [];
+                console.log(`Loaded ${localProducts.length} products from localStorage backup`);
+            } catch (e) {
+                console.warn('Failed to parse localStorage backup:', e);
+            }
+        }
+        
+        // Load from data.json
+        let fileProducts = [];
+        try {
+            fileProducts = await window.utils.dataLoader.loadData('products');
+            console.log(`Loaded ${fileProducts.length} products from data.json`);
+        } catch (e) {
+            console.warn('Failed to load from data.json:', e);
+        }
+        
+        // Merge products, preferring localStorage for existing items
+        const productMap = new Map();
+        
+        // Add file products first
+        fileProducts.forEach(product => {
+            productMap.set(product.id, product);
         });
+        
+        // Override with localStorage products (newer data)
+        localProducts.forEach(product => {
+            productMap.set(product.id, product);
+        });
+        
+        // Convert back to array
+        products = Array.from(productMap.values());
+        
+        // Sort by ID for consistent display
+        products.sort((a, b) => a.id.localeCompare(b.id));
+        
+        console.log(`Total products after merge: ${products.length}`);
+        
+        // Display the merged list
+        displayProductsList();
+        
+        // Save merged data back to localStorage
+        await saveProductsToJSON();
+        
+    } catch (error) {
+        console.error('Error loading products:', error);
         // Fallback to embedded data
         loadProductsFromEmbeddedData();
     }
@@ -289,6 +337,29 @@ async function loadProducts() {
 function displayProductsList() {
     const tableBody = document.getElementById('productsTableBody');
     if (!tableBody) return;
+    
+    // Update last sync time display
+    const backupData = localStorage.getItem('adminProductsBackup');
+    if (backupData) {
+        try {
+            const parsed = JSON.parse(backupData);
+            if (parsed.lastUpdated) {
+                const lastUpdate = new Date(parsed.lastUpdated);
+                const timeAgo = getTimeAgo(lastUpdate);
+                const syncInfo = document.querySelector('.sync-info');
+                if (syncInfo) {
+                    const syncTexts = {
+                        es: `Última actualización: ${timeAgo}`,
+                        ja: `最終更新: ${timeAgo}`,
+                        en: `Last update: ${timeAgo}`
+                    };
+                    syncInfo.textContent = syncTexts[currentLanguage] || syncTexts.es;
+                }
+            }
+        } catch (e) {
+            // Ignore parsing errors
+        }
+    }
     
     if (products.length === 0) {
         tableBody.innerHTML = `
@@ -311,21 +382,30 @@ function displayProductsList() {
         };
         const featuredText = featuredTexts[currentLanguage];
         
+        // Get image URL with fallback and cache busting
+        const imageUrl = product.image ? product.image + '?t=' + new Date().getTime() : 'assets/images/ui/no-image.png';
+        
         return `
             <tr>
                 <td data-label="ID">${product.id}</td>
+                <td data-label="Imagen" style="text-align: center;">
+                    <img src="${imageUrl}" 
+                         alt="${product.name}" 
+                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;"
+                         onerror="this.onerror=null; this.src='assets/images/ui/no-image.png';">
+                </td>
                 <td data-label="Nombre">${product.name}</td>
                 <td data-label="Categoría">${product.category}</td>
                 <td data-label="Precio">$${product.price.toLocaleString()}</td>
                 <td data-label="Destacado">${featuredText}</td>
                 <td data-label="Acciones" class="product-actions">
-                    <button class="edit-btn" onclick="editProduct('${product.id}')">
+                    <button class="edit-btn" onclick="window.editProduct('${product.id}')">
                         <i class="fas fa-edit"></i>
                         <span class="es-text">Editar</span>
                         <span class="ja-text">編集</span>
                         <span class="en-text">Edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteProduct('${product.id}')">
+                    <button class="delete-btn" onclick="window.deleteProduct('${product.id}')">
                         <i class="fas fa-trash"></i>
                         <span class="es-text">Eliminar</span>
                         <span class="ja-text">削除</span>
@@ -348,20 +428,40 @@ async function handleProductSubmit(event) {
     
     // Disable form during processing
     submitBtn.disabled = true;
+    const originalBtnContent = submitBtn.innerHTML;
     const savingTexts = {
-        es: 'Guardando...',
-        ja: '保存中...',
-        en: 'Saving...'
+        es: '<i class="fas fa-spinner fa-spin"></i> Guardando...',
+        ja: '<i class="fas fa-spinner fa-spin"></i> 保存中...',
+        en: '<i class="fas fa-spinner fa-spin"></i> Saving...'
     };
     submitBtn.innerHTML = savingTexts[currentLanguage];
+    submitBtn.style.opacity = '0.7';
     
     try {
+        // Get image path from the visible input if it exists, otherwise from hidden input
+        const imagePathInput = document.getElementById('productImagePath');
+        const hiddenImageInput = document.getElementById('productImage');
+        let imagePath = '';
+        
+        if (imagePathInput && imagePathInput.value.trim()) {
+            imagePath = imagePathInput.value.trim();
+            // Sync to hidden input
+            if (hiddenImageInput) {
+                hiddenImageInput.value = imagePath;
+            }
+        } else if (hiddenImageInput && hiddenImageInput.value.trim()) {
+            imagePath = hiddenImageInput.value.trim();
+        }
+        
+        // Debug log to check image path
+        console.log('Saving product with image path:', imagePath);
+        
         const productData = {
             id: document.getElementById('productId').value || generateProductId(),
             name: document.getElementById('productName').value.trim(),
             category: document.getElementById('productCategory').value,
             price: parseInt(document.getElementById('productPrice').value),
-            image: document.getElementById('productImage').value.trim() || 'assets/images/products/default.jpg',
+            image: imagePath || '',
             description: document.getElementById('productDescription').value.trim(),
             featured: document.getElementById('productFeatured').checked,
             tags: document.getElementById('productTags').value.split(',').map(tag => tag.trim()).filter(tag => tag)
@@ -370,19 +470,44 @@ async function handleProductSubmit(event) {
         if (editingProductId) {
             // Update existing product
             updateProduct(productData);
+            
+            // Show update success message
+            const updateMessages = {
+                es: `Producto "${productData.name}" actualizado exitosamente`,
+                ja: `商品「${productData.name}」が正常に更新されました`,
+                en: `Product "${productData.name}" updated successfully`
+            };
+            showNotification(updateMessages[currentLanguage] || updateMessages.es, 'success');
+            
         } else {
             // Add new product
             addProduct(productData);
+            
+            // Show creation success message
+            const createMessages = {
+                es: `Nuevo producto "${productData.name}" creado exitosamente`,
+                ja: `新商品「${productData.name}」が正常に作成されました`,
+                en: `New product "${productData.name}" created successfully`
+            };
+            showNotification(createMessages[currentLanguage] || createMessages.es, 'success');
         }
         
         // Save to JSON (simulation - in real app would be server)
         await saveProductsToJSON();
         
-        // Reset form and refresh list
+        // Reset form
         resetProductForm();
-        displayProductsList();
         
-        // console.log('Product saved successfully');
+        // Force refresh the product list to show the new/updated product
+        await loadProducts();
+        
+        // Scroll to the product list
+        const productsSection = document.querySelector('.products-section');
+        if (productsSection) {
+            productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        console.log('Product saved and list refreshed successfully');
         
     } catch (error) {
         console.error('Error saving product:', error);
@@ -390,13 +515,87 @@ async function handleProductSubmit(event) {
     } finally {
         // Re-enable form
         submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
         const saveTexts = {
-            es: 'Guardar Producto',
-            ja: '商品を保存',
-            en: 'Save Product'
+            es: '<i class="fas fa-save"></i> Guardar Producto',
+            ja: '<i class="fas fa-save"></i> 商品を保存',
+            en: '<i class="fas fa-save"></i> Save Product'
         };
         submitBtn.innerHTML = saveTexts[currentLanguage];
     }
+}
+
+// Get time ago string
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
+    };
+    
+    const labels = {
+        es: {
+            year: ['año', 'años'],
+            month: ['mes', 'meses'],
+            week: ['semana', 'semanas'],
+            day: ['día', 'días'],
+            hour: ['hora', 'horas'],
+            minute: ['minuto', 'minutos'],
+            second: ['segundo', 'segundos'],
+            now: 'ahora'
+        },
+        ja: {
+            year: ['年', '年'],
+            month: ['ヶ月', 'ヶ月'],
+            week: ['週間', '週間'],
+            day: ['日', '日'],
+            hour: ['時間', '時間'],
+            minute: ['分', '分'],
+            second: ['秒', '秒'],
+            now: 'たった今'
+        },
+        en: {
+            year: ['year', 'years'],
+            month: ['month', 'months'],
+            week: ['week', 'weeks'],
+            day: ['day', 'days'],
+            hour: ['hour', 'hours'],
+            minute: ['minute', 'minutes'],
+            second: ['second', 'seconds'],
+            now: 'just now'
+        }
+    };
+    
+    const lang = currentLanguage || 'es';
+    const langLabels = labels[lang] || labels.es;
+    
+    if (seconds < 10) {
+        return langLabels.now;
+    }
+    
+    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+        const interval = Math.floor(seconds / secondsInUnit);
+        if (interval >= 1) {
+            const unitLabels = langLabels[unit];
+            const label = interval === 1 ? unitLabels[0] : unitLabels[1];
+            
+            if (lang === 'ja') {
+                return `${interval}${label}前`;
+            } else if (lang === 'en') {
+                return `${interval} ${label} ago`;
+            } else {
+                return `hace ${interval} ${label}`;
+            }
+        }
+    }
+    
+    return langLabels.now;
 }
 
 // Generate new product ID
@@ -438,13 +637,35 @@ function editProduct(productId) {
     document.getElementById('productName').value = product.name;
     document.getElementById('productCategory').value = product.category;
     document.getElementById('productPrice').value = product.price;
-    document.getElementById('productImage').value = product.image;
+    document.getElementById('productImage').value = product.image || '';
     document.getElementById('productDescription').value = product.description;
     document.getElementById('productFeatured').checked = product.featured;
     document.getElementById('productTags').value = product.tags ? product.tags.join(', ') : '';
     
+    // Also update the visible image path input if it exists
+    const imagePathInput = document.getElementById('productImagePath');
+    if (imagePathInput) {
+        imagePathInput.value = product.image || '';
+    }
+    
     // Preview the image
     previewProductImage();
+    
+    // Also update the image display directly with cache busting
+    const imageDisplay = document.getElementById('productImageDisplay');
+    const placeholder = document.getElementById('productImagePlaceholder');
+    if (imageDisplay && product.image) {
+        const timestamp = new Date().getTime();
+        imageDisplay.src = product.image + '?t=' + timestamp;
+        imageDisplay.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+        
+        imageDisplay.onerror = function() {
+            this.src = 'assets/images/ui/no-image.png';
+        };
+    }
+    
+    console.log('Editing product:', product.id, 'with image:', product.image);
     
     // Show cancel button
     document.getElementById('cancelEdit').style.display = 'inline-block';
@@ -469,8 +690,24 @@ function resetProductForm() {
     document.getElementById('cancelEdit').style.display = 'none';
     editingProductId = null;
     
+    // Clear both image inputs
+    const imagePathInput = document.getElementById('productImagePath');
+    if (imagePathInput) {
+        imagePathInput.value = '';
+    }
+    
+    const hiddenImageInput = document.getElementById('productImage');
+    if (hiddenImageInput) {
+        hiddenImageInput.value = '';
+    }
+    
     // Clear image preview
     clearProductImage();
+    
+    // Force refresh all product images to ensure they're up to date
+    if (window.cacheManager) {
+        window.cacheManager.clearImageCache();
+    }
 }
 
 // Delete product
@@ -504,18 +741,67 @@ async function saveProductsToJSON() {
         // For this demo, we'll save to localStorage as backup
         const dataToSave = {
             products: products,
-            lastUpdated: new Date().toISOString()
+            lastUpdated: new Date().toISOString(),
+            version: '1.0'
         };
         
+        // Save to localStorage
         localStorage.setItem('adminProductsBackup', JSON.stringify(dataToSave));
         
-        // Simulate server save delay
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Also save a separate key for cross-tab sync
+        localStorage.setItem('productsLastUpdate', new Date().getTime().toString());
         
-        // console.log('Products saved to backup storage');
+        // Force clear any stale cache
+        try {
+            // Clear browser cache for images
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                await Promise.all(
+                    cacheNames.map(cacheName => {
+                        return caches.delete(cacheName);
+                    })
+                );
+            }
+        } catch (e) {
+            console.log('Cache clear skipped:', e);
+        }
+        
+        // Simulate server save delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        console.log(`Products saved successfully: ${products.length} items`);
+        console.log('Product data:', dataToSave.products.map(p => ({ id: p.id, name: p.name, image: p.image })));
+        
+        // Show success notification
+        const successMessages = {
+            es: 'Productos guardados correctamente',
+            ja: '商品が正常に保存されました',
+            en: 'Products saved successfully'
+        };
+        
+        showNotification(successMessages[currentLanguage] || successMessages.es, 'success');
+        
+        // Trigger storage event manually for same-tab update
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'adminProductsBackup',
+            newValue: JSON.stringify(dataToSave),
+            url: window.location.href
+        }));
+        
+        return true;
         
     } catch (error) {
         console.error('Error saving products:', error);
+        
+        // Show error notification
+        const errorMessages = {
+            es: 'Error al guardar los productos',
+            ja: '商品の保存中にエラーが発生しました',
+            en: 'Error saving products'
+        };
+        
+        showNotification(errorMessages[currentLanguage] || errorMessages.es, 'error');
+        
         throw error;
     }
 }
@@ -688,13 +974,13 @@ function displayBlogsList() {
                 <td data-label="Fecha">${blog.publishDate || 'No date'}</td>
                 <td data-label="Estado"><span style="color: ${blog.published ? '#27ae60' : '#f39c12'}">${statusText}</span></td>
                 <td data-label="Acciones" class="product-actions">
-                    <button class="edit-btn" onclick="editBlog('${blog.id}')">
+                    <button class="edit-btn" onclick="window.editBlog('${blog.id}')">
                         <i class="fas fa-edit"></i>
                         <span class="es-text">Editar</span>
                         <span class="ja-text">編集</span>
                         <span class="en-text">Edit</span>
                     </button>
-                    <button class="delete-btn" onclick="deleteBlog('${blog.id}')">
+                    <button class="delete-btn" onclick="window.deleteBlog('${blog.id}')">
                         <i class="fas fa-trash"></i>
                         <span class="es-text">Eliminar</span>
                         <span class="ja-text">削除</span>
@@ -717,12 +1003,14 @@ async function handleBlogSubmit(event) {
     
     // Disable form during processing
     submitBtn.disabled = true;
+    const originalBtnContent = submitBtn.innerHTML;
     const savingTexts = {
-        es: 'Guardando...',
-        ja: '保存中...',
-        en: 'Saving...'
+        es: '<i class="fas fa-spinner fa-spin"></i> Guardando...',
+        ja: '<i class="fas fa-spinner fa-spin"></i> 保存中...',
+        en: '<i class="fas fa-spinner fa-spin"></i> Saving...'
     };
     submitBtn.innerHTML = savingTexts[currentLanguage];
+    submitBtn.style.opacity = '0.7';
     
     try {
         const blogData = {
@@ -762,10 +1050,11 @@ async function handleBlogSubmit(event) {
     } finally {
         // Re-enable form
         submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
         const saveTexts = {
-            es: 'Guardar Blog',
-            ja: 'ブログを保存',
-            en: 'Save Blog'
+            es: '<i class="fas fa-save"></i> Guardar Blog',
+            ja: '<i class="fas fa-save"></i> ブログを保存',
+            en: '<i class="fas fa-save"></i> Save Blog'
         };
         submitBtn.innerHTML = saveTexts[currentLanguage];
     }
@@ -934,10 +1223,18 @@ function adjustNumber(inputId, change) {
 function initializeImageManagement() {
     // Auto-preview images when path changes
     const productImageInput = document.getElementById('productImage');
+    const productImagePathInput = document.getElementById('productImagePath');
     const blogImageInput = document.getElementById('blogImage');
     
     if (productImageInput) {
         productImageInput.addEventListener('input', () => previewProductImage());
+    }
+    
+    if (productImagePathInput) {
+        productImagePathInput.addEventListener('input', () => {
+            updateProductImageFromPath();
+            previewProductImage();
+        });
     }
     
     if (blogImageInput) {
@@ -946,42 +1243,106 @@ function initializeImageManagement() {
 }
 
 // Product image management
-function handleProductImageUpload(event) {
+async function handleProductImageUpload(event) {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
-        // Create a temporary URL for preview
-        const objectURL = URL.createObjectURL(file);
+        // Show upload progress
+        const progressDiv = document.getElementById('uploadProgress');
+        const progressBar = document.getElementById('uploadProgressBar');
+        const progressText = document.getElementById('uploadProgressText');
         
-        // Update the image display
-        const imageDisplay = document.getElementById('productImageDisplay');
-        const placeholder = document.getElementById('productImagePlaceholder');
+        if (progressDiv) {
+            progressDiv.style.display = 'block';
+            progressBar.style.width = '0%';
+        }
         
-        imageDisplay.src = objectURL;
-        imageDisplay.style.display = 'block';
-        placeholder.style.display = 'none';
-        
-        // Update the path input with filename
-        document.getElementById('productImage').value = `assets/images/products/${file.name}`;
-        
-        // Clean up the object URL when the image loads
-        imageDisplay.onload = function() {
-            URL.revokeObjectURL(objectURL);
+        // Listen for upload progress
+        const progressHandler = (e) => {
+            if (progressBar) {
+                progressBar.style.width = e.detail.progress + '%';
+            }
+            if (progressText) {
+                progressText.textContent = `Uploading... ${e.detail.progress.toFixed(0)}%`;
+            }
         };
+        window.addEventListener('upload-progress', progressHandler);
         
-        // Show success notification
-        const successTexts = {
-            es: 'Imagen seleccionada correctamente',
-            ja: '画像が正しく選択されました',
-            en: 'Image selected successfully'
-        };
-        // console.log('Image selected successfully');
+        try {
+            // Get or generate product ID
+            let productId = document.getElementById('productId').value;
+            if (!productId) {
+                productId = generateProductId();
+                document.getElementById('productId').value = productId;
+            }
+            
+            // Upload to Firebase Storage
+            if (window.firebaseStorage && window.firebaseStorage.initialized) {
+                const result = await window.firebaseStorage.uploadProductImage(file, productId);
+                
+                // Update UI with Firebase URL
+                const imageDisplay = document.getElementById('productImageDisplay');
+                const placeholder = document.getElementById('productImagePlaceholder');
+                const imagePathInput = document.getElementById('productImagePath');
+                const hiddenImageInput = document.getElementById('productImage');
+                
+                if (imageDisplay) {
+                    imageDisplay.src = result.url;
+                    imageDisplay.style.display = 'block';
+                }
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+                if (imagePathInput) {
+                    imagePathInput.value = result.url;
+                }
+                if (hiddenImageInput) {
+                    hiddenImageInput.value = result.url;
+                }
+                
+                // Show success
+                if (progressText) {
+                    progressText.textContent = 'Upload complete!';
+                    progressText.style.color = '#4CAF50';
+                }
+                
+                showNotification('Image uploaded to Firebase Storage', 'success');
+                
+                // Hide progress after 2 seconds
+                setTimeout(() => {
+                    if (progressDiv) progressDiv.style.display = 'none';
+                }, 2000);
+            } else {
+                // Fallback to local preview
+                const objectURL = URL.createObjectURL(file);
+                const imageDisplay = document.getElementById('productImageDisplay');
+                const placeholder = document.getElementById('productImagePlaceholder');
+                
+                imageDisplay.src = objectURL;
+                imageDisplay.style.display = 'block';
+                placeholder.style.display = 'none';
+                
+                // Update the path input with filename
+                document.getElementById('productImage').value = `assets/images/products/${file.name}`;
+                document.getElementById('productImagePath').value = `assets/images/products/${file.name}`;
+                
+                // Clean up
+                imageDisplay.onload = function() {
+                    URL.revokeObjectURL(objectURL);
+                };
+                
+                if (progressDiv) progressDiv.style.display = 'none';
+                showNotification('Image selected (local preview)', 'info');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            showNotification('Error uploading image: ' + error.message, 'error');
+            if (progressDiv) progressDiv.style.display = 'none';
+        } finally {
+            // Remove event listener
+            window.removeEventListener('upload-progress', progressHandler);
+        }
     } else {
-        const errorTexts = {
-            es: 'Por favor selecciona un archivo de imagen válido',
-            ja: '有効な画像ファイルを選択してください',
-            en: 'Please select a valid image file'
-        };
-        console.error('Please select a valid image file');
+        showNotification('Please select a valid image file', 'error');
     }
 }
 
@@ -989,8 +1350,63 @@ function handleProductImageUpload(event) {
 function clearProductImage() {
     document.getElementById('productImage').value = '';
     document.getElementById('productImageFile').value = '';
-    document.getElementById('productImagePreview').src = 'assets/images/ui/no-image.png';
-    document.getElementById('productImagePreview').style.display = 'block';
+    
+    const imagePathInput = document.getElementById('productImagePath');
+    if (imagePathInput) {
+        imagePathInput.value = '';
+    }
+    
+    const imageDisplay = document.getElementById('productImageDisplay');
+    const placeholder = document.getElementById('productImagePlaceholder');
+    
+    if (imageDisplay) {
+        imageDisplay.style.display = 'none';
+        imageDisplay.src = '';
+    }
+    
+    if (placeholder) {
+        placeholder.style.display = 'flex';
+    }
+}
+
+// Update product image from path input
+function updateProductImageFromPath() {
+    const pathInput = document.getElementById('productImagePath');
+    const hiddenInput = document.getElementById('productImage');
+    
+    if (pathInput && hiddenInput) {
+        const imagePath = pathInput.value.trim();
+        hiddenInput.value = imagePath;
+        
+        console.log('Updating product image from path:', imagePath);
+        
+        // Update preview immediately
+        const imageDisplay = document.getElementById('productImageDisplay');
+        const placeholder = document.getElementById('productImagePlaceholder');
+        
+        if (imagePath) {
+            if (imageDisplay) {
+                // Force reload with timestamp to bypass cache
+                const timestamp = new Date().getTime();
+                imageDisplay.src = imagePath + '?t=' + timestamp;
+                imageDisplay.style.display = 'block';
+                imageDisplay.onerror = function() {
+                    console.error('Image load error:', imagePath);
+                    this.src = 'assets/images/ui/no-image.png';
+                };
+            }
+            if (placeholder) {
+                placeholder.style.display = 'none';
+            }
+        } else {
+            if (imageDisplay) {
+                imageDisplay.style.display = 'none';
+            }
+            if (placeholder) {
+                placeholder.style.display = 'flex';
+            }
+        }
+    }
 }
 
 // Blog image management
@@ -1114,8 +1530,12 @@ function switchTab(tabName) {
     }
 }
 
-// Make switchTab globally accessible for debugging and direct calls
+// Make functions globally accessible
 window.switchTab = switchTab;
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
+window.editBlog = editBlog;
+window.deleteBlog = deleteBlog;
 
 // Debug function to check tab state
 window.debugTab = function() {
@@ -1417,6 +1837,61 @@ function loadBlogsFromEmbeddedData() {
     ];
     
     displayBlogsList();
+}
+
+// Image preview functions
+function previewProductImage() {
+    // Check both visible and hidden inputs
+    const imagePathInput = document.getElementById('productImagePath');
+    const hiddenImageInput = document.getElementById('productImage');
+    let imagePath = '';
+    
+    if (imagePathInput && imagePathInput.value.trim()) {
+        imagePath = imagePathInput.value.trim();
+    } else if (hiddenImageInput && hiddenImageInput.value.trim()) {
+        imagePath = hiddenImageInput.value.trim();
+    }
+    
+    const imageDisplay = document.getElementById('productImageDisplay');
+    const placeholder = document.getElementById('productImagePlaceholder');
+    
+    if (!imageDisplay) {
+        console.error('productImageDisplay element not found');
+        return;
+    }
+    
+    console.log('Preview image path:', imagePath);
+    
+    if (imagePath && imagePath.trim() !== '') {
+        // Force reload image by adding timestamp
+        const timestamp = new Date().getTime();
+        imageDisplay.src = imagePath + '?t=' + timestamp;
+        imageDisplay.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+        
+        imageDisplay.onerror = function() {
+            console.error('Failed to load image:', imagePath);
+            this.src = 'assets/images/ui/no-image.png';
+        };
+    } else {
+        imageDisplay.style.display = 'none';
+        if (placeholder) placeholder.style.display = 'flex';
+    }
+}
+
+function previewBlogImage() {
+    const imagePath = document.getElementById('blogImage').value;
+    const imagePreview = document.getElementById('blogImagePreview');
+    
+    if (!imagePreview) return;
+    
+    if (imagePath) {
+        imagePreview.src = imagePath;
+        imagePreview.style.display = 'block';
+    } else {
+        imagePreview.src = 'assets/images/ui/no-image.png';
+        imagePreview.style.display = 'block';
+    }
 }
 
 // Preview Functions
@@ -1737,3 +2212,35 @@ async function translateBlogContent() {
         alert('Error al traducir. Por favor, intente de nuevo.');
     }
 }
+
+// Make all functions globally available immediately
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
+window.editBlog = editBlog;
+window.deleteBlog = deleteBlog;
+window.previewProductImage = previewProductImage;
+window.previewBlogImage = previewBlogImage;
+window.clearProductImage = clearProductImage;
+window.clearBlogImage = clearBlogImage;
+window.handleProductImageUpload = handleProductImageUpload;
+window.handleBlogImageUpload = handleBlogImageUpload;
+window.translateProductName = translateProductName;
+window.translateProductDescription = translateProductDescription;
+window.translateBlogTitle = translateBlogTitle;
+window.translateBlogContent = translateBlogContent;
+window.updateProductImageFromPath = updateProductImageFromPath;
+window.adjustNumber = adjustNumber;
+
+// Debug function for checking function availability
+window.checkAdminFunctions = function() {
+    console.log('=== Admin Functions Check ===');
+    console.log('editProduct:', typeof window.editProduct);
+    console.log('deleteProduct:', typeof window.deleteProduct);
+    console.log('products array:', products);
+    console.log('editingProductId:', editingProductId);
+    return {
+        editProduct: typeof window.editProduct === 'function',
+        deleteProduct: typeof window.deleteProduct === 'function',
+        productsLoaded: products.length > 0
+    };
+};

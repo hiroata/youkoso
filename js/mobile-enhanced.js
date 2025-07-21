@@ -461,8 +461,8 @@ class MobileEnhancer {
         // ボトムナビゲーション追加 - 無効化
         // this.addBottomNavigation();
         
-        // ハンバーガーメニュー強化
-        this.enhanceHamburgerMenu();
+        // ハンバーガーメニュー強化 - 無効化（関数が定義されていない）
+        // this.enhanceHamburgerMenu();
     }
 
     // ボトムナビゲーション追加

@@ -31,10 +31,16 @@ function displayProducts() {
     
     if (productsToShow.length === 0) {
         grid.innerHTML = '<p>No se encontraron productos.</p>';
+        updateResultsCount();
+        updatePagination();
         return;
     }
     
     grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+    
+    // Update pagination and results count
+    updateResultsCount();
+    updatePagination();
     
     // Load product images asynchronously
     loadProductImages(productsToShow);
@@ -88,6 +94,7 @@ function setupFilters() {
     const categoryFilter = document.getElementById('category-filter');
     const sortFilter = document.getElementById('sort-filter');
     const searchInput = document.getElementById('search-input');
+    const resetButton = document.getElementById('reset-filters');
     
     if (categoryFilter) {
         categoryFilter.addEventListener('change', applyFilters);
@@ -102,6 +109,23 @@ function setupFilters() {
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(applyFilters, 300);
+        });
+    }
+    
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            // Reset all filters
+            if (categoryFilter) categoryFilter.value = 'all';
+            if (sortFilter) sortFilter.value = 'name';
+            if (searchInput) searchInput.value = '';
+            
+            // Clear URL parameters
+            const url = new URL(window.location);
+            url.searchParams.delete('category');
+            window.history.replaceState({}, '', url);
+            
+            // Apply filters
+            applyFilters();
         });
     }
 }
@@ -382,22 +406,22 @@ window.reloadVisibleImages = async function() {
 // 商品ページ専用ヘルプ
 window.showProductImageHelp = function() {
     // console.log(`
-🖼️ 商品画像管理コマンド（商品ページ専用）
+// 🖼️ 商品画像管理コマンド（商品ページ専用）
+// 
+// 基本操作:
+// • checkProductImageCache()    - 商品画像キャッシュの詳細状況を確認
+// • reloadVisibleImages()       - 表示中の商品画像を再読み込み
+// • fetchAllProductImages()     - 全商品画像を一括取得
+// 
+// グローバル操作:
+// • clearImageCache()           - 全画像キャッシュをクリア
+// • checkImageCache()           - 全画像キャッシュ状況を確認
 
-基本操作:
-• checkProductImageCache()    - 商品画像キャッシュの詳細状況を確認
-• reloadVisibleImages()       - 表示中の商品画像を再読み込み
-• fetchAllProductImages()     - 全商品画像を一括取得
-
-グローバル操作:
-• clearImageCache()           - 全画像キャッシュをクリア
-• checkImageCache()           - 全画像キャッシュ状況を確認
-
-使用例:
-> checkProductImageCache()    // 商品キャッシュ状況をチェック
-> reloadVisibleImages()       // 表示中の画像を再読み込み
-> fetchAllProductImages()     // 全画像をキャッシュ（時間がかかります）
-    // `);
+// 使用例:
+// > checkProductImageCache()    // 商品キャッシュ状況をチェック
+// > reloadVisibleImages()       // 表示中の画像を再読み込み
+// > fetchAllProductImages()     // 全画像をキャッシュ（時間がかかります）
+//     `);
 };
 
 // 商品ページでの自動ヘルプ表示
@@ -421,6 +445,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         loadProducts();
+        
+        // Listen for storage changes from other tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'adminProductsBackup' || e.key === 'productsLastUpdate') {
+                console.log('Detected products update from another tab, reloading...');
+                
+                // Show notification
+                const notificationEl = document.createElement('div');
+                notificationEl.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; z-index: 9999;
+                    background: #3498db; color: white; border-radius: 8px;
+                    padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    font-family: Arial, sans-serif;
+                `;
+                notificationEl.innerHTML = `
+                    <i class="fas fa-sync"></i> 
+                    <span class="es-text">Productos actualizados</span>
+                    <span class="ja-text">商品が更新されました</span>
+                    <span class="en-text">Products updated</span>
+                `;
+                document.body.appendChild(notificationEl);
+                
+                // Reload products
+                loadProducts();
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notificationEl.remove();
+                }, 3000);
+            }
+        });
     }
 });
 
@@ -435,3 +490,4 @@ function goToProductDetail(productId) {
 // Make functions available globally
 window.changePage = changePage;
 window.goToProductDetail = goToProductDetail;
+window.filterProducts = filterProducts;

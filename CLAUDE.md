@@ -1,6 +1,6 @@
 # CLAUDE.md - AI引き継ぎドキュメント 🤖
 
-## 📌 プロジェクト現在の状態（2025年1月15日）
+## 📌 プロジェクト現在の状態（2025年1月22日）
 
 ### 🏁 完了した主要変更
 
@@ -35,6 +35,17 @@
    - フッター下部の5つのアイコンナビゲーションを削除
    - `js/mobile-enhanced.js`で機能を無効化
    - `css/bottom-nav-override.css`で非表示
+
+7. **Firebase Storage統合** ✅
+   - 商品画像をFirebase Storageで管理
+   - 自動アップロード機能実装
+   - 画像圧縮機能（1MB以上）
+   - プログレスバー表示
+
+8. **コードクリーンアップ** ✅
+   - 未使用ファイル削除（accessibility.js, hero-enhanced.js, filter-enhanced.js）
+   - JavaScriptエラー修正
+   - console.log文の整理
 
 ## 🗂️ プロジェクト構造
 
@@ -133,6 +144,12 @@ youkoso/
 
 ## 🔄 最近の変更履歴
 
+### 2025年1月22日
+- Firebase Storage統合完了
+- 商品画像の自動アップロード機能実装
+- JavaScriptエラー修正（未使用ファイル削除）
+- ドキュメント統廃合とブラッシュアップ
+
 ### 2025年1月15日
 - ヒーローセクション完全削除
 - アクセシビリティ機能削除
@@ -168,12 +185,12 @@ youkoso/
 ## 🚨 既知の問題
 
 1. **Firebase設定未完了**
-   - APIキーの設定が必要
+   - APIキーの設定が必要（firebase-auth.js内のプレースホルダーを置換）
    - 本番環境でのセキュリティルール設定
 
-2. **画像最適化**
+2. **パフォーマンス最適化**
    - 一部の画像が最適化されていない
-   - 遅延読み込みの改善余地あり
+   - 大量のDOMクエリがキャッシュされていない
 
 ## 💡 開発のヒント
 
@@ -205,6 +222,12 @@ utils.loadHeaderFooter();
 
 ---
 
-**最終更新**: 2025年1月15日  
+**最終更新**: 2025年1月22日  
 **作成者**: Claude Assistant  
 **目的**: 次のAIアシスタントへの引き継ぎ
+
+## 📎 関連ドキュメント
+
+- [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) - プロジェクト全体の概要
+- [FIREBASE_STORAGE_SETUP.md](FIREBASE_STORAGE_SETUP.md) - Firebase Storage設定ガイド
+- [DEVELOPMENT.md](DEVELOPMENT.md) - 開発環境セットアップ
